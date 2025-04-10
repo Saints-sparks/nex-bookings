@@ -4,27 +4,22 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronLeft, EyeIcon, EyeOffIcon } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-
-
   const [form, setForm] = useState({
     email: "",
-    password: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleReset = (e: React.FormEvent) => {
+  const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     // Ideally validate and send to backend here
-    router.push("/login/resetPassword"); // Go to OTP page
+    router.push("/login/verify"); // Go to OTP page
   };
 
   return (
@@ -46,7 +41,7 @@ export default function LoginPage() {
               eiusmod tempor incididunt ut labore et{" "}
             </p>
           </div>
-          <form className="space-y-6" >
+          <form className="space-y-6" onSubmit={handleNext} >
             <div className="group">
               <label
                 htmlFor="email"
@@ -65,53 +60,17 @@ export default function LoginPage() {
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
-            <div className="group ">
-              <label
-                htmlFor="password"
-                className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
-              >
-                Enter Password
-              </label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={form.password}
-                  onChange={handleChange}
-                  placeholder="Your Password"
-                  required
-                  className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
-                />
-                <span
-                  className="absolute top-4 right-4 cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOffIcon size={20} />
-                  ) : (
-                    <EyeIcon size={20} />
-                  )}
-                </span>
-              </div>
-            </div>
-            <div className="cursor-pointer" onClick={handleReset}>
-                <p className="font-bold text-[#6C3587]">Reset Password</p>
-              </div>
+            
+            
             
             <Button
               type="submit"
               className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
             >
-              Login
+              Submit
             </Button>
           </form>
-          <div className="text-center w-full">
-            <p>
-              New User?{" "}
-              <span className="font-bold text-[#6C35A7]">Sign up</span>
-            </p>
-          </div>
+          
         </div>
 
         <div className="hidden sm:block">

@@ -4,17 +4,16 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronLeft, EyeIcon, EyeOffIcon } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const [form, setForm] = useState({
-    email: "",
     password: "",
+    confirm: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,8 +31,8 @@ export default function LoginPage() {
       <div className="bg-[#FFB049] p-2 text-white text-center">
         <h1 className="font-bold text-[29px]">Logo</h1>
       </div>
-      <Button className="bg-transparent text-black shadow-none sm:hidden" >
-          <ChevronLeft size="24px" />
+      <Button className="bg-transparent text-black shadow-none sm:hidden">
+        <ChevronLeft size="24px" />
       </Button>
       <div className="flex w-full justify-between sm:py-10 px-6 gap-10 ">
         <div className="flex flex-col gap-6">
@@ -46,25 +45,7 @@ export default function LoginPage() {
               eiusmod tempor incididunt ut labore et{" "}
             </p>
           </div>
-          <form className="space-y-6" >
-            <div className="group">
-              <label
-                htmlFor="email"
-                className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
-              >
-                Email Address
-              </label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="example@gmail.com"
-                required
-                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
-              />
-            </div>
+          <form className="space-y-6">
             <div className="group ">
               <label
                 htmlFor="password"
@@ -95,23 +76,43 @@ export default function LoginPage() {
                 </span>
               </div>
             </div>
-            <div className="cursor-pointer" onClick={handleReset}>
-                <p className="font-bold text-[#6C3587]">Reset Password</p>
+            <div className="group ">
+              <label
+                htmlFor="confirm"
+                className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
+              >
+                Confirm Password
+              </label>
+              <div className="relative">
+                <Input
+                  id="confirm"
+                  name="confirm"
+                  type={showConfirm ? "text" : "password"}
+                  value={form.confirm}
+                  onChange={handleChange}
+                  placeholder="Your Password"
+                  required
+                  className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+                />
+                <span
+                  className="absolute top-4 right-4 cursor-pointer"
+                  onClick={() => setShowConfirm(!showConfirm)}
+                >
+                  {showConfirm ? (
+                    <EyeOffIcon size={20} />
+                  ) : (
+                    <EyeIcon size={20} />
+                  )}
+                </span>
               </div>
-            
+            </div>
             <Button
               type="submit"
               className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
             >
-              Login
+              Proceed
             </Button>
           </form>
-          <div className="text-center w-full">
-            <p>
-              New User?{" "}
-              <span className="font-bold text-[#6C35A7]">Sign up</span>
-            </p>
-          </div>
         </div>
 
         <div className="hidden sm:block">
