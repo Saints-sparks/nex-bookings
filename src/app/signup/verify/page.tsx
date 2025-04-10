@@ -19,7 +19,7 @@ export default function SignUpDetailsPage() {
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     // Ideally validate and send to backend here
-    router.push("/signup/verify"); // Go to OTP page
+    router.push("/signup/details"); // Go to OTP page
   };
 
   return (
@@ -31,7 +31,7 @@ export default function SignUpDetailsPage() {
         <div className="flex flex-col gap-6">
           <div className="">
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
-              Create Your Account
+              Confirm OTP
             </h2>
             <p className="leading-[34px] text-[17px] font-[500]">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
