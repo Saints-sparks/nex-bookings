@@ -1,8 +1,12 @@
+"use client"
 import { Button } from "@/components/ui/button";
 import VendorNavbar from "@/components/vendor/NavBar";
+import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
 import VendorServices from "@/components/vendor/ServicesGrid";
+import { useState } from "react";
 
 export default function VendorHome() {
+    const [openDrawer, setOpenDrawer] = useState(false);
   return (
     <div className="flex flex-col justify-center mx-auto w-full  relative pb-10">
       {" "}
@@ -23,7 +27,7 @@ export default function VendorHome() {
             </div>
             {/* Buttons - Hidden on mobile */}
             <div className="hidden md:flex gap-3">
-              <Button className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full">
+              <Button onClick={() => setOpenDrawer(true)} className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full">
                 Add Service
               </Button>
               <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full">
@@ -45,7 +49,7 @@ export default function VendorHome() {
       {/* Mobile buttons */}
       <div className="fixed bg-white p-3 w-full bottom-0 left-0 right-0 z-50 sm:hidden">
         <div className="flex gap-3 justify-center">
-          <Button className="bg-[#6C35A7] flex-1 text-[16px] p-6 font-500 rounded-full">
+          <Button onClick={() => setOpenDrawer(true)} className="bg-[#6C35A7] flex-1 text-[16px] p-6 font-500 rounded-full">
             Add Service
           </Button>
           <Button className="bg-[#FFB049] flex-1 text-[16px] p-6 font-500 rounded-full">
@@ -53,6 +57,7 @@ export default function VendorHome() {
           </Button>
         </div>
       </div>
+      <ServiceDrawer open={openDrawer} onOpenChange={setOpenDrawer} />
     </div>
   );
 }
