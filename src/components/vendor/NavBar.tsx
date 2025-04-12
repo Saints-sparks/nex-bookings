@@ -3,7 +3,8 @@
 import { Home, Bell, CircleUserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import NotificationsDrawer from "./notifications/NotificationsDrawer";
+import NotificationsDrawer from "./notifications/NotificationsSheet";
+import NotificationsSheet from "./notifications/NotificationsSheet";
 // import NotificationsDrawer from "@/components/vendor/NotificationsDrawer"; // <- import it here
 
 export default function VendorNavbar() {
@@ -37,7 +38,7 @@ export default function VendorNavbar() {
           </Link>
 
           <div className="relative">
-            <NotificationsDrawer />
+            <NotificationsSheet />
           </div>
 
           {/* Profile */}
