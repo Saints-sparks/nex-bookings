@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { File } from "lucide-react";
 import { Input } from "../ui/input";
 

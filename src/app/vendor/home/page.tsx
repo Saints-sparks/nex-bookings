@@ -8,11 +8,11 @@ import { useState } from "react";
 export default function VendorHome() {
   const [openDrawer, setOpenDrawer] = useState(false);
   return (
-    <div className="flex flex-col justify-center mx-auto w-full  relative pb-10">
+    <div className="flex flex-col justify-center mx-auto w-full  relative pb-10 justify-between">
       {" "}
       {/* add bottom padding */}
       <VendorNavbar />
-      <div className="flex flex-col justify-center max-w-[1000px] mx-auto">
+      <div className="flex flex-col justify-center max-w-[1000px] mx-auto mt-20">
         {/* Top Section */}
         <div className="flex flex-col p-6 sm:p-10 justify-between items-center sm:items-center gap-4">
           <div className="flex items-center w-full justify-between">

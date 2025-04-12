@@ -11,7 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { ChevronLeft, EyeIcon, EyeOffIcon } from "lucide-react";
+import Image from "next/image";
 
 export default function SignUpDetailsPage() {
   const router = useRouter();
@@ -30,15 +31,21 @@ export default function SignUpDetailsPage() {
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     // Ideally validate and send to backend here
-    router.push("/vendor/home"); 
+    router.push("/vendor/home");
   };
 
   return (
     <div className="h-screen items-center justify-center">
-      <div className="bg-[#FFB049] p-2 text-white text-center">
+      <div className="bg-[#FFB049] p-2 text-white text-center fixed top-0 left-0 right-0 z-10">
         <h1 className="font-bold text-[29px]">Logo</h1>
       </div>
-      <div className="flex w-full justify-between py-10 px-6 gap-10 ">
+      <button
+        className="bg-transparent text-black shadow-none sm:hidden p-5 mt-15"
+        onClick={() => router.back()}
+      >
+        <ChevronLeft size={20} />
+      </button>
+      <div className="flex w-full justify-between sm:py-10 px-6 gap-10 sm:mt-10">
         <div className="flex flex-col gap-6">
           <div className="">
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
@@ -73,9 +80,9 @@ export default function SignUpDetailsPage() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOffIcon size={20} />
+                    <EyeOffIcon size={20} className="text-[#6C35A7]" />
                   ) : (
-                    <EyeIcon size={20} />
+                    <EyeIcon size={20} className="text-[#6C35A7]" />
                   )}
                 </span>
               </div>
@@ -139,7 +146,7 @@ export default function SignUpDetailsPage() {
         </div>
 
         <div className="hidden sm:block">
-          <img src="/images/signup.png" alt="" />
+          <Image src="/images/signup.png" width={684} height={723} alt="" />
         </div>
       </div>
     </div>

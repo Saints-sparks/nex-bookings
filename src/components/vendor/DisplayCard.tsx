@@ -1,6 +1,4 @@
 import Image from "next/image";
-import { Pen } from "lucide-react";
-import Link from "next/link";
 import { Button } from "../ui/button";
 
 export default function DisplayCard() {
@@ -28,10 +26,8 @@ export default function DisplayCard() {
             <h3 className="font-bold text-[#6C35A7]">Nail Trimming</h3>
             <p className="font-bold text-sm mt-1">NGN 7,000</p>
           </div>
-          <Button
-            className="flex items-center gap-2 text-[16px] bg-[#6C35A7] hover:bg-purple-700 font-bold rounded-full"
-          >
-            Book Now 
+          <Button className="flex items-center gap-2 text-[16px] bg-[#6C35A7] hover:bg-purple-700 font-bold rounded-full">
+            Book Now
           </Button>
         </div>
       </div>
