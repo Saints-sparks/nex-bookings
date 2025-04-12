@@ -46,7 +46,7 @@ export default function Profile() {
               </div>
             </div>
             <div>
-              <Button className="bg-red-500 flex-1 text-[16px] p-6 font-500 rounded-full hidden sm:block">
+              <Button className="bg-red-500 flex-1 text-[16px] p-6 font-500 rounded-full hidden sm:flex hover:bg-red-600">
                 Log Out
               </Button>
             </div>
@@ -60,7 +60,7 @@ export default function Profile() {
                   <div key={tab.label} className="flex flex-col items-center">
                     <Button
                       onClick={() => setSelectedTab(tab.label)}
-                      className={`text-[#6C35A7] shadow-none items-center cursor-pointer bg-transparent py-0
+                      className={`text-[#6C35A7] shadow-none items-center bg-transparent hover:bg-transparent py-0
                       }`}
                     >
                       {tab.icon}

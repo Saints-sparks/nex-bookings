@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronLeft, EyeIcon, EyeOffIcon } from "lucide-react";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -99,17 +100,19 @@ export default function LoginPage() {
                 <p className="font-bold text-[#6C3587]">Reset Password</p>
               </div>
             
-            <Button
-              type="submit"
-              className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
-            >
-              Login
-            </Button>
+            <Link href="/vendor/home">
+              <Button
+                type="submit"
+                className="w-full bg-[#6C35A7] hover:bg-purple-700 rounded-full py-7 font-medium text-[16px] mt-4"
+              >
+                Login
+              </Button>
+            </Link>
           </form>
           <div className="text-center w-full">
             <p>
               New User?{" "}
-              <span className="font-bold text-[#6C35A7]">Sign up</span>
+              <Link href="/signup"><span className="font-bold text-[#6C35A7] cursor-pointer">Sign up</span></Link>
             </p>
           </div>
         </div>

@@ -30,7 +30,7 @@ export default function SignUpDetailsPage() {
   const handleNext = (e: React.FormEvent) => {
     e.preventDefault();
     // Ideally validate and send to backend here
-    router.push("/signup/verify"); // Go to OTP page
+    router.push("/vendor/home"); 
   };
 
   return (
@@ -131,7 +131,7 @@ export default function SignUpDetailsPage() {
 
             <Button
               type="submit"
-              className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
+              className="w-full bg-[#6C35A7] hover:bg-purple-700 rounded-full py-7 font-medium text-[16px] mt-4"
             >
               Sign Up
             </Button>

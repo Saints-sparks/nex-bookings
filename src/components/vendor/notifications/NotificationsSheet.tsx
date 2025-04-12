@@ -1,12 +1,10 @@
 "use client";
-
 import {
   Sheet,
   SheetTrigger,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetDescription,
 } from "@/components/ui/sheet";
 import { Bell } from "lucide-react";
 import Image from "next/image";
@@ -15,7 +13,7 @@ export default function NotificationsSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <button className="relative hover:text-primary transition flex flex-col items-center justify-center text-[#807E7E] font-medium cursor-pointer">
+        <button className="relative hover:text-primary transition flex flex-col items-center justify-center text-[#807E7E] font-medium">
           <Bell className="mb-2 sm:mb-0" />
           <p className="hidden sm:block">Notifications</p>
           {/* Optional unread indicator */}

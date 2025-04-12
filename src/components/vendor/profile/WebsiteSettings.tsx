@@ -21,7 +21,7 @@ export default function WebsiteSettings() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full p-4">
         {[
           { label: "Edit Header Here", name: "header" },
-          { label: "Esit Tagline Here", name: "tagline" },
+          { label: "Edit Tagline Here", name: "tagline" },
         ].map((field) => (
           <div key={field.name} className="flex flex-col gap-2 group">
             <Label
@@ -42,7 +42,7 @@ export default function WebsiteSettings() {
       </div>
       <Button
         type="submit"
-        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4"
+        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700"
       >
         Save Changes
       </Button>

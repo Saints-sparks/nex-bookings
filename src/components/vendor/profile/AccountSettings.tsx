@@ -46,7 +46,7 @@ export default function AccountSettings() {
       </div>
       <Button
         type="submit"
-        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4"
+        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700"
       >
         Save Changes
       </Button>

@@ -110,7 +110,7 @@ export function ServiceDrawer({
           {/* Footer */}
           <div className="flex items-center justify-between p-6 border-t">
             <button className="text-red-500 text-sm">Delete Service</button>
-            <button className="bg-[#6C35A7] text-white px-6 py-4 rounded-full text-sm">
+            <button className="bg-[#6C35A7] text-white px-6 py-4 rounded-full text-sm hover:bg-purple-700">
               Save Changes
             </button>
           </div>

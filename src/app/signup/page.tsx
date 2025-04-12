@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function SignUpDetailsPage() {
   const router = useRouter();
@@ -117,7 +118,7 @@ export default function SignUpDetailsPage() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
+              className="w-full bg-[#6C35A7] hover:bg-purple-700 rounded-full py-7 font-medium text-[16px] mt-4"
             >
               Sign Up
             </Button>
@@ -125,7 +126,7 @@ export default function SignUpDetailsPage() {
           <div className="text-center w-full">
             <p>
               Have an account?{" "}
-              <span className="font-bold text-[#6C35A7]">Sign in</span>
+              <Link href="/login"><span className="font-bold text-[#6C35A7] cursor-pointer">Sign in</span></Link>
             </p>
           </div>
         </div>

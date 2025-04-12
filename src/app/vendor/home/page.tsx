@@ -29,11 +29,11 @@ export default function VendorHome() {
             <div className="hidden md:flex gap-3">
               <Button
                 onClick={() => setOpenDrawer(true)}
-                className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full"
+                className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full hover:bg-purple-700"
               >
                 Add Service
               </Button>
-              <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full">
+              <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full hover:bg-yellow-800">
                 View Website
               </Button>
             </div>
@@ -44,7 +44,7 @@ export default function VendorHome() {
           </div>
           <div className="px-5 my-8 items-center justify-center text-black text-[20px] leading-[34px] w-full hidden sm:flex">
             <div className="flex-grow border-t border-[#807E7E]"></div>
-            <span className="px-2">Nothing to see here</span>
+            <span className="px-4">Nothing to see here</span>
             <div className="flex-grow border-t border-[#807E7E]"></div>
           </div>
         </div>
