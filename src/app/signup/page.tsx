@@ -32,8 +32,8 @@ export default function SignUpDetailsPage() {
       <div className="bg-[#FFB049] p-2 text-white text-center">
         <h1 className="font-bold text-[29px]">Logo</h1>
       </div>
-      <Button className="bg-transparent text-black shadow-none sm:hidden" >
-          <ChevronLeft size="24px" />
+      <Button className="bg-transparent text-black shadow-none sm:hidden">
+        <ChevronLeft size="24px" />
       </Button>
       <div className="flex w-full justify-between sm:py-10 px-6 gap-10 ">
         <div className="flex flex-col gap-6">
@@ -41,7 +41,7 @@ export default function SignUpDetailsPage() {
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
               Create Your Account
             </h2>
-            <p className="leading-[34px] text-[17px] font-[500]">
+            <p className="leading-[34px] text-[17px] font-medium">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et{" "}
             </p>

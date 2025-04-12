@@ -29,7 +29,7 @@ export default function ServiceCard() {
           </div>
           <Link
             href="/vendor/services/edit/1"
-            className="flex items-center gap-2 text-[14px] text-[#6C35A7] hover:underline font-[500]"
+            className="flex items-center gap-2 text-[14px] text-[#6C35A7] hover:underline font-medium"
           >
             Edit <Pen fill="#6C35A7" size={14} />
           </Link>

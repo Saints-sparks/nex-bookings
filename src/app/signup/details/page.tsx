@@ -44,7 +44,7 @@ export default function SignUpDetailsPage() {
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
               Finish Sign Up
             </h2>
-            <p className="leading-[34px] text-[17px] font-[500]">
+            <p className="leading-[34px] text-[17px] font-medium">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et{" "}
             </p>

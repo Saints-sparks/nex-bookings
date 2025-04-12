@@ -27,8 +27,8 @@ export default function LoginPage() {
       <div className="bg-[#FFB049] p-2 text-white text-center">
         <h1 className="font-bold text-[29px]">Logo</h1>
       </div>
-      <Button className="bg-transparent text-black shadow-none sm:hidden" >
-          <ChevronLeft size="24px" />
+      <Button className="bg-transparent text-black shadow-none sm:hidden">
+        <ChevronLeft size="24px" />
       </Button>
       <div className="flex w-full justify-between sm:py-10 px-6 gap-10 ">
         <div className="flex flex-col gap-6">
@@ -36,12 +36,12 @@ export default function LoginPage() {
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
               Login To Your Account
             </h2>
-            <p className="leading-[34px] text-sm sm:text-[17px] font-[500]">
+            <p className="leading-[34px] text-sm sm:text-[17px] font-medium">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et{" "}
             </p>
           </div>
-          <form className="space-y-6" onSubmit={handleNext} >
+          <form className="space-y-6" onSubmit={handleNext}>
             <div className="group">
               <label
                 htmlFor="email"
@@ -60,9 +60,7 @@ export default function LoginPage() {
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
-            
-            
-            
+
             <Button
               type="submit"
               className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
@@ -70,7 +68,6 @@ export default function LoginPage() {
               Submit
             </Button>
           </form>
-          
         </div>
 
         <div className="hidden sm:block">
