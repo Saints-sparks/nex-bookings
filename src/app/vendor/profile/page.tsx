@@ -1,6 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { CircleUserRound, CreditCard, Globe, Settings } from "lucide-react";
+import {
+  CircleUserRound,
+  CreditCard,
+  Globe,
+  Pencil,
+  Settings,
+} from "lucide-react";
 import VendorNavbar from "@/components/vendor/NavBar";
 import Image from "next/image";
 import { useState } from "react";
@@ -32,12 +38,18 @@ export default function Profile() {
         <div className="flex flex-col p-6 sm:p-10 justify-between items-center sm:items-center gap-4">
           <div className="flex items-center w-full justify-between">
             <div className="flex flex-col sm:flex-row gap-10 items-center text-center sm:text-left w-full sm:w-auto">
-              <Image
-                src="/images/shola.png" // replace with actual image path
-                alt="Nail Trimming"
-                width={180}
-                height={180}
-              />
+              <div className="relative w-fit">
+                <Image
+                  src="/images/shola.png"
+                  alt="Nail Trimming"
+                  width={180}
+                  height={180}
+                  className="shadow-2xl rounded-3xl"
+                />
+                <div className="absolute -bottom-2 -right-2 bg-[#FFB049] rounded-full p-2 shadow-md cursor-pointer hover:bg-gray-100 transition">
+                  <Pencil fill="#6C35A7" className="w-4 h-4 text-[#6C35A7]" />
+                </div>
+              </div>
               <div className="flex flex-col gap-3">
                 <h1 className="text-[#6C35A7] font-bold text-3xl">
                   Shola Enterprises
