@@ -57,12 +57,12 @@ export default function VendorHome() {
         <div className="flex gap-3 justify-center">
           <Button
             onClick={() => setOpenDrawer(true)}
-            className="bg-[#6C35A7] flex-1 text-[16px] p-6 font-500 rounded-full"
+            className="bg-[#6C35A7] w-1/2 text-[16px] p-6 font-500 rounded-full "
           >
             Add Service
           </Button>
-          <Link href="/vendor/shola-enterprises">
-            <Button className="bg-[#FFB049] flex-1 text-[16px] p-6 font-500 rounded-full">
+          <Link className="w-1/2 text-[16px] " href="/vendor/shola-enterprises">
+            <Button className="bg-[#FFB049] text-[16px] p-6 font-500 rounded-full w-full">
               View Website
             </Button>
           </Link>
