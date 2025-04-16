@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import VendorNavbar from "@/components/vendor/NavBar";
 import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
 import VendorServices from "@/components/vendor/ServicesGrid";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function VendorHome() {
@@ -33,9 +34,11 @@ export default function VendorHome() {
               >
                 Add Service
               </Button>
-              <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full hover:bg-yellow-800">
-                View Website
-              </Button>
+              <Link href="/vendor/shola-enterprises">
+                <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full hover:bg-yellow-800">
+                  View Website
+                </Button>
+              </Link>
             </div>
           </div>
           {/* Services Grid */}
