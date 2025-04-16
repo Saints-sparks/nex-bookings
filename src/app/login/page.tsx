@@ -32,7 +32,7 @@ export default function VerificationPage() {
       <div className="bg-[#FFB049] p-2 text-white text-center fixed top-0 left-0 right-0 z-10">
         <h1 className="font-bold text-[29px]">Logo</h1>
       </div>
-      <div className="flex w-full justify-between py-6 sm:py-10 px-6 gap-10 mt-10">
+      <div className="flex w-full justify-between py-6 sm:py-10 px-6 gap-10 mt-16 sm:mt-10">
         <div className="flex flex-col gap-6">
           <div className="">
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
