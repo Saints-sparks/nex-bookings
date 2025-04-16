@@ -61,9 +61,11 @@ export default function VendorHome() {
           >
             Add Service
           </Button>
-          <Button className="bg-[#FFB049] flex-1 text-[16px] p-6 font-500 rounded-full">
-            View Website
-          </Button>
+          <Link href="/vendor/shola-enterprises">
+            <Button className="bg-[#FFB049] flex-1 text-[16px] p-6 font-500 rounded-full">
+              View Website
+            </Button>
+          </Link>
         </div>
       </div>
       <ServiceDrawer open={openDrawer} onOpenChange={setOpenDrawer} />
