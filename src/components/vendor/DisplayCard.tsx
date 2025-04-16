@@ -11,7 +11,7 @@ export default function DisplayCard() {
           alt="Nail Trimming"
           width={353}
           height={174}
-          className="w-full h-48 object-cover"
+          className="h-48 object-cover"
         />
         {/* Duration Badge */}
         <span className="absolute top-2 right-2 bg-yellow-400 text-sm text-black font-medium px-3 py-1 rounded-full">

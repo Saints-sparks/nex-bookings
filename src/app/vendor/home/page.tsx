@@ -42,7 +42,7 @@ export default function VendorHome() {
             </div>
           </div>
           {/* Services Grid */}
-          <div>
+          <div className="flex-1 w-full flex items-center justify-center ">
             <VendorServices />
           </div>
           <div className="px-5 my-8 items-center justify-center text-black text-[20px] leading-[34px] w-full hidden sm:flex">

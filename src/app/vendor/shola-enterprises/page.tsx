@@ -23,7 +23,9 @@ export default function VendorPublicPage() {
             eiusmod tempor incididunt ut labore et
           </p>
         </div>
-        <DisplayGrid />
+        <div className="flex-1 w-full flex items-center justify-center ">
+          <DisplayGrid />
+        </div>
         <div className="px-5 my-8 items-center justify-center text-black text-[20px] leading-[34px] w-full hidden sm:flex">
           <div className="flex-grow border-t border-[#807E7E]"></div>
           <span className="px-4">Powered by Nex Bookings</span>
