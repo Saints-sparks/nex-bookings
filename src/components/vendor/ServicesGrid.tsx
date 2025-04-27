@@ -3,7 +3,11 @@ import ServiceCard from "@/components/vendor/ServiceCard";
 import { useEffect, useState } from "react";
 import SkeletonCard from "./SkeletonCard";
 
-export default function VendorServices({ onEdit }: { onEdit: (svc: Service) => void }) {
+export default function VendorServices({
+  onEdit,
+}: {
+  onEdit: (svc: Service) => void;
+}) {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -15,6 +19,7 @@ export default function VendorServices({ onEdit }: { onEdit: (svc: Service) => v
       setLoading(false);
       return;
     }
+    console.log(businessId);
 
     getServicesByBusiness(businessId)
       .then(setServices)

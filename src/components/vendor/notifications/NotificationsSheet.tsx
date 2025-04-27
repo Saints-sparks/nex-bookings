@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from "react";
 import {
   Sheet,
   SheetTrigger,
@@ -8,18 +9,34 @@ import {
 } from "@/components/ui/sheet";
 import { Bell } from "lucide-react";
 import Image from "next/image";
+import { getBookingsByBusiness, Booking } from "@/app/services/bookings";
+import { format } from "date-fns";
 
 export default function NotificationsSheet() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const businessId = localStorage.getItem("nex_businessId");
+    if (!businessId) return setLoading(false);
+
+    getBookingsByBusiness(businessId)
+      .then((data) => setBookings(data))
+      .catch((err) => {
+        console.error("Failed to load bookings:", err);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <Sheet>
       <SheetTrigger asChild>
         <button className="relative hover:text-primary transition flex flex-col items-center justify-center text-[#807E7E] font-medium">
           <Bell className="mb-2 sm:mb-0" />
           <p className="hidden sm:block">Notifications</p>
-          {/* Optional unread indicator */}
-          {/* <span className="absolute -top-1 -right-1 bg-red-500 h-2 w-2 rounded-full" /> */}
         </button>
       </SheetTrigger>
+
       <SheetContent
         side="right"
         className="w-full lg:max-w-[520px] xl:max-w-[630px] p-4"
@@ -29,254 +46,76 @@ export default function NotificationsSheet() {
             Notifications
           </SheetTitle>
         </SheetHeader>
-        {/* Notification content goes here */}
+
         <div className="space-y-4 overflow-y-auto">
-          {/* Map through notifications or display a message */}
-          <div className="flex flex-col">
-            <div className="flex bg-[#F2F2F2] p-4 rounded-t-lg items-center justify-between">
-              <div className="flex gap-4">
-                <Image
-                  src="/images/nails.png" // replace with actual image path
-                  alt="Nail Trimming"
-                  width={353}
-                  height={174}
-                  className="w-14 h-14 object-cover rounded-lg"
-                />
-                <div className="flex flex-col font-bold ">
-                  <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
-                    Nail Trimming
-                  </h2>
-                  <p className="text-[12px] sm:text-[14px]">NGN 7,000</p>
+          {loading && <p>Loading…</p>}
+          {!loading && bookings.length === 0 && (
+            <p className="text-center text-gray-500">No bookings yet.</p>
+          )}
+
+          {bookings.map((b) => {
+            const { service, appointmentDate, time, customerPhoneNumber } = b;
+            const date = format(new Date(appointmentDate), "d MMMM yyyy");
+
+            return (
+              <div
+                key={b.id}
+                className="flex flex-col border rounded-lg overflow-hidden"
+              >
+                {/* Top: image, title, price */}
+                <div className="flex bg-[#F2F2F2] p-4 items-center justify-between">
+                  <div className="flex gap-4">
+                    <Image
+                      src="/images/nails.png" // replace with actual image path
+                      alt={service.title}
+                      width={56}
+                      height={56}
+                      className="w-14 h-14 object-cover rounded-lg"
+                    />
+                    <div className="flex flex-col font-bold">
+                      <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
+                        {service.title}
+                      </h2>
+                      <p className="text-[12px] sm:text-[14px]">
+                        NGN {service.price.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="font-medium text-[14px] sm:text-[16px]">
+                    Booking Details
+                  </p>
+                </div>
+
+                {/* Bottom: date, time, contact */}
+                <div className="flex bg-[#FFB049] justify-between p-4">
+                  <div className="flex flex-col">
+                    <h3 className="text-[14px] sm:text-[17px] font-medium">
+                      Date
+                    </h3>
+                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
+                      {date}
+                    </p>
+                  </div>
+                  <div className="flex flex-col">
+                    <h3 className="text-[14px] sm:text-[17px] font-medium">
+                      Time
+                    </h3>
+                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
+                      {time}
+                    </p>
+                  </div>
+                  <div className="flex flex-col">
+                    <h3 className="text-[14px] sm:text-[17px] font-medium">
+                      Contact
+                    </h3>
+                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
+                      {customerPhoneNumber}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="">
-                <p className="font-medium text-[14px] sm:text-[16px]">
-                  Booking Details
-                </p>
-              </div>
-            </div>
-            <div className="flex bg-[#FFB049] rounded-b-lg justify-between p-4">
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Date</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold sm:hidden">
-                  25/12/24
-                </p>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold hidden sm:block">
-                  25 December 2024
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Time</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  12:30 PM
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">
-                  Contact
-                </h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  0803 456 2343
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex bg-[#F2F2F2] p-4 rounded-t-lg items-center justify-between">
-              <div className="flex gap-4">
-                <Image
-                  src="/images/nails.png" // replace with actual image path
-                  alt="Nail Trimming"
-                  width={353}
-                  height={174}
-                  className="w-14 h-14 object-cover rounded-lg"
-                />
-                <div className="flex flex-col font-bold ">
-                  <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
-                    Nail Trimming
-                  </h2>
-                  <p className="text-[12px] sm:text-[14px]">NGN 7,000</p>
-                </div>
-              </div>
-              <div className="">
-                <p className="font-medium text-[14px] sm:text-[16px]">
-                  Booking Details
-                </p>
-              </div>
-            </div>
-            <div className="flex bg-[#FFB049] rounded-b-lg justify-between p-4">
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Date</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold sm:hidden">
-                  25/12/24
-                </p>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold hidden sm:block">
-                  25 December 2024
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Time</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  12:30 PM
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">
-                  Contact
-                </h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  0803 456 2343
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex bg-[#F2F2F2] p-4 rounded-t-lg items-center justify-between">
-              <div className="flex gap-4">
-                <Image
-                  src="/images/nails.png" // replace with actual image path
-                  alt="Nail Trimming"
-                  width={353}
-                  height={174}
-                  className="w-14 h-14 object-cover rounded-lg"
-                />
-                <div className="flex flex-col font-bold ">
-                  <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
-                    Nail Trimming
-                  </h2>
-                  <p className="text-[12px] sm:text-[14px]">NGN 7,000</p>
-                </div>
-              </div>
-              <div className="">
-                <p className="font-medium text-[14px] sm:text-[16px]">
-                  Booking Details
-                </p>
-              </div>
-            </div>
-            <div className="flex bg-[#FFB049] rounded-b-lg justify-between p-4">
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Date</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold sm:hidden">
-                  25/12/24
-                </p>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold hidden sm:block">
-                  25 December 2024
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Time</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  12:30 PM
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">
-                  Contact
-                </h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  0803 456 2343
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex bg-[#F2F2F2] p-4 rounded-t-lg items-center justify-between">
-              <div className="flex gap-4">
-                <Image
-                  src="/images/nails.png" // replace with actual image path
-                  alt="Nail Trimming"
-                  width={353}
-                  height={174}
-                  className="w-14 h-14 object-cover rounded-lg"
-                />
-                <div className="flex flex-col font-bold ">
-                  <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
-                    Nail Trimming
-                  </h2>
-                  <p className="text-[12px] sm:text-[14px]">NGN 7,000</p>
-                </div>
-              </div>
-              <div className="">
-                <p className="font-medium text-[14px] sm:text-[16px]">
-                  Booking Details
-                </p>
-              </div>
-            </div>
-            <div className="flex bg-[#FFB049] rounded-b-lg justify-between p-4">
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Date</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold sm:hidden">
-                  25/12/24
-                </p>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold hidden sm:block">
-                  25 December 2024
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Time</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  12:30 PM
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">
-                  Contact
-                </h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  0803 456 2343
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <div className="flex bg-[#F2F2F2] p-4 rounded-t-lg items-center justify-between">
-              <div className="flex gap-4">
-                <Image
-                  src="/images/nails.png" // replace with actual image path
-                  alt="Nail Trimming"
-                  width={353}
-                  height={174}
-                  className="w-14 h-14 object-cover rounded-lg"
-                />
-                <div className="flex flex-col font-bold ">
-                  <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
-                    Nail Trimming
-                  </h2>
-                  <p className="text-[12px] sm:text-[14px]">NGN 7,000</p>
-                </div>
-              </div>
-              <div className="">
-                <p className="font-medium text-[14px] sm:text-[16px]">
-                  Booking Details
-                </p>
-              </div>
-            </div>
-            <div className="flex bg-[#FFB049] rounded-b-lg justify-between p-4">
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Date</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold sm:hidden">
-                  25/12/24
-                </p>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold hidden sm:block">
-                  25 December 2024
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">Time</h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  12:30 PM
-                </p>
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[14px] sm:text-[17px] font-medium">
-                  Contact
-                </h3>
-                <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
-                  0803 456 2343
-                </p>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </SheetContent>
     </Sheet>

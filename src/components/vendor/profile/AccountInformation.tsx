@@ -4,12 +4,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 
-export default function AccountInfo() {
+interface AccountInfoProps {
+  businessName: string;
+  user: {email: string; fullName: string; id: string};
+}
+
+export default function AccountInfo({ businessName, user }: AccountInfoProps) {
   const currentUser = {
-    businessName: "Shola Enterprises",
-    email: "example@gmail.com",
+    businessName,
+    email: user.email,
     phone: "+234 801 234 5678",
-    name: "Shola Adewale",
+    name: user.fullName,
   };
 
   const [formData, setFormData] = useState(currentUser);

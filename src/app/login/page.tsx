@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { signin, SigninPayload } from "../services/auth";
 import api from "@/lib/api";
+import { Business, getBusinessByUser } from "../services/business";
 
 export default function VerificationPage() {
   const router = useRouter();
@@ -37,10 +38,15 @@ export default function VerificationPage() {
     setLoading(true);
 
     try {
-      const { accessToken } = await signin(form);
+      const { accessToken, user } = await signin(form);
       // persist token and set default header
       localStorage.setItem("nex_token", accessToken);
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      // Fetch business for this user
+      const business: Business = await getBusinessByUser(user.id);
+      localStorage.setItem("nex_businessId", business.id);
+      localStorage.setItem("nex_businessName", business.businessName);
+      localStorage.setItem("nex_user", JSON.stringify(user));
       // redirect on success
       router.push("/vendor/home");
     } catch (err: any) {
@@ -126,8 +132,9 @@ export default function VerificationPage() {
               type="submit"
               className="w-full bg-[#6C35A7] hover:bg-purple-700 rounded-full py-7 font-medium text-[16px] mt-4"
             >
-              Login
+              {loading ? "Logging in" : "Login"}
             </Button>
+            {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
           </form>
           <div className="text-center w-full">
             <p>

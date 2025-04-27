@@ -1,4 +1,3 @@
-// components/vendor/EditServiceDrawer.tsx
 "use client";
 
 import { Sheet, SheetContent } from "@/components/ui/sheet";
@@ -7,7 +6,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { deleteService, Service, updateService } from "@/app/services/service";
-// import { updateService, Service } from "@/services/service";
+import Image from "next/image";
 
 interface Props {
   open: boolean;
@@ -96,7 +95,7 @@ export function EditServiceDrawer({
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center">
               <File size={32} className="mx-auto mb-2" />
               <p>Current Image:</p>
-              <img
+              <Image
                 src={form.imageUrl}
                 alt="Service"
                 className="mx-auto h-24 object-contain"

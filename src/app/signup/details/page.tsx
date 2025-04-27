@@ -171,6 +171,7 @@ export default function SignUpDetailsPage() {
             >
               {loading ? "Finishing Up…" : "Complete Sign Up"}
             </Button>
+            {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
           </form>
         </div>
 

@@ -1,7 +1,5 @@
-// components/ServiceCard.tsx
 import Image from "next/image";
 import { Pen } from "lucide-react";
-import Link from "next/link";
 import { Button } from "../ui/button";
 
 interface ServiceCardProps {
@@ -19,10 +17,10 @@ export default function ServiceCard({
   price,
   duration,
   imageUrl,
-  onEdit
+  onEdit,
 }: ServiceCardProps) {
   return (
-    <div className="rounded-xl overflow-hidden max-w-[343px] bg-white shadow">
+    <div className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white shadow">
       {/* Image */}
       <div className="relative">
         <Image
@@ -42,10 +40,12 @@ export default function ServiceCard({
         <div className="flex items-center justify-between">
           <div>
             <h3 className="font-bold text-[#6C35A7]">{title}</h3>
-            <p className="font-bold text-sm mt-1 font-inter">NGN {price.toLocaleString()}</p>
+            <p className="font-bold text-sm mt-1 font-inter">
+              NGN {price.toLocaleString()}
+            </p>
           </div>
           <Button
-          variant="ghost"
+            variant="ghost"
             onClick={onEdit}
             className="flex items-center gap-2 text-[14px] text-[#6C35A7] hover:underline font-medium font-inter"
           >

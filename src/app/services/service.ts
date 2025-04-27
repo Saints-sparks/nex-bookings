@@ -28,9 +28,15 @@ export async function getServicesByBusiness(
   businessId: string
 ): Promise<Service[]> {
   // ① fetch EVERY service
+  console.log(businessId);
+  
   const res = await api.get<Service[]>(`/services`);
+  console.log(res.data);
+  
   // ② keep only those that match your business
-  return res.data.filter((s) => s.business.id === businessId);
+  console.log(res.data.filter((s) => s.businessId === businessId));
+  return res.data.filter((s) => s.businessId === businessId);
+  
 }
 
 export async function createService(

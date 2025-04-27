@@ -1,6 +1,4 @@
-// services/website.ts
 import api from "@/lib/api";
-import axios from "axios";
 
 export interface WebsiteSettings {
   id: string;            // businessId

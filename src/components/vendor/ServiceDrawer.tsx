@@ -1,6 +1,6 @@
 // components/vendor/ServiceDrawer.tsx
 "use client";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { File } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -43,7 +43,7 @@ export function ServiceDrawer({
         imageUrl: form.imageUrl || "", // or upload URL
       };
       console.log("Payload:", payload);
-      
+
       await createService(payload);
       onServiceAdded();
       setForm({ title: "", price: "", duration: "", imageUrl: "" });
@@ -57,12 +57,14 @@ export function ServiceDrawer({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full lg:max-w-[500px] p-0">
+        <SheetTitle asChild>
+          <span className="sr-only">Add New Service</span>
+        </SheetTitle>
         <div className="flex flex-col h-full bg-white">
           <div className="px-6 py-4 border-b flex justify-between items-center">
             <h2 className="text-xl font-semibold text-[#6C35A7]">
               Add New Service
             </h2>
-            <button onClick={() => onOpenChange(false)}>✕</button>
           </div>
           <div className="p-6 flex-1 overflow-y-auto space-y-4">
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center">

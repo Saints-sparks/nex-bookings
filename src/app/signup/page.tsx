@@ -35,7 +35,6 @@ export default function SignUpDetailsPage() {
     setError("");
     setLoading(true);
     try {
-      await signup(form);
       const signupData = await signup(form);
       const userId = signupData.business.userId;
       localStorage.setItem("nex_userId", userId);
