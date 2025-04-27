@@ -18,7 +18,7 @@ export default function VendorPublicPage() {
           <h1 className="font-bold text-[20px] sm:text-[35px] text-[#6C35A7]">
             Shola Enterprises
           </h1>
-          <p className="font-medium text-[14px] sm:text-[18px]">
+          <p className="font-medium text-[14px] sm:text-[18px] font-inter">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et
           </p>

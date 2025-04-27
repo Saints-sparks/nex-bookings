@@ -29,8 +29,8 @@ export default function NewPassword() {
 
   return (
     <div className="h-screen items-center justify-center">
-      <div className="bg-[#FFB049] p-2 text-white text-center fixed top-0 left-0 right-0 z-10">
-        <h1 className="font-bold text-[29px]">Logo</h1>
+      <div className="bg-[#FFB049] p-3 text-white text-center fixed top-0 left-0 right-0 z-10 flex justify-center">
+        <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
       </div>
       <button
         className="bg-transparent text-black shadow-none sm:hidden p-5 mt-15"

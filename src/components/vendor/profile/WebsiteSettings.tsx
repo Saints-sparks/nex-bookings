@@ -8,6 +8,8 @@ export default function WebsiteSettings() {
   const currentUser = {
     header: "Shola Enterprises",
     tagline: "+234 801 234 5678",
+    instagram: "instagram.com",
+    facebook: "facebook.com",
   };
 
   const [formData, setFormData] = useState(currentUser);
@@ -18,10 +20,12 @@ export default function WebsiteSettings() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {[
           { label: "Edit Header Here", name: "header" },
           { label: "Edit Tagline Here", name: "tagline" },
+          { label: "Enter Instagram Profile Link", name: "instagram" },
+          { label: "Enter Facebook profile Link", name: "facebook" },
         ].map((field) => (
           <div key={field.name} className="flex flex-col gap-2 group">
             <Label
@@ -42,7 +46,7 @@ export default function WebsiteSettings() {
       </div>
       <Button
         type="submit"
-        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700"
+        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700 mt-10"
       >
         Save Changes
       </Button>

@@ -4,6 +4,7 @@ import { Home, CircleUserRound } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NotificationsSheet from "./notifications/NotificationsSheet";
+import Image from "next/image";
 
 export default function VendorNavbar() {
   const pathname = usePathname();
@@ -16,9 +17,7 @@ export default function VendorNavbar() {
   return (
     <nav className="flex md:px-[50px] px-8 py-4 sm:py-2 bg-[#F2F2F2] items-center justify-center fixed top-0 left-0 right-0 z-10">
       <div className="w-[920px] flex justify-between sm:items-center">
-        <div className="text-[22px] sm:text-[29px] font-bold text-[#6C35A7]">
-          Logo
-        </div>
+        <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
 
         <div className="flex items-center gap-4 sm:gap-6">
           {/* Home */}

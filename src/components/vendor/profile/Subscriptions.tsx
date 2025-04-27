@@ -4,87 +4,62 @@ import { Check } from "lucide-react";
 const plans = [
   {
     name: "Starter Plan",
-    price: 11,
+    price: 1000,
     features: [
-      "20,000 Visitors",
-      "20,000 Visitors",
-      "20,000 Visitors",
-      "20,000 Visitors",
+      "Create Unlimited Services",
+      "Receive Email Notifications",
+      "Receive SMS Notifications",
+      "Access to Booking Records",
+      "Customizable Website",
+      "Unlimited Website Visitors",
     ],
-    isActive: false,
-  },
-  {
-    name: "Starter Plan",
-    price: 11,
-    features: [
-      "20,000 Visitors",
-      "20,000 Visitors",
-      "20,000 Visitors",
-      "20,000 Visitors",
-    ],
-    isActive: true,
-  },
-  {
-    name: "Starter Plan",
-    price: 11,
-    features: [
-      "20,000 Visitors",
-      "20,000 Visitors",
-      "20,000 Visitors",
-      "20,000 Visitors",
-    ],
-    isActive: false,
   },
 ];
 
 export default function Subscriptions() {
   return (
-    <div className="w-full p-0 sm:p-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {plans.map((plan, index) => (
+    <div className="w-full p-4 sm:p-6">
+      <div className="grid grid-cols-1 gap-6">
+        {plans.map((plan, idx) => (
           <div
-            key={index}
-            className={`rounded-2xl p-6 flex flex-col  ${
-              plan.isActive
-                ? "bg-[#6C35A7] text-white"
-                : "bg-[#F2F2F2] text-black w-full"
-            }`}
+            key={idx}
+            className="flex flex-col sm:flex-row bg-[#6C35A7] text-white rounded-2xl overflow-hidden p-6 sm:p-10 sm:h-[500px] sm:items-center"
           >
-            <h2 className="text-lg font-semibold mb-2">{plan.name}</h2>
-            <p className="text-3xl font-bold text-[#FFB049] mb-1 text-[48px] sm:text-[52px]">
-              ${plan.price}
-              <span
-                className={`text-sm ${
-                  plan.isActive ? "text-white" : "text-[#656565]"
-                }`}
-              >
-                /month
-              </span>
-            </p>
+            {/* Left column: name, price, desktop button */}
+            <div className="flex flex-col   sm:p-10 flex-1">
+              <h2 className="text-xl font-semibold sm:mb-2">{plan.name}</h2>
+              <p className="font-bold text-[#FFB049] my-4 sm:my-0">
+                <span className="text-lg sm:text-2xl">NGN</span>{" "}
+                <span className="text-4xl sm:text-6xl leading-none">
+                  {plan.price}
+                </span>
+                <span className="text-sm sm:text-base text-white">/month</span>
+              </p>
 
-            <ul className="mt-6 space-y-3">
-              {plan.features.map((feature, i) => (
-                <li key={i} className="flex items-center gap-2">
-                  <Check size={18} className="text-[#FFB049]" />
-                  <span
-                    className={`font-bold ${
-                      plan.isActive ? "text-white" : "text-[#454545]"
-                    }`}
-                  >
-                    {feature}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <button
-              className={`mt-6 px-6 py-3 rounded-full font-medium transition w-full ${
-                plan.isActive
-                  ? "bg-white text-[#6C35A7] hover:opacity-90"
-                  : "bg-[#6C35A7] text-white hover:bg-[#5a2d95]"
-              }`}
-            >
-              {plan.isActive ? "Cancel Plan" : "Buy Plan"}
-            </button>
+              {/* Desktop-only Buy button */}
+              <button className="hidden sm:block mt-15 w-[280px] py-3 rounded-full bg-white text-[#6C35A7] font-medium hover:opacity-90 transition">
+                Buy Plan
+              </button>
+            </div>
+
+            {/* Right column: features */}
+            <div className=" flex-1">
+              <ul className="space-y-6">
+                {plan.features.map((feature, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <Check size={18} className="text-[#FFB049]" />
+                    <span className="font-bold text-[16px] sm:text-[18px]">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Mobile-only Buy button */}
+              <button className="mt-6 block sm:hidden w-full py-3 rounded-full bg-white text-[#6C35A7] font-medium hover:opacity-90 transition">
+                Buy Plan
+              </button>
+            </div>
           </div>
         ))}
       </div>

@@ -1,74 +1,84 @@
+// app/vendor/home/page.tsx
 "use client";
-import { Button } from "@/components/ui/button";
-import VendorNavbar from "@/components/vendor/NavBar";
-import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
-import VendorServices from "@/components/vendor/ServicesGrid";
-import Link from "next/link";
+
 import { useState } from "react";
+import VendorNavbar from "@/components/vendor/NavBar";
+import VendorServices from "@/components/vendor/ServicesGrid";
+import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
+import { EditServiceDrawer } from "@/components/vendor/EditServiceDrawer";
+// import { Service } from "@/services/service";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Service } from "@/app/services/service";
 
 export default function VendorHome() {
-  const [openDrawer, setOpenDrawer] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selected, setSelected] = useState<Service | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleServiceAdded = () => {
+    setOpenAdd(false);
+    setRefreshKey((k) => k + 1);
+  };
+  const handleServiceUpdated = () => {
+    setRefreshKey((k) => k + 1);
+  };
+
+  const onEdit = (svc: Service) => {
+    setSelected(svc);
+    setOpenEdit(true);
+  };
+
   return (
-    <div className="flex flex-col justify-center mx-auto w-full  relative pb-10 justify-between">
-      {" "}
-      {/* add bottom padding */}
+    <div className="flex flex-col pb-10 relative">
       <VendorNavbar />
-      <div className="flex flex-col justify-center max-w-[1000px] mx-auto mt-20">
-        {/* Top Section */}
-        <div className="flex flex-col p-6 sm:p-10 justify-between items-center sm:items-center gap-4">
-          <div className="flex items-center w-full justify-between">
-            <div className="flex flex-col gap-3">
-              <h1 className="text-[#6C35A7] font-bold text-3xl">
-                Shola Enterprises
-              </h1>
-              <p className="font-medium max-w-[487px]">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et{" "}
-              </p>
-            </div>
-            {/* Buttons - Hidden on mobile */}
-            <div className="hidden md:flex gap-3">
-              <Button
-                onClick={() => setOpenDrawer(true)}
-                className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full hover:bg-purple-700"
-              >
-                Add Service
-              </Button>
-              <Link href="/vendor/shola-enterprises">
-                <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full hover:bg-yellow-800">
-                  View Website
-                </Button>
-              </Link>
-            </div>
+      <div className="max-w-[1000px] mx-auto mt-20 p-6 sm:p-10">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-[#6C35A7] font-bold text-3xl">
+              Shola Enterprises
+            </h1>
+            <p className="font-inter font-medium max-w-[487px]">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et
+            </p>
           </div>
-          {/* Services Grid */}
-          <div className="flex-1 w-full flex items-center justify-center ">
-            <VendorServices />
-          </div>
-          <div className="px-5 my-8 items-center justify-center text-black text-[20px] leading-[34px] w-full hidden sm:flex">
-            <div className="flex-grow border-t border-[#807E7E]"></div>
-            <span className="px-4">Nothing to see here</span>
-            <div className="flex-grow border-t border-[#807E7E]"></div>
-          </div>
-        </div>
-      </div>
-      {/* Mobile buttons */}
-      <div className="fixed bg-white p-3 w-full bottom-0 left-0 right-0 z-50 sm:hidden">
-        <div className="flex gap-3 justify-center">
-          <Button
-            onClick={() => setOpenDrawer(true)}
-            className="bg-[#6C35A7] w-1/2 text-[16px] p-6 font-500 rounded-full "
-          >
-            Add Service
-          </Button>
-          <Link className="w-1/2 text-[16px] " href="/vendor/shola-enterprises">
-            <Button className="bg-[#FFB049] text-[16px] p-6 font-500 rounded-full w-full">
-              View Website
+          <div className="flex gap-3">
+            <Button
+              onClick={() => setOpenAdd(true)}
+              className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full hover:bg-purple-700"
+            >
+              Add Service
             </Button>
-          </Link>
+            <Link href="/vendor/shola-enterprises">
+              <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full hover:bg-yellow-800">
+                View Website
+              </Button>
+            </Link>
+          </div>
         </div>
+
+        {/* Services Grid */}
+        <VendorServices key={refreshKey} onEdit={onEdit} />
+
+        {/* Fallback message */}
+        {/* (VendorServices handles empty and loading states) */}
       </div>
-      <ServiceDrawer open={openDrawer} onOpenChange={setOpenDrawer} />
+
+      {/* Drawers */}
+      <ServiceDrawer
+        open={openAdd}
+        onOpenChange={setOpenAdd}
+        onServiceAdded={handleServiceAdded}
+      />
+      <EditServiceDrawer
+        open={openEdit}
+        onOpenChange={setOpenEdit}
+        service={selected}
+        onServiceUpdated={handleServiceUpdated}
+      />
     </div>
   );
 }

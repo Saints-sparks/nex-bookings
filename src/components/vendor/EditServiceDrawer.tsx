@@ -1,22 +1,27 @@
-// components/vendor/ServiceDrawer.tsx
+// components/vendor/EditServiceDrawer.tsx
 "use client";
+
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { File } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
-import { createService, CreateServicePayload } from "@/app/services/service";
-// import { createService, CreateServicePayload } from "@/services/service";
+import { useState, useEffect } from "react";
+import { deleteService, Service, updateService } from "@/app/services/service";
+// import { updateService, Service } from "@/services/service";
 
-export function ServiceDrawer({
-  open,
-  onOpenChange,
-  onServiceAdded,
-}: {
+interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onServiceAdded: () => void;
-}) {
+  service: Service | null;
+  onServiceUpdated: () => void;
+}
+
+export function EditServiceDrawer({
+  open,
+  onOpenChange,
+  service,
+  onServiceUpdated,
+}: Props) {
   const [form, setForm] = useState({
     title: "",
     price: "",
@@ -26,29 +31,51 @@ export function ServiceDrawer({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Prefill when `service` changes
+  useEffect(() => {
+    if (service) {
+      setForm({
+        title: service.title,
+        price: String(service.price),
+        duration: String(service.duration),
+        imageUrl: service.imageUrl,
+      });
+    }
+  }, [service]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const handleSubmit = async () => {
+  const handleSave = async () => {
+    if (!service) return;
     setError("");
     setLoading(true);
     try {
-      const businessId = localStorage.getItem("nex_businessId");
-      if (!businessId) throw new Error("Missing business ID");
-      const payload: CreateServicePayload = {
-        businessId,
+      await updateService(service.id, {
         title: form.title,
         price: Number(form.price),
         duration: Number(form.duration),
-        imageUrl: form.imageUrl || "", // or upload URL
-      };
-      console.log("Payload:", payload);
-      
-      await createService(payload);
-      onServiceAdded();
-      setForm({ title: "", price: "", duration: "", imageUrl: "" });
+        imageUrl: form.imageUrl,
+      });
+      onServiceUpdated();
+      onOpenChange(false);
     } catch (err: any) {
-      setError(err.message || "Failed to create service");
+      setError(err.message || "Failed to update service");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!service) return;
+    setError("");
+    setLoading(true);
+    try {
+      await deleteService(service.id);
+      onServiceUpdated();
+      onOpenChange(false);
+    } catch (err: any) {
+      setError(err.message || "Failed to delete service");
     } finally {
       setLoading(false);
     }
@@ -60,14 +87,20 @@ export function ServiceDrawer({
         <div className="flex flex-col h-full bg-white">
           <div className="px-6 py-4 border-b flex justify-between items-center">
             <h2 className="text-xl font-semibold text-[#6C35A7]">
-              Add New Service
+              Edit Service
             </h2>
-            <button onClick={() => onOpenChange(false)}>✕</button>
           </div>
+
           <div className="p-6 flex-1 overflow-y-auto space-y-4">
+            {/* Image URL */}
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center">
               <File size={32} className="mx-auto mb-2" />
-              <p>Drag & drop or select image</p>
+              <p>Current Image:</p>
+              <img
+                src={form.imageUrl}
+                alt="Service"
+                className="mx-auto h-24 object-contain"
+              />
               <Input
                 name="imageUrl"
                 placeholder="Image URL"
@@ -77,6 +110,7 @@ export function ServiceDrawer({
               />
             </div>
 
+            {/* Title, Price, Duration */}
             {["title", "price", "duration"].map((field) => (
               <div key={field} className="group">
                 <label htmlFor={field} className="text-[#807E7E] font-medium">
@@ -87,7 +121,7 @@ export function ServiceDrawer({
                   name={field}
                   value={(form as any)[field]}
                   onChange={handleChange}
-                  placeholder={field === "title" ? "Barbing" : "0"}
+                  placeholder={field === "title" ? "Service Title" : "0"}
                   required
                   className="mt-2"
                 />
@@ -97,13 +131,20 @@ export function ServiceDrawer({
             {error && <p className="text-red-500">{error}</p>}
           </div>
 
-          <div className="px-6 py-4 border-t flex justify-end">
+          <div className="px-6 py-4 border-t flex justify-between">
             <Button
               disabled={loading}
-              onClick={handleSubmit}
+              onClick={handleDelete}
+              className="text-red-500 bg-transparent"
+            >
+              {loading ? "Deleting…" : "Delete Service"}
+            </Button>
+            <Button
+              disabled={loading}
+              onClick={handleSave}
               className="bg-[#6C35A7] text-white"
             >
-              {loading ? "Saving…" : "Save Service"}
+              {loading ? "Saving…" : "Save Changes"}
             </Button>
           </div>
         </div>

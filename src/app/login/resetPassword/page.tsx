@@ -26,7 +26,8 @@ export default function ResetPassword() {
   return (
     <div className="h-screen items-center justify-center">
       <div className="bg-[#FFB049] p-2 text-white text-center fixed top-0 left-0 right-0 z-10">
-        <h1 className="font-bold text-[29px]">Logo</h1>
+        <Image
+          src="/nex.svg" alt="Nex Bookings logo" />
       </div>
       <button
         className="bg-transparent text-black shadow-none sm:hidden p-5 mt-15"

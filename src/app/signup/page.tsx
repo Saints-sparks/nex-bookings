@@ -8,31 +8,50 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { signup, SignupPayload } from "../services/auth";
 
 export default function SignUpDetailsPage() {
   const router = useRouter();
   const [agreed, setAgreed] = useState(false);
 
-  const [form, setForm] = useState({
-    companyName: "",
-    name: "",
+  const [form, setForm] = useState<SignupPayload>({
+    businessName: "",
     email: "",
+    fullName: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Ideally validate and send to backend here
-    router.push("/signup/verify"); // Go to OTP page
+    if (!agreed) {
+      setError("You must agree to the terms.");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    try {
+      await signup(form);
+      const signupData = await signup(form);
+      const userId = signupData.business.userId;
+      localStorage.setItem("nex_userId", userId);
+      router.push("/signup/details");
+    } catch (err: any) {
+      console.error(err);
+      setError(err.response?.data?.message || "Signup failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="h-screen items-center justify-center">
-      <div className="bg-[#FFB049] p-2 text-white text-center fixed top-0 left-0 right-0 z-10">
-        <h1 className="font-bold text-[29px]">Logo</h1>
+      <div className="bg-[#FFB049] p-3 text-white text-center fixed top-0 left-0 right-0 z-10 flex justify-center">
+        <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
       </div>
       <button
         className="bg-transparent text-black shadow-none sm:hidden p-5 mt-15"
@@ -51,7 +70,7 @@ export default function SignUpDetailsPage() {
               eiusmod tempor incididunt ut labore et{" "}
             </p>
           </div>
-          <form className="space-y-6" onSubmit={handleNext}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="group ">
               <label
                 htmlFor="name"
@@ -60,11 +79,11 @@ export default function SignUpDetailsPage() {
                 Company Name
               </label>
               <Input
-                id="companyName"
-                name="companyName"
-                value={form.companyName}
+                id="businessName"
+                name="businessName"
+                value={form.businessName}
                 onChange={handleChange}
-                placeholder="Sade Enterprises"
+                placeholder="Sade Enwterprises"
                 required
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
@@ -95,11 +114,11 @@ export default function SignUpDetailsPage() {
                 Enter Full Name
               </label>
               <Input
-                id="name"
-                name="name"
-                value={form.name}
+                id="fullName"
+                name="fullName"
+                value={form.fullName}
                 onChange={handleChange}
-                placeholder="Phone Number"
+                placeholder="Full Name"
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
                 required
               />
@@ -120,11 +139,13 @@ export default function SignUpDetailsPage() {
                 services.
               </label>
             </div>
+            {error && <p className="text-red-500">{error}</p>}
+
             <Button
               type="submit"
               className="w-full bg-[#6C35A7] hover:bg-purple-700 rounded-full py-7 font-medium text-[16px] mt-4"
             >
-              Sign Up
+              {loading ? "Signing Up..." : "Sign Up"}
             </Button>
           </form>
           <div className="text-center w-full">

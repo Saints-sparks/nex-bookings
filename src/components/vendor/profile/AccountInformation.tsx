@@ -20,7 +20,7 @@ export default function AccountInfo() {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full p-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {[
           { label: "Business Name", name: "businessName" },
           { label: "Email Address", name: "email" },
@@ -46,7 +46,7 @@ export default function AccountInfo() {
       </div>
       <Button
         type="submit"
-        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700"
+        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700 mt-10"
       >
         Save Changes
       </Button>

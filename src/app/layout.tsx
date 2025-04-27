@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { Alegreya_Sans } from "next/font/google";
+import { Alegreya_Sans, Inter } from "next/font/google";
 import "./globals.css";
 
 const alegreyaSans = Alegreya_Sans({
   subsets: ["latin"],
   variable: "--font-alegreya",
   weight: ["100", "300", "400", "500", "700", "800", "900"], // all available weights
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["100", "300", "400", "500", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -21,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${alegreyaSans.variable} antialiased`}
+        className={`${alegreyaSans.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>

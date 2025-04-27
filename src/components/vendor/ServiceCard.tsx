@@ -1,38 +1,56 @@
+// components/ServiceCard.tsx
 import Image from "next/image";
 import { Pen } from "lucide-react";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
-export default function ServiceCard() {
+interface ServiceCardProps {
+  id: string;
+  title: string;
+  price: number;
+  duration: number;
+  imageUrl: string;
+  onEdit: () => void;
+}
+
+export default function ServiceCard({
+  id,
+  title,
+  price,
+  duration,
+  imageUrl,
+  onEdit
+}: ServiceCardProps) {
   return (
-    <div className="rounded-xl overflow-hidden max-w-[343px] bg-white">
-      {/* Image Section */}
+    <div className="rounded-xl overflow-hidden max-w-[343px] bg-white shadow">
+      {/* Image */}
       <div className="relative">
         <Image
-          src="/images/nails.png" // replace with actual image path
-          alt="Nail Trimming"
+          src="/images/nails.png"
+          alt={title}
           width={353}
           height={174}
-          className=" h-48 object-cover"
+          className="h-48 w-full object-cover"
         />
-        {/* Duration Badge */}
-        <span className="absolute top-2 right-2 bg-yellow-400 text-sm text-black font-medium px-3 py-1 rounded-full">
-          3 Hours
+        <span className="absolute top-2 right-2 bg-yellow-400 text-[12px] font-bold px-3 py-1 rounded-full font-inter">
+          {duration} {duration === 1 ? "Hour" : "Hours"}
         </span>
       </div>
 
-      {/* Text Content */}
+      {/* Content */}
       <div className="px-4 py-3 bg-[#F2F2F2]">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-bold text-[#6C35A7]">Nail Trimming</h3>
-            <p className="font-bold text-sm mt-1">NGN 7,000</p>
+            <h3 className="font-bold text-[#6C35A7]">{title}</h3>
+            <p className="font-bold text-sm mt-1 font-inter">NGN {price.toLocaleString()}</p>
           </div>
-          <Link
-            href="/vendor/services/edit/1"
-            className="flex items-center gap-2 text-[14px] text-[#6C35A7] hover:underline font-medium"
+          <Button
+          variant="ghost"
+            onClick={onEdit}
+            className="flex items-center gap-2 text-[14px] text-[#6C35A7] hover:underline font-medium font-inter"
           >
             Edit <Pen fill="#6C35A7" size={14} />
-          </Link>
+          </Button>
         </div>
       </div>
     </div>

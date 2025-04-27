@@ -1,18 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { signin, SigninPayload } from "../services/auth";
+import api from "@/lib/api";
 
 export default function VerificationPage() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<SigninPayload>({
     email: "",
     password: "",
   });
@@ -27,10 +31,32 @@ export default function VerificationPage() {
     router.push("/login/resetPassword");
   };
 
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const { accessToken } = await signin(form);
+      // persist token and set default header
+      localStorage.setItem("nex_token", accessToken);
+      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      // redirect on success
+      router.push("/vendor/home");
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="h-screen items-center justify-center">
-      <div className="bg-[#FFB049] p-2 text-white text-center fixed top-0 left-0 right-0 z-10">
-        <h1 className="font-bold text-[29px]">Logo</h1>
+      <div className="bg-[#FFB049] p-3 text-white text-center fixed top-0 left-0 right-0 z-10 flex justify-center">
+        <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
       </div>
       <div className="flex w-full justify-between py-6 sm:py-10 px-6 gap-10 mt-16 sm:mt-10">
         <div className="flex flex-col gap-6">
@@ -43,7 +69,7 @@ export default function VerificationPage() {
               eiusmod tempor incididunt ut labore et{" "}
             </p>
           </div>
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="group">
               <label
                 htmlFor="email"
@@ -96,14 +122,12 @@ export default function VerificationPage() {
               <p className="font-bold text-[#6C3587]">Reset Password</p>
             </div>
 
-            <Link href="/vendor/home">
-              <Button
-                type="submit"
-                className="w-full bg-[#6C35A7] hover:bg-purple-700 rounded-full py-7 font-medium text-[16px] mt-4"
-              >
-                Login
-              </Button>
-            </Link>
+            <Button
+              type="submit"
+              className="w-full bg-[#6C35A7] hover:bg-purple-700 rounded-full py-7 font-medium text-[16px] mt-4"
+            >
+              Login
+            </Button>
           </form>
           <div className="text-center w-full">
             <p>

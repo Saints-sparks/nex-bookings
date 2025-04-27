@@ -127,3 +127,18 @@ body {
     @apply cursor-pointer;
   }
 }
+
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+.my-calendar :is(.rdp-day_selected) {
+  background-color: #FF6B6B;    /* your new color */
+  color: white;                 /* ensure good contrast */
+}
+
+/* you may also want to override hover, focus, etc. */
+.my-calendar :is(.rdp-day_selected):hover {
+  background-color: #E55A5A;
+}
