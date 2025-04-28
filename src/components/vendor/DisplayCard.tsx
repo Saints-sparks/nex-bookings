@@ -9,7 +9,7 @@ interface DisplayCardProps {
 
 export default function DisplayCard({ service }: DisplayCardProps) {
   return (
-    <div className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white">
+    <div className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white border border-[#E0E0E0]">
       {/* Image Section */}
       <div className="relative">
         <Image
