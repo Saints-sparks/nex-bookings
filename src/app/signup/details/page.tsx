@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { ChevronLeft, EyeIcon, EyeOffIcon } from "lucide-react";
 import Image from "next/image";
-import { completeSignup, CompleteSignupPayload } from "@/app/services/auth";
+import { completeSignup, CompleteSignupPayload, introspect } from "@/app/services/auth";
 
 export default function SignUpDetailsPage() {
   const router = useRouter();
@@ -51,8 +51,12 @@ export default function SignUpDetailsPage() {
         phoneNumber: form.phoneNumber,
         industry: form.industry,
       };
-      const { business } = await completeSignup(payload);
+       await completeSignup(payload);
+       const { user, business } = await introspect()
+       localStorage.setItem("nex_businessName", business.businessName);
+      localStorage.setItem("nex_user", JSON.stringify(user));
       localStorage.setItem("nex_businessId", business.id);
+      
       // on success, redirect to vendor home or dashboard
       router.push("/vendor/home");
     } catch (err: any) {
