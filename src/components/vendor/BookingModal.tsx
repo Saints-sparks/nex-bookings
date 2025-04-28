@@ -9,7 +9,6 @@ import {
 import { Calendar } from "../ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
 import { createBooking } from "@/app/services/bookings";
 
 interface BookingModalProps {

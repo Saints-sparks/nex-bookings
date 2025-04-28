@@ -9,7 +9,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { introspect, signin, SigninPayload } from "../services/auth";
 import api from "@/lib/api";
-import { Business, getBusinessByUser } from "../services/business";
 
 export default function VerificationPage() {
   const router = useRouter();
