@@ -13,7 +13,7 @@ export default function DisplayCard({ service }: DisplayCardProps) {
       {/* Image Section */}
       <div className="relative">
         <Image
-          src="/images/nails.png" // replace with actual image path
+          src={service.imageUrl} // replace with actual image path
           alt="Nail Trimming"
           width={353}
           height={174}

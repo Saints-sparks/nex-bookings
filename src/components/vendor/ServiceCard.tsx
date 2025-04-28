@@ -24,11 +24,11 @@ export default function ServiceCard({
       {/* Image */}
       <div className="relative">
         <Image
-          src="/images/nails.png"
+          src={imageUrl || "/images/nails.png"}
           alt={title}
           width={353}
           height={174}
-          className="h-48 w-full object-cover"
+          className="h-48 object-cover"
         />
         <span className="absolute top-2 right-2 bg-yellow-400 text-[12px] font-bold px-3 py-1 rounded-full font-inter">
           {duration} {duration === 1 ? "Hour" : "Hours"}

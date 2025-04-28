@@ -81,7 +81,7 @@ export default function Profile() {
                 <h1 className="text-[#6C35A7] font-bold text-3xl">
                   {businessName || "Your Business"}
                 </h1>
-                <p className="font-medium">+234 567 335 2349</p>
+                <p className="font-medium">{user.phoneNumber}</p>
               </div>
             </div>
 

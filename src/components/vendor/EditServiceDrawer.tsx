@@ -1,12 +1,30 @@
 "use client";
 
 import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { File } from "lucide-react";
+import { File as FileIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { deleteService, Service, updateService } from "@/app/services/service";
 import Image from "next/image";
+
+// -------- Cloudinary upload helper (unsigned) --------
+async function uploadToCloudinary(file: File): Promise<string> {
+  const cloudName = "YOUR_CLOUD_NAME"; // ← replace
+  const uploadPreset = "YOUR_UPLOAD_PRESET"; // ← replace
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", uploadPreset);
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    { method: "POST", body: formData }
+  );
+  if (!res.ok) throw new Error("Upload failed");
+  const data = await res.json();
+  return data.secure_url as string;
+}
 
 interface Props {
   open: boolean;
@@ -28,9 +46,10 @@ export function EditServiceDrawer({
     imageUrl: "",
   });
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
-  // Prefill when `service` changes
+  // 1) Prefill form when `service` prop changes
   useEffect(() => {
     if (service) {
       setForm({
@@ -42,9 +61,28 @@ export function EditServiceDrawer({
     }
   }, [service]);
 
+  // 2) Handle text inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
+  // 3) Handle file selection & Cloudinary upload
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setError("");
+    try {
+      const url = await uploadToCloudinary(file);
+      setForm((p) => ({ ...p, imageUrl: url }));
+    } catch (err: any) {
+      console.error(err);
+      setError("Image upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // 4) Save updates
   const handleSave = async () => {
     if (!service) return;
     setError("");
@@ -65,6 +103,7 @@ export function EditServiceDrawer({
     }
   };
 
+  // 5) Delete service
   const handleDelete = async () => {
     if (!service) return;
     setError("");
@@ -91,25 +130,48 @@ export function EditServiceDrawer({
           </div>
 
           <div className="p-6 flex-1 overflow-y-auto space-y-4">
-            {/* Image URL */}
-            <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center">
-              <File size={32} className="mx-auto mb-2" />
-              <p>Current Image:</p>
-              <Image
-                src={form.imageUrl}
-                alt="Service"
-                className="mx-auto h-24 object-contain"
+            {/* --- Image Upload / Preview --- */}
+            <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center flex flex-col items-center">
+              <div className="flex mb-2 items-center justify-start mx-auto">
+                <div className="">
+                  <FileIcon size={32} className="mx-auto mb-2" />
+                  <p>Current Image:</p>
+                </div>
+                {form.imageUrl && (
+                  <Image
+                    src={form.imageUrl}
+                    width={100}
+                    height={100}
+                    alt="Service"
+                    className="h-24 object-contain"
+                  />
+                )}
+              </div>
+
+              <p className="font-bold text-black">
+                Drag & drop files or{" "}
+                <label
+                  htmlFor="file-upload"
+                  className="text-[#6C35A7] cursor-pointer"
+                >
+                  Browse
+                </label>
+              </p>
+              <p className="text-sm text-[#807E7E]">
+                Supported format: JPG, PNG. Make sure the files are not too
+                large.
+              </p>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleFile}
+                className="hidden"
               />
-              <Input
-                name="imageUrl"
-                placeholder="Image URL"
-                value={form.imageUrl}
-                onChange={handleChange}
-                className="mt-2"
-              />
+              {uploading && <p className="text-sm mt-2">Uploading…</p>}
             </div>
 
-            {/* Title, Price, Duration */}
+            {/* --- Title, Price, Duration --- */}
             {["title", "price", "duration"].map((field) => (
               <div key={field} className="group">
                 <label htmlFor={field} className="text-[#807E7E] font-medium">
@@ -130,6 +192,7 @@ export function EditServiceDrawer({
             {error && <p className="text-red-500">{error}</p>}
           </div>
 
+          {/* --- Actions --- */}
           <div className="px-6 py-4 border-t flex justify-between">
             <Button
               disabled={loading}
@@ -139,7 +202,7 @@ export function EditServiceDrawer({
               {loading ? "Deleting…" : "Delete Service"}
             </Button>
             <Button
-              disabled={loading}
+              disabled={loading || uploading}
               onClick={handleSave}
               className="bg-[#6C35A7] text-white"
             >

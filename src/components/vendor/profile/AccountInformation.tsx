@@ -6,14 +6,14 @@ import { useState } from "react";
 
 interface AccountInfoProps {
   businessName: string;
-  user: {email: string; fullName: string; id: string};
+  user: {email: string; fullName: string; id: string; phoneNumber: string};
 }
 
 export default function AccountInfo({ businessName, user }: AccountInfoProps) {
   const currentUser = {
     businessName,
     email: user.email,
-    phone: "+234 801 234 5678",
+    phone: user.phoneNumber,
     name: user.fullName,
   };
 

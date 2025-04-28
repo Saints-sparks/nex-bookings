@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { signin, SigninPayload } from "../services/auth";
+import { introspect, signin, SigninPayload } from "../services/auth";
 import api from "@/lib/api";
 import { Business, getBusinessByUser } from "../services/business";
 
@@ -38,12 +38,12 @@ export default function VerificationPage() {
     setLoading(true);
 
     try {
-      const { accessToken, user } = await signin(form);
+      const { accessToken } = await signin(form);
       // persist token and set default header
       localStorage.setItem("nex_token", accessToken);
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      const {user, business} = await introspect()
       // Fetch business for this user
-      const business: Business = await getBusinessByUser(user.id);
       localStorage.setItem("nex_businessId", business.id);
       localStorage.setItem("nex_businessName", business.businessName);
       localStorage.setItem("nex_user", JSON.stringify(user));

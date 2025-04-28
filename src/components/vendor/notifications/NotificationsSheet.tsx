@@ -49,11 +49,11 @@ export default function NotificationsSheet() {
 
         <div className="space-y-4 overflow-y-auto">
           {loading && <p>Loading…</p>}
-          {!loading && bookings.length === 0 && (
+          {!loading && (!bookings || bookings.length === 0) && (
             <p className="text-center text-gray-500">No bookings yet.</p>
           )}
 
-          {bookings.map((b) => {
+          {bookings?.map((b) => {
             const { service, appointmentDate, time, customerPhoneNumber } = b;
             const date = format(new Date(appointmentDate), "d MMMM yyyy");
 

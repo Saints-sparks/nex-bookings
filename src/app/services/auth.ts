@@ -15,19 +15,19 @@ export interface CompleteSignupPayload {
 }
 
 export interface CompleteSignupResponse {
-    user: {
-      id: string;
-      email: string;
-      fullName: string;
-      subscription?: string;
-    };
-    business: {
-      id: string;
-      userId: string;
-      businessName: string;
-      logo?: string;
-    };
-  }
+  user: {
+    id: string;
+    email: string;
+    fullName: string;
+    subscription?: string;
+  };
+  business: {
+    id: string;
+    userId: string;
+    businessName: string;
+    logo?: string;
+  };
+}
 
 export interface SigninPayload {
   email: string;
@@ -44,17 +44,40 @@ export interface SigninResponse {
   };
 }
 
+export interface IntrospectResponse {
+  user: {
+    id: string;
+    email: string;
+    fullName: string;
+    phoneNumber: string;
+  };
+  business: {
+    id: string;
+    userId: string;
+    businessName: string;
+    industry: string;
+  };
+}
+
 export async function signup(data: SignupPayload) {
   const res = await api.post("/auth/signup", data);
   return res.data;
 }
 
-export async function completeSignup(data: CompleteSignupPayload): Promise<CompleteSignupResponse> {
+export async function completeSignup(
+  data: CompleteSignupPayload
+): Promise<CompleteSignupResponse> {
   const res = await api.post("/auth/complete-signup", data);
   return res.data;
 }
 
 export async function signin(data: SigninPayload): Promise<SigninResponse> {
   const res = await api.post<SigninResponse>("/auth/signin", data);
+  return res.data;
+}
+
+export async function introspect(): Promise<IntrospectResponse> {
+  const res = await api.get<IntrospectResponse>("/auth/introspect");
+  console.log(res.data);
   return res.data;
 }
