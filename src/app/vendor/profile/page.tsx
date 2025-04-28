@@ -96,7 +96,7 @@ export default function Profile() {
 
           {/* Tabs */}
           <div className="bg-white w-full p-2 border-y border-[#CBCACA] overflow-x-auto">
-            <div className="flex gap-4 px-6">
+            <div className="flex justify-between px-6">
               {tabs.map((tab) => {
                 const isActive = selectedTab === tab.label;
                 return (
