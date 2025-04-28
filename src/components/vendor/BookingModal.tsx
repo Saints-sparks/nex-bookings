@@ -10,6 +10,7 @@ import { Calendar } from "../ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createBooking } from "@/app/services/bookings";
+import { toast } from "sonner";
 
 interface BookingModalProps {
   trigger: React.ReactNode;
@@ -66,6 +67,7 @@ export const BookingModal: FC<BookingModalProps> = ({ trigger, serviceId }) => {
       });
 
       setOpen(false);
+      toast.success("Booking sent successfully!");
     } catch (err: any) {
       setError(err.message || "Failed to send booking.");
     } finally {

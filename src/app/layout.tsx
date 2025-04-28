@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Alegreya_Sans, Inter } from "next/font/google";
+import { Toaster } from 'sonner';
 import "./globals.css";
 
 const alegreyaSans = Alegreya_Sans({
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body
         className={`${alegreyaSans.variable} ${inter.variable} antialiased`}
       >
+        <Toaster richColors position="top-right" />
         {children}
       </body>
     </html>
