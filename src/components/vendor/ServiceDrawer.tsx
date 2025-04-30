@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { createService, CreateServicePayload } from "@/app/services/service";
 import Image from "next/image";
+import { Down } from "../Icons";
 
 // 👉 helper to do unsigned, client‐side Cloudinary uploads
 async function uploadToCloudinary(file: File): Promise<string> {
@@ -138,34 +139,85 @@ export function ServiceDrawer({
               )}
             </div>
 
-            {/* title, price, duration */}
-            {["title", "price", "duration"].map((field) => (
-              <div key={field} className="group">
-                <label htmlFor={field} className="text-[#807E7E] font-medium">
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </label>
+            <div className="group">
+              <label htmlFor="title" className="text-[#807E7E] font-medium">
+                Service Title
+              </label>
+              <Input
+                id="title"
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+                placeholder="Barbing"
+                required
+                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+              />
+            </div>
+            <div className="group">
+              <label htmlFor="price" className="text-[#807E7E] font-medium">
+                Price
+              </label>
+              <Input
+                id="price"
+                name="price"
+                value={form.price}
+                onChange={handleChange}
+                placeholder="0"
+                required
+                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+              />
+            </div>
+            <div className="group">
+              <label htmlFor="duration" className="text-[#807E7E] font-medium">
+                Duration
+              </label>
+              <div className="mt-2 flex gap-2">
                 <Input
-                  id={field}
-                  name={field}
-                  value={(form as any)[field]}
+                  id="duration"
+                  name="duration"
+                  type="number"
+                  value={form.duration}
                   onChange={handleChange}
-                  placeholder={field === "title" ? "Barbing" : "0"}
+                  placeholder="0"
                   required
-                  className="mt-2"
+                  className="flex-1 p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
                 />
+                <div className="flex px-3 items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]">
+                  <select
+                    id="durationType"
+                    name="durationType"
+                    // value={form.durationType}
+                    // onChange={handleChange}
+                    className="appearance-none  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                  >
+                    <option value="hours">Hours</option>
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                  </select>
+                  <Down />
+                  <div className=""></div>
+                </div>
               </div>
-            ))}
+            </div>
 
             {error && <p className="text-red-500">{error}</p>}
           </div>
 
-          <div className="px-6 py-4 border-t flex justify-end">
+          <div className="px-6 py-4 border-t flex justify-between gap-2">
             <Button
               disabled={loading || uploading}
               onClick={handleSubmit}
-              className="bg-[#6C35A7] text-white"
+              className="bg-[#6C35A7] text-white w-1/2 rounded-full py-6"
             >
               {loading ? "Saving…" : "Save Service"}
+            </Button>
+            <Button
+              disabled={loading}
+              onClick={() => onOpenChange(false)}
+              className="text-red-500 bg-transparent w-1/2 rounded-full py-6 hover:bg-red-100"
+            >
+              Cancel
             </Button>
           </div>
         </div>

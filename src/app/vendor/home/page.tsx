@@ -53,7 +53,8 @@ export default function VendorHome() {
               {businessName || "Your Business"}
             </h1>
             <p className="font-inter text-[13px] md:text-[18px] leading-[24px] md:leading-[34px] font-medium max-w-[487px]">
-            Showcase your expertise online, making it simple for customers to instantly access your service details
+              Showcase your expertise online, making it simple for customers to
+              instantly access your service details
             </p>
           </div>
           <div className="flex gap-3 hidden sm:flex">
@@ -82,7 +83,12 @@ export default function VendorHome() {
           >
             Add Service
           </Button>
-          <Link className="w-1/2 text-[16px] " href={`/vendor/${businessId}`}>
+          <Link
+            className="w-1/2 text-[16px]"
+            href={`/vendor/${businessId}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <Button className="bg-[#FFB049] text-[16px] p-6 font-500 rounded-full w-full">
               View Website
             </Button>

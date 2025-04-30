@@ -1,12 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  CircleUserRound,
-  CreditCard,
-  Globe,
-  Pencil,
-  Settings,
-} from "lucide-react";
+import { Pencil } from "lucide-react";
 import VendorNavbar from "@/components/vendor/NavBar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -15,6 +9,7 @@ import AccountInfo from "@/components/vendor/profile/AccountInformation";
 import WebsiteSettings from "@/components/vendor/profile/WebsiteSettings";
 import Subscriptions from "@/components/vendor/profile/Subscriptions";
 import AccountSettings from "@/components/vendor/profile/AccountSettings";
+import { Account, Card, Globe, Settings } from "@/components/Icons";
 
 export default function Profile() {
   const router = useRouter();
@@ -24,13 +19,13 @@ export default function Profile() {
   const tabs = [
     {
       label: "Account Information",
-      icon: <CircleUserRound className="text-[#6C35A7]" />,
+      icon: <Account />,
     },
-    { label: "Website Settings", icon: <Globe className="text-[#6C35A7]" /> },
-    { label: "Subscriptions", icon: <CreditCard className="text-[#6C35A7]" /> },
+    { label: "Website Settings", icon: <Globe /> },
+    { label: "Subscriptions", icon: <Card /> },
     {
       label: "Account Settings",
-      icon: <Settings className="text-[#6C35A7]" />,
+      icon: <Settings />,
     },
   ];
 

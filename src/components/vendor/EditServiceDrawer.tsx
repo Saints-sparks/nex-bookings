@@ -1,12 +1,13 @@
 "use client";
 
-import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { File as FileIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
 import { deleteService, Service, updateService } from "@/app/services/service";
 import Image from "next/image";
+import { Down } from "../Icons";
 
 // -------- Cloudinary upload helper (unsigned) --------
 async function uploadToCloudinary(file: File): Promise<string> {
@@ -122,6 +123,9 @@ export function EditServiceDrawer({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full lg:max-w-[500px] p-0">
+      <SheetTitle asChild>
+          <span className="sr-only">Edit Service</span>
+        </SheetTitle>
         <div className="flex flex-col h-full bg-white">
           <div className="px-6 py-4 border-b flex justify-between items-center">
             <h2 className="text-xl font-semibold text-[#6C35A7]">
@@ -133,10 +137,7 @@ export function EditServiceDrawer({
             {/* --- Image Upload / Preview --- */}
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center flex flex-col items-center">
               <div className="flex mb-2 items-center justify-start mx-auto">
-                <div className="">
-                  <FileIcon size={32} className="mx-auto mb-2" />
-                  <p>Current Image:</p>
-                </div>
+               
                 {form.imageUrl && (
                   <Image
                     src={form.imageUrl}
@@ -172,41 +173,87 @@ export function EditServiceDrawer({
             </div>
 
             {/* --- Title, Price, Duration --- */}
-            {["title", "price", "duration"].map((field) => (
-              <div key={field} className="group">
-                <label htmlFor={field} className="text-[#807E7E] font-medium">
-                  {field.charAt(0).toUpperCase() + field.slice(1)}
-                </label>
+            <div className="group">
+              <label htmlFor="title" className="text-[#807E7E] font-medium">
+                Service Title
+              </label>
+              <Input
+                id="title"
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+                placeholder="Barbing"
+                required
+                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+              />
+            </div>
+            <div className="group">
+              <label htmlFor="price" className="text-[#807E7E] font-medium">
+                Price
+              </label>
+              <Input
+                id="price"
+                name="price"
+                value={form.price}
+                onChange={handleChange}
+                placeholder="0"
+                required
+                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+              />
+            </div>
+            <div className="group">
+              <label htmlFor="duration" className="text-[#807E7E] font-medium">
+                Duration
+              </label>
+              <div className="mt-2 flex gap-2">
                 <Input
-                  id={field}
-                  name={field}
-                  value={(form as any)[field]}
+                  id="duration"
+                  name="duration"
+                  type="number"
+                  value={form.duration}
                   onChange={handleChange}
-                  placeholder={field === "title" ? "Service Title" : "0"}
+                  placeholder="0"
                   required
-                  className="mt-2"
+                  className="flex-1 p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
                 />
+                <div className="flex px-3 items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]">
+                  <select
+                    id="durationType"
+                    name="durationType"
+                    // value={form.durationType}
+                    // onChange={handleChange}
+                    className="appearance-none  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                  >
+                    <option value="hours">Hours</option>
+                    <option value="days">Days</option>
+                    <option value="weeks">Weeks</option>
+                    <option value="months">Months</option>
+                  </select>
+                  <Down />
+                  <div className=""></div>
+                </div>
               </div>
-            ))}
+            </div>
 
             {error && <p className="text-red-500">{error}</p>}
           </div>
 
           {/* --- Actions --- */}
-          <div className="px-6 py-4 border-t flex justify-between">
-            <Button
-              disabled={loading}
-              onClick={handleDelete}
-              className="text-red-500 bg-transparent"
-            >
-              {loading ? "Deleting…" : "Delete Service"}
-            </Button>
+          <div className="px-6 py-4 border-t flex justify-between gap-2">
+            
             <Button
               disabled={loading || uploading}
               onClick={handleSave}
-              className="bg-[#6C35A7] text-white"
+              className="bg-[#6C35A7] text-white w-1/2 rounded-full py-6"
             >
               {loading ? "Saving…" : "Save Changes"}
+            </Button>
+            <Button
+              disabled={loading}
+              onClick={handleDelete}
+              className="text-red-500 bg-transparent w-1/2 rounded-full py-6 hover:bg-red-100"
+            >
+              {loading ? "Deleting…" : "Delete Service"}
             </Button>
           </div>
         </div>

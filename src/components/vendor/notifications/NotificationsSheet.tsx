@@ -41,7 +41,7 @@ export default function NotificationsSheet() {
 
       <SheetContent
         side="right"
-        className="w-full lg:max-w-[520px] xl:max-w-[630px] p-4"
+        className="w-full lg:max-w-[520px] xl:max-w-[590px]  p-4"
       >
         <SheetHeader>
           <SheetTitle className="text-[#6C35A7] text-[22px] sm:text-[24px]">
@@ -52,7 +52,15 @@ export default function NotificationsSheet() {
         <div className="space-y-4 overflow-y-auto">
           {loading && <p>Loading…</p>}
           {!loading && (!bookings || bookings.length === 0) && (
-            <p className="text-center text-gray-500">No bookings yet.</p>
+            <div className="flex flex-col gap-10 justify-center items-center">
+             <Image
+                      src="/empty.svg"
+                      alt="No services available"
+                      width={429}
+                      height={373}
+                    />
+            <p className="text-center max-w-[343px] md:max-w-[487px] font-inter text-[13px] md:text-[18px] leading-[28px] md:leading-[34px]">You have not received any notifications yet, Share your website link to get started</p>
+            </div>
           )}
 
           {bookings?.map((b) => {
@@ -68,7 +76,7 @@ export default function NotificationsSheet() {
                 <div className="flex bg-[#F2F2F2] p-4 items-center justify-between">
                   <div className="flex gap-4">
                     <Image
-                      src="/images/nails.png" // replace with actual image path
+                      src={service.imageUrl} // replace with actual image path
                       alt={service.title}
                       width={56}
                       height={56}
@@ -78,7 +86,7 @@ export default function NotificationsSheet() {
                       <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
                         {service.title}
                       </h2>
-                      <p className="text-[12px] sm:text-[14px]">
+                      <p className="text-[12px] sm:text-[14px] font-inter">
                         NGN {service.price.toLocaleString()}
                       </p>
                     </div>
@@ -94,7 +102,7 @@ export default function NotificationsSheet() {
                     <h3 className="text-[14px] sm:text-[17px] font-medium">
                       Date
                     </h3>
-                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
+                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold font-inter">
                       {date}
                     </p>
                   </div>
@@ -102,7 +110,7 @@ export default function NotificationsSheet() {
                     <h3 className="text-[14px] sm:text-[17px] font-medium">
                       Time
                     </h3>
-                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
+                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold font-inter">
                       {time}
                     </p>
                   </div>
@@ -110,7 +118,7 @@ export default function NotificationsSheet() {
                     <h3 className="text-[14px] sm:text-[17px] font-medium">
                       Contact
                     </h3>
-                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold">
+                    <p className="text-[#6C35A7] text-[11px] sm:text-[14px] font-bold font-inter">
                       {customerPhoneNumber}
                     </p>
                   </div>

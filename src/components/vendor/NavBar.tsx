@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NotificationsSheet from "./notifications/NotificationsSheet";
 import Image from "next/image";
-import { HomeIcon, Profile } from "../Icons";
+import { HomeIcon, ProfileIcon } from "../Icons";
 
 export default function VendorNavbar() {
   const pathname = usePathname();
@@ -46,7 +46,7 @@ export default function VendorNavbar() {
               isActive("/vendor/profile") ? "text-[#6C35A7]" : "text-[#807E7E]"
             }`}
           >
-            <Profile isActive={isActive("/vendor/profile")} />
+            <ProfileIcon isActive={isActive("/vendor/profile")} />
             <p className="hidden sm:block">Profile</p>
             {isActive("/vendor/profile") && (
               <span className="absolute -bottom-1 h-2 w-2 bg-[#6C35A7] rounded-full" />
