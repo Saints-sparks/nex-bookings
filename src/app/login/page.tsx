@@ -41,7 +41,7 @@ export default function VerificationPage() {
       // persist token and set default header
       localStorage.setItem("nex_token", accessToken);
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-      const {user, business} = await introspect()
+      const { user, business } = await introspect();
       // Fetch business for this user
       localStorage.setItem("nex_businessId", business.id);
       localStorage.setItem("nex_businessName", business.businessName);
@@ -70,7 +70,7 @@ export default function VerificationPage() {
               Login To Your Account
             </h2>
             <p className="leading-[34px] text-sm sm:text-[17px] font-medium font-inter">
-            Manage Your Digital Service Cards & Connect With More Customers{" "}
+              Manage Your Digital Service Cards & Connect With More Customers{" "}
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -147,7 +147,7 @@ export default function VerificationPage() {
         </div>
 
         <div className="hidden sm:block">
-          <Image src="/images/signup.png" width={573} height={645} alt=""  />
+          <Image src="/images/signup.png" width={573} height={645} alt="" />
         </div>
       </div>
     </div>

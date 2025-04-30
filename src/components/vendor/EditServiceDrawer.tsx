@@ -122,7 +122,7 @@ export function EditServiceDrawer({
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="w-full lg:max-w-[500px] p-0">
-      <SheetTitle asChild>
+        <SheetTitle asChild>
           <span className="sr-only">Edit Service</span>
         </SheetTitle>
         <div className="flex flex-col h-full bg-white">
@@ -136,7 +136,6 @@ export function EditServiceDrawer({
             {/* --- Image Upload / Preview --- */}
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center flex flex-col items-center">
               <div className="flex mb-2 items-center justify-start mx-auto">
-               
                 {form.imageUrl && (
                   <Image
                     src={form.imageUrl}
@@ -239,7 +238,6 @@ export function EditServiceDrawer({
 
           {/* --- Actions --- */}
           <div className="px-6 py-4 border-t flex justify-between gap-2">
-            
             <Button
               disabled={loading || uploading}
               onClick={handleSave}

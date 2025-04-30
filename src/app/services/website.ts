@@ -1,7 +1,8 @@
 import api from "@/lib/api";
 
 export interface WebsiteSettings {
-  id: string;            // businessId
+  businessId: string;
+  id: string;
   header: string;
   tagline: string;
   instagramLink: string;
@@ -9,7 +10,7 @@ export interface WebsiteSettings {
 }
 
 export interface CreateWebsiteSettingsPayload {
-  id: string;            // businessId
+  businessId: string;
   header: string;
   tagline: string;
   instagramLink: string;
@@ -17,8 +18,12 @@ export interface CreateWebsiteSettingsPayload {
 }
 
 // 1️⃣ Fetch existing settings
-export async function getWebsiteSettings(id: string): Promise<WebsiteSettings> {
-  const res = await api.get<WebsiteSettings>(`/website-settings/${id}`);
+export async function getWebsiteSettingsByBusiness(
+  businessId: string
+): Promise<WebsiteSettings> {
+  const res = await api.get<WebsiteSettings>(
+    `/website-settings/business/${businessId}`
+  );
   return res.data;
 }
 

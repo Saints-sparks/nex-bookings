@@ -2,7 +2,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  getWebsiteSettingsByBusiness,
+  createWebsiteSettings,
+  updateWebsiteSettings,
+  WebsiteSettings as WS,
+  CreateWebsiteSettingsPayload,
+} from "@/app/services/website";
+import { toast } from "sonner";
 
 export default function WebsiteSettings() {
   const currentUser = {
@@ -12,10 +20,78 @@ export default function WebsiteSettings() {
     facebook: "facebook.com",
   };
 
-  const [formData, setFormData] = useState(currentUser);
+  const [formData, setFormData] = useState<CreateWebsiteSettingsPayload>({
+    businessId: "",
+    header: "",
+    tagline: "",
+    instagramLink: "",
+    facebookLink: "",
+  });
+  const [settingsId, setSettingsId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const businessId = localStorage.getItem("nex_businessId");
+    if (!businessId) {
+      setError("No business selected.");
+      setLoading(false);
+      return;
+    }
+
+    getWebsiteSettingsByBusiness(businessId)
+      .then((data: WS) => {
+        setFormData({
+          businessId: data.businessId,
+          header: data.header,
+          tagline: data.tagline,
+          instagramLink: data.instagramLink,
+          facebookLink: data.facebookLink,
+        });
+        setSettingsId(data.id);
+      })
+      .catch((err) => {
+        if (err.response?.status === 404) {
+          // No settings yet — start with a blank form
+          setFormData((f) => ({ ...f, businessId }));
+        } else {
+          setError(err.message || "Failed to load settings.");
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    setError("");
+    try {
+      if (settingsId) {
+        // update
+        await updateWebsiteSettings(settingsId, {
+          businessId: formData.businessId,
+          header: formData.header,
+          tagline: formData.tagline,
+          instagramLink: formData.instagramLink,
+          facebookLink: formData.facebookLink,
+        });
+        toast.success("Settings Updates Successfully!");
+      } else {
+        // create
+        const created = await createWebsiteSettings(formData);
+        setSettingsId(created.id);
+        toast.success("Settings Created Successfully!");
+      }
+      // optional: show a toast here
+    } catch (err: any) {
+      setError(err.message || "Failed to save settings.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -24,8 +100,8 @@ export default function WebsiteSettings() {
         {[
           { label: "Edit Header Here", name: "header" },
           { label: "Edit Tagline Here", name: "tagline" },
-          { label: "Enter Instagram Profile Link", name: "instagram" },
-          { label: "Enter Facebook profile Link", name: "facebook" },
+          { label: "Enter Instagram Profile Link", name: "instagramLink" },
+          { label: "Enter Facebook profile Link", name: "facebookLink" },
         ].map((field) => (
           <div key={field.name} className="flex flex-col gap-2 group">
             <Label
@@ -46,9 +122,10 @@ export default function WebsiteSettings() {
       </div>
       <Button
         type="submit"
+        onClick={handleSave}
         className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700 mt-10"
       >
-        Save Changes
+        {saving ? "Saving…" : "Save Changes"}
       </Button>
     </div>
   );

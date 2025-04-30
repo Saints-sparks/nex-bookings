@@ -52,13 +52,16 @@ export default function NotificationsSheet() {
           {loading && <p>Loading…</p>}
           {!loading && (!bookings || bookings.length === 0) && (
             <div className="flex flex-col gap-10 justify-center items-center">
-             <Image
-                      src="/empty.svg"
-                      alt="No services available"
-                      width={347}
-                      height={301}
-                    />
-            <p className="text-center max-w-[343px] md:max-w-[487px] font-inter text-[13px] md:text-[18px] leading-[28px] md:leading-[34px]">You have not received any notifications yet, Share your website link to get started</p>
+              <Image
+                src="/empty.svg"
+                alt="No services available"
+                width={347}
+                height={301}
+              />
+              <p className="text-center max-w-[343px] md:max-w-[487px] font-inter text-[13px] md:text-[18px] leading-[28px] md:leading-[34px]">
+                You have not received any notifications yet, Share your website
+                link to get started
+              </p>
             </div>
           )}
 
