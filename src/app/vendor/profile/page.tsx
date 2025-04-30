@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
 import VendorNavbar from "@/components/vendor/NavBar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -9,7 +8,7 @@ import AccountInfo from "@/components/vendor/profile/AccountInformation";
 import WebsiteSettings from "@/components/vendor/profile/WebsiteSettings";
 import Subscriptions from "@/components/vendor/profile/Subscriptions";
 import AccountSettings from "@/components/vendor/profile/AccountSettings";
-import { Account, Card, Globe, Settings } from "@/components/Icons";
+import { Account, Card, Globe, Settings, Pencil } from "@/components/Icons";
 
 export default function Profile() {
   const router = useRouter();
@@ -57,33 +56,32 @@ export default function Profile() {
       <div className="flex flex-col justify-center max-w-[1000px] mx-auto mt-20">
         {/* Top Section */}
         <div className="flex flex-col p-6 sm:p-10 gap-4">
-          <div className="flex items-center w-full justify-between">
+          <div className="flex flex-col md:flex-row items-center w-full justify-between">
             {/* avatar + name */}
             <div className="flex flex-col sm:flex-row gap-10 items-center text-center sm:text-left">
-              <div className="relative w-fit">
-                <Image
-                  src="/images/shola.png"
-                  alt="Profile"
-                  width={180}
-                  height={180}
-                  className="shadow-2xl rounded-3xl"
-                />
+              <div className="relative">
+                {/* Placeholder upload box */}
+                <div className="w-33 h-33  md:w-57 md:h-57 bg-[#F2F2F2] rounded-3xl flex items-center justify-center text-[23px] text-[#6C35A7] font-bold">
+                  Upload Photo
+                </div>
                 <div className="absolute -bottom-2 -right-2 bg-[#FFB049] rounded-full p-2 shadow-md cursor-pointer hover:bg-gray-100 transition">
-                  <Pencil fill="#6C35A7" className="w-4 h-4" />
+                  <Pencil />
                 </div>
               </div>
               <div className="flex flex-col gap-3">
                 <h1 className="text-[#6C35A7] font-bold text-3xl">
                   {businessName || "Your Business"}
                 </h1>
-                <p className="font-medium">{user.phoneNumber}</p>
+                <p className="font-medium font-inter text-[13px] md:text-[17px]">
+                  {user.phoneNumber}
+                </p>
               </div>
             </div>
 
             {/* Log Out */}
             <Button
               onClick={handleLogout}
-              className="bg-red-500 text-white text-[16px] p-4 rounded-full hover:bg-red-600"
+              className="bg-red-500 text-white text-[16px] p-6 rounded-full hover:bg-red-600 mt-5 sm:mt-0"
             >
               Log Out
             </Button>

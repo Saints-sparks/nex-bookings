@@ -55,8 +55,8 @@ export default function NotificationsSheet() {
              <Image
                       src="/empty.svg"
                       alt="No services available"
-                      width={429}
-                      height={373}
+                      width={347}
+                      height={301}
                     />
             <p className="text-center max-w-[343px] md:max-w-[487px] font-inter text-[13px] md:text-[18px] leading-[28px] md:leading-[34px]">You have not received any notifications yet, Share your website link to get started</p>
             </div>
