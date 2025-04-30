@@ -2,6 +2,7 @@ import { getServicesByBusiness, Service } from "@/app/services/service";
 import ServiceCard from "@/components/vendor/ServiceCard";
 import { useEffect, useState } from "react";
 import SkeletonCard from "./SkeletonCard";
+import Image from "next/image";
 
 export default function VendorServices({
   onEdit,
@@ -43,6 +44,21 @@ export default function VendorServices({
     );
   }
   if (error) return <p className="p-6 text-red-500">{error}</p>;
+  if (!loading && services.length === 0) {
+    return (
+      <section className="p-6 text-center text-black flex flex-col gap-10 justify-center items-center">
+        <Image
+          src="/empty.svg"
+          alt="No services available"
+          width={429}
+          height={373}
+        />
+        <p className="max-w-[487px] text-[13px] md:text-[20px] leading-[28px] md:leading-[34px] font-inter font-medium">
+          You have not created any service yet, Add Service to get started
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className=" justify-center items-center mx-auto">

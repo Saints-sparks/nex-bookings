@@ -74,15 +74,15 @@ export default function SignUpDetailsPage() {
       >
         <ChevronLeft size={20} />
       </button>
-      <div className="flex w-full justify-between sm:py-10 px-6 gap-10 sm:mt-10">
-        <div className="flex flex-col gap-6">
+      <div className="flex w-full justify-around sm:pt-15 px-6 gap-10 sm:mt-10">
+        <div className="flex flex-col gap-6 max-w-[529px]">
           <div className="">
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
               Finish Sign Up
             </h2>
             <p className="leading-[34px] text-[17px] font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et{" "}
+              Almost Done with Registration, Enter Details Below to Finish
+              registration{" "}
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleNext}>
@@ -176,7 +176,7 @@ export default function SignUpDetailsPage() {
         </div>
 
         <div className="hidden sm:block">
-          <Image src="/images/signup.png" width={684} height={723} alt="" />
+          <Image src="/images/signup.png" width={573} height={645} alt="" />
         </div>
       </div>
     </div>

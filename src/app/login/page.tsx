@@ -63,15 +63,14 @@ export default function VerificationPage() {
       <div className="bg-[#FFB049] p-3 text-white text-center fixed top-0 left-0 right-0 z-10 flex justify-center">
         <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
       </div>
-      <div className="flex w-full justify-between py-6 sm:py-10 px-6 gap-10 mt-16 sm:mt-10">
-        <div className="flex flex-col gap-6">
+      <div className="flex w-full justify-around px-3 py-6 sm:py-0 sm:pt-20  gap-10 mt-16 sm:mt-10">
+        <div className="flex flex-col gap-6 max-w-[529px]">
           <div className="">
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
               Login To Your Account
             </h2>
-            <p className="leading-[34px] text-sm sm:text-[17px] font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et{" "}
+            <p className="leading-[34px] text-sm sm:text-[17px] font-medium font-inter">
+            Manage Your Digital Service Cards & Connect With More Customers{" "}
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -148,7 +147,7 @@ export default function VerificationPage() {
         </div>
 
         <div className="hidden sm:block">
-          <Image src="/images/signup.png" width={684} height={723} alt="" />
+          <Image src="/images/signup.png" width={573} height={645} alt=""  />
         </div>
       </div>
     </div>

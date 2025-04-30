@@ -139,10 +139,10 @@ export const BookingModal: FC<BookingModalProps> = ({ trigger, serviceId }) => {
                 htmlFor="name"
                 className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
               >
-                Full Name 
+                Full Name (optional)
               </label>
               <Input
-                placeholder="Full Name "
+                placeholder="Full Name (optional)"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="p-5 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"

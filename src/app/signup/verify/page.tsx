@@ -42,8 +42,7 @@ export default function Verification() {
               Confirm OTP
             </h2>
             <p className="leading-[34px] text-[17px] font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et{" "}
+            Check Email use to register for unique OTP and insert it below{" "}
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleNext}>

@@ -11,6 +11,7 @@ import { Bell } from "lucide-react";
 import Image from "next/image";
 import { getBookingsByBusiness, Booking } from "@/app/services/bookings";
 import { format } from "date-fns";
+import { Notifications } from "@/components/Icons";
 
 export default function NotificationsSheet() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -32,7 +33,8 @@ export default function NotificationsSheet() {
     <Sheet>
       <SheetTrigger asChild>
         <button className="relative hover:text-primary transition flex flex-col items-center justify-center text-[#807E7E] font-medium">
-          <Bell className="mb-2 sm:mb-0" />
+          <Notifications />
+
           <p className="hidden sm:block">Notifications</p>
         </button>
       </SheetTrigger>

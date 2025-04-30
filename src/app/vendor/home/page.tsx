@@ -45,16 +45,15 @@ export default function VendorHome() {
   return (
     <div className="flex flex-col pb-10 relative">
       <VendorNavbar />
-      <div className="max-w-[1000px] mx-auto mt-20 p-6 sm:p-10">
+      <div className="max-w-[1000px] lg:min-w-[920px] mx-auto mt-20 p-6 sm:p-10">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-[#6C35A7] font-bold text-3xl">
               {businessName || "Your Business"}
             </h1>
-            <p className="font-inter font-medium max-w-[487px]">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et
+            <p className="font-inter text-[13px] md:text-[18px] leading-[24px] md:leading-[34px] font-medium max-w-[487px]">
+            Showcase your expertise online, making it simple for customers to instantly access your service details
             </p>
           </div>
           <div className="flex gap-3 hidden sm:flex">
