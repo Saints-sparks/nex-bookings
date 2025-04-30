@@ -29,7 +29,7 @@ export default function VendorNavbar() {
             <HomeIcon isActive={isActive("/vendor/home")} />
             <p className="hidden sm:block">Home</p>
             {isActive("/vendor/home") && (
-              <span className="absolute -bottom-1 h-2 w-2 bg-[#6C35A7] rounded-full" />
+              <span className="absolute -bottom-3 md:-bottom-1 h-2 w-2 bg-[#6C35A7] rounded-full" />
             )}
           </Link>
 
@@ -47,7 +47,7 @@ export default function VendorNavbar() {
             <ProfileIcon isActive={isActive("/vendor/profile")} />
             <p className="hidden sm:block">Profile</p>
             {isActive("/vendor/profile") && (
-              <span className="absolute -bottom-1 h-2 w-2 bg-[#6C35A7] rounded-full" />
+              <span className="absolute -bottom-3 md:-bottom-1 h-2 w-2 bg-[#6C35A7] rounded-full" />
             )}
           </Link>
         </div>

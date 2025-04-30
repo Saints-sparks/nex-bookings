@@ -53,8 +53,8 @@ export default function VendorServices({
           width={429}
           height={373}
         />
-        <p className="max-w-[487px] text-[13px] md:text-[20px] leading-[28px] md:leading-[34px] font-inter font-medium">
-          You have not created any service yet, Add Service to get started
+        <p className="max-w-[487px] text-[13px] md:text-[20px] leading-[28px] md:leading-[34px] font-inter ">
+          You have not created any service yet, Add a Service to get started
         </p>
       </section>
     );
