@@ -7,7 +7,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Bell } from "lucide-react";
 import Image from "next/image";
 import { getBookingsByBusiness, Booking } from "@/app/services/bookings";
 import { format } from "date-fns";

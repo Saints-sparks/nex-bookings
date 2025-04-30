@@ -1,7 +1,6 @@
 "use client";
 
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
-import { File as FileIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState, useEffect } from "react";
