@@ -64,7 +64,11 @@ export default function VendorHome() {
             >
               Add Service
             </Button>
-            <Link href={`/vendor/${businessId}`}>
+            <Link
+              href={`/vendor/${businessId}/edit`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Button className="bg-[#FFB049] p-6 text-[16px] font-500 rounded-full hover:bg-yellow-800">
                 View Website
               </Button>

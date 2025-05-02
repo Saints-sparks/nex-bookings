@@ -47,8 +47,6 @@ export default function Subscriptions() {
                 </span>
                 <span className="text-sm sm:text-base text-white">/month</span>
               </p>
-
-             
             </div>
 
             {/* Right column: features */}
