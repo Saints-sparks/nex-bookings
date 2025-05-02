@@ -10,8 +10,9 @@ export default function VendorNavbar() {
 
   const isActive = (href: string) => pathname === href;
 
+  // Base styles for nav links
   const navLinkClasses =
-    "hover:text-primary transition flex flex-col items-center justify-center relative font-medium";
+    "hover:text-primary transition flex flex-col items-center justify-center font-medium relative";
 
   return (
     <nav className="flex md:px-[50px] px-8 py-4 sm:py-2 bg-[#F2F2F2] items-center justify-center fixed top-0 left-0 right-0 z-10">
@@ -28,8 +29,9 @@ export default function VendorNavbar() {
           >
             <HomeIcon isActive={isActive("/vendor/home")} />
             <p className="hidden sm:block">Home</p>
+            {/* Active underline positioned at bottom of navbar */}
             {isActive("/vendor/home") && (
-              <span className="absolute -bottom-3 md:-bottom-1 h-2 w-2 bg-[#6C35A7] rounded-full" />
+              <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-[#6C35A7]" />
             )}
           </Link>
 
@@ -47,7 +49,7 @@ export default function VendorNavbar() {
             <ProfileIcon isActive={isActive("/vendor/profile")} />
             <p className="hidden sm:block">Profile</p>
             {isActive("/vendor/profile") && (
-              <span className="absolute -bottom-3 md:-bottom-1 h-2 w-2 bg-[#6C35A7] rounded-full" />
+              <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-[#6C35A7]" />
             )}
           </Link>
         </div>

@@ -93,7 +93,7 @@ export default function Profile() {
               {tabs.map((tab) => {
                 const isActive = selectedTab === tab.label;
                 return (
-                  <div key={tab.label} className="flex flex-col items-center">
+                  <div key={tab.label} className="flex flex-col items-center relative">
                     <Button
                       onClick={() => setSelectedTab(tab.label)}
                       className="bg-transparent text-[#6C35A7] shadow-none py-0 hover:bg-transparent"
@@ -102,7 +102,7 @@ export default function Profile() {
                       {tab.label}
                     </Button>
                     {isActive && (
-                      <span className="w-2 h-2 rounded-full bg-[#6C35A7] mt-1" />
+                      <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-[#6C35A7]" />
                     )}
                   </div>
                 );

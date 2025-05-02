@@ -10,9 +10,8 @@ interface Props {
 
 export default async function VendorPublicPage({ params }: Props) {
   const { id } = await params;
+  
 
-  // server-side fetch
-  //   const business = await getBusinessByUser(businessId);
   const services = await getServicesByBusiness(id);
 
   return (

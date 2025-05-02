@@ -14,19 +14,31 @@ const plans = [
       "Unlimited Website Visitors",
     ],
   },
+  {
+    name: "Starter Plan",
+    price: 1000,
+    features: [
+      "Create Unlimited Services",
+      "Receive Email Notifications",
+      "Receive SMS Notifications",
+      "Access to Booking Records",
+      "Customizable Website",
+      "Unlimited Website Visitors",
+    ],
+  },
 ];
 
 export default function Subscriptions() {
   return (
-    <div className="w-full p-4 sm:p-6">
-      <div className="grid grid-cols-1 gap-6">
+    <div className="w-full ">
+      <div className="grid md:grid-cols-2 gap-6">
         {plans.map((plan, idx) => (
           <div
             key={idx}
-            className="flex flex-col sm:flex-row bg-[#6C35A7] text-white rounded-2xl overflow-hidden p-6 sm:p-10 sm:h-[500px] sm:items-center"
+            className="flex flex-col  bg-[#6C35A7] text-white rounded-2xl overflow-hidden p-6   "
           >
             {/* Left column: name, price, desktop button */}
-            <div className="flex flex-col   sm:p-10 flex-1">
+            <div className="flex flex-col   sm:py-4 flex-1">
               <h2 className="text-xl font-semibold sm:mb-2">{plan.name}</h2>
               <p className="font-bold text-[#FFB049] my-4 sm:my-0">
                 <span className="text-lg sm:text-2xl">NGN</span>{" "}
@@ -36,10 +48,7 @@ export default function Subscriptions() {
                 <span className="text-sm sm:text-base text-white">/month</span>
               </p>
 
-              {/* Desktop-only Buy button */}
-              <button className="hidden sm:block mt-15 w-[280px] py-3 rounded-full bg-white text-[#6C35A7] font-medium hover:opacity-90 transition">
-                Buy Plan
-              </button>
+             
             </div>
 
             {/* Right column: features */}
@@ -56,7 +65,7 @@ export default function Subscriptions() {
               </ul>
 
               {/* Mobile-only Buy button */}
-              <button className="mt-6 block sm:hidden w-full py-3 rounded-full bg-white text-[#6C35A7] font-medium hover:opacity-90 transition">
+              <button className="mt-6 w-full py-3 rounded-full bg-white text-[#6C35A7] font-medium hover:opacity-90 transition">
                 Buy Plan
               </button>
             </div>
