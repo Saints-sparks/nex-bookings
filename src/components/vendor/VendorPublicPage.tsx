@@ -28,7 +28,7 @@ export default function VendorPublicPage({
         />
       </header>
 
-      <main className="max-w-[1000px] w-full pt-[50px] md:pt-[80px] flex flex-col items-center px-8 sm:px-0">
+      <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-8 sm:px-0">
         {/* Hero */}
         <div className="flex flex-col gap-3 py-10 text-center max-w-[487px]">
           <h1 className="font-bold text-[20px] sm:text-[35px] text-[#6C35A7]">
