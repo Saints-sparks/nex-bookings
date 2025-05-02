@@ -1,8 +1,14 @@
+"use client";
 // components/vendor/VendorPublicPage.tsx
 import Image from "next/image";
 import DisplayGrid from "./DisplayGrid";
 import type { Service } from "@/app/services/service";
 import { Facebook, Instagram, Pencil, Share } from "../Icons";
+// import ShareWebsiteModal from "@/components/vendor/ShareWebsiteModal";
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import ShareWebsiteModal from "./ShareModal";
+import { Button } from "../ui/button";
 
 interface Props {
   //   businessName: string;
@@ -12,6 +18,10 @@ interface Props {
 }
 
 export default function VendorEdit({ services }: Props) {
+  const [openShareModal, setOpenShareModal] = useState(false);
+  const params = useParams();
+  const id = params.id;
+  const publicUrl = `https://nexbookings.com/vendor/${id}`;
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
       <header className="bg-[#F2F2F2] px-8 py-4 sm:py-2 text-white text-center w-full fixed top-0 z-10 flex items-center justify-center">
@@ -23,12 +33,15 @@ export default function VendorEdit({ services }: Props) {
             height={34}
             className="mx-auto"
           />
-          <div className="absolute right-0 lg:right-10 flex text-[#6C35A7] font-bold text-[14px] sm:text-[16px] gap-4 hidden md:flex">
+          <div className="absolute right-0 lg:right-10 flex text-[#6C35A7] font-bold text-[16px] gap-4 hidden md:flex">
             <div className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
               <Pencil />
               <p>Edit Website</p>
             </div>
-            <div className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
+            <div
+              onClick={() => setOpenShareModal(true)}
+              className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]"
+            >
               <Share />
               <p>Share Website Link</p>
             </div>
@@ -53,6 +66,28 @@ export default function VendorEdit({ services }: Props) {
 
         {/* Services */}
         <DisplayGrid services={services} />
+
+        <ShareWebsiteModal
+          open={openShareModal}
+          onOpenChange={setOpenShareModal}
+          url={publicUrl}
+        />
+
+        <div className="fixed bg-[#F2F2F2] py-5 px-2 w-full bottom-0 left-0 right-0 z-50 sm:hidden font-bold text-[14px] text-[#6C35A7]">
+          <div className="flex gap-3 justify-center">
+            <div className="flex gap-2 items-center justify-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px] w-1/2">
+              <Pencil />
+              <p>Edit Website</p>
+            </div>
+            <div
+              onClick={() => setOpenShareModal(true)}
+              className="flex gap-2 items-center justify-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px] w-1/2"
+            >
+              <Share />
+              <p>Share Website Link</p>
+            </div>
+          </div>
+        </div>
 
         {/* Footer */}
         <footer className="px-5 my-8 flex items-center text-black text-[20px] leading-[34px] w-full hidden sm:flex">
