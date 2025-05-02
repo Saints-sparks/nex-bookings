@@ -20,7 +20,7 @@ export default function DisplayCard({ service }: DisplayCardProps) {
           className="h-48 object-cover"
         />
         {/* Duration Badge */}
-        <span className="absolute top-2 right-2 bg-yellow-400 text-[11px] font-inter sm:text-[12px] text-black font-bold px-3 py-1 rounded-full">
+        <span className="absolute top-2 right-2 bg-[#FFB049] text-[11px] font-inter sm:text-[12px] text-black font-bold px-3 py-2 rounded-xl">
           {service.duration} Hours
         </span>
       </div>

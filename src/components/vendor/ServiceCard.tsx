@@ -29,7 +29,7 @@ export default function ServiceCard({
           height={174}
           className="h-48 object-cover"
         />
-        <span className="absolute top-2 right-2 bg-yellow-400 text-[12px] font-bold px-3 py-1 rounded-full font-inter">
+        <span className="absolute top-2 right-2 bg-[#FFB049] text-[12px] font-bold px-3 py-2 rounded-xl font-inter">
           {duration} {duration === 1 ? "Hour" : "Hours"}
         </span>
       </div>
