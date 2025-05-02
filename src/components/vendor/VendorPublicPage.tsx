@@ -31,10 +31,10 @@ export default function VendorPublicPage({
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-8 sm:px-0">
         {/* Hero */}
         <div className="flex flex-col gap-3 py-10 text-center max-w-[487px]">
-          <h1 className="font-bold text-[20px] sm:text-[35px] text-[#6C35A7]">
+          <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
             {businessName}
           </h1>
-          <p className="font-medium text-[14px] sm:text-[18px] font-inter">
+          <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter">
             {description}
           </p>
         </div>

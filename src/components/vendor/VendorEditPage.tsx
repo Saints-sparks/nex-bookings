@@ -23,12 +23,12 @@ export default function VendorEdit({ services }: Props) {
             height={34}
             className="mx-auto"
           />
-          <div className="absolute right-10 flex text-[#6C35A7] font-bold text-[14px] sm:text-[16px] gap-4 hidden md:flex">
-            <div className="flex gap-2 items-center hover:underline transition cursor-pointer">
+          <div className="absolute right-0 lg:right-10 flex text-[#6C35A7] font-bold text-[14px] sm:text-[16px] gap-4 hidden md:flex">
+            <div className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
               <Pencil />
               <p>Edit Website</p>
             </div>
-            <div className="flex gap-2 items-center hover:underline transition cursor-pointer">
+            <div className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
               <Share />
               <p>Share Website Link</p>
             </div>
@@ -39,10 +39,10 @@ export default function VendorEdit({ services }: Props) {
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-5 sm:px-0">
         {/* Hero */}
         <div className="flex flex-col gap-3 py-10 text-center max-w-[487px]">
-          <h1 className="font-bold text-[20px] md:text-[35px] text-[#6C35A7]">
+          <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
             Edit Header Here
           </h1>
-          <p className="font-medium text-[14px] md:text-[18px] font-inter leading-[24px] md:leading-[34px]">
+          <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter leading-[24px] md:leading-[34px]">
             Enter details about your business here, A paragraph is best suited
           </p>
           <div className="flex gap-10 justify-center mt-5">
