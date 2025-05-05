@@ -17,7 +17,12 @@ export interface UpdateBusinessPayload {
 export async function getBusinessByUser(userId: string): Promise<Business> {
   const res = await api.get<Business>(`/business/user/${userId}`);
   console.log(res.data);
-  
+
+  return res.data;
+}
+
+export async function getBusinessById(id: string): Promise<Business> {
+  const res = await api.get<Business>(`/business/${id}`);
   return res.data;
 }
 

@@ -22,8 +22,8 @@ export default function VendorPublicPage({
         <Image
           src={logoUrl}
           alt={businessName}
-          width={54}
-          height={54}
+          width={121}
+          height={34}
           className="mx-auto"
         />
       </header>

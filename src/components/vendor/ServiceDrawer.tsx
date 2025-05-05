@@ -45,6 +45,9 @@ export function ServiceDrawer({
     imageUrl: "",
   });
   const [uploading, setUploading] = useState(false);
+  const [unit, setUnit] = useState<"hours" | "days" | "weeks" | "months">(
+    "hours"
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

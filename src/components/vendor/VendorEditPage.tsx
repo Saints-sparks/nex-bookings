@@ -9,19 +9,22 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import ShareWebsiteModal from "./ShareModal";
 import { Button } from "../ui/button";
+import { WebsiteSettings } from "@/app/services/website";
+import Link from "next/link";
 
 interface Props {
   //   businessName: string;
   //   description: string;
   //   logoUrl: string;
   services: Service[];
+  settings: WebsiteSettings;
 }
 
-export default function VendorEdit({ services }: Props) {
+export default function VendorEdit({ services, settings }: Props) {
   const [openShareModal, setOpenShareModal] = useState(false);
   const params = useParams();
   const id = params.id;
-  const publicUrl = `https://nexbookings.com/vendor/${id}`;
+  const publicUrl = `http://localhost:3000/vendor/${id}`;
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
       <header className="bg-[#F2F2F2] px-8 py-4 sm:py-2 text-white text-center w-full fixed top-0 z-10 flex items-center justify-center">
@@ -53,14 +56,26 @@ export default function VendorEdit({ services }: Props) {
         {/* Hero */}
         <div className="flex flex-col gap-3 py-10 text-center max-w-[487px]">
           <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
-            Edit Header Here
+            {settings.header}
           </h1>
           <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter leading-[24px] md:leading-[34px]">
-            Enter details about your business here, A paragraph is best suited
+            {settings.tagline}
           </p>
           <div className="flex gap-10 justify-center mt-5">
-            <Facebook />
-            <Instagram />
+            <Link
+              href={settings.facebookLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Facebook />
+            </Link>
+            <Link
+              href={settings.instagramLink}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram />
+            </Link>
           </div>
         </div>
 

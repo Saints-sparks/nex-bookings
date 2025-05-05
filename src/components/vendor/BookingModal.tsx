@@ -78,7 +78,7 @@ export const BookingModal: FC<BookingModalProps> = ({ trigger, serviceId }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="p-0 sm:max-w-[800px] max-w-[300px] sm:w-[800px] rounded-2xl max-h-[90vh] overflow-hidden">
+      <DialogContent className="p-0 sm:max-w-[800px] max-w-[300px] sm:w-[800px] rounded-2xl max-h-[90vh] overflow-y-auto">
         <DialogTitle asChild>
           <span className="sr-only">Book a service</span>
         </DialogTitle>
