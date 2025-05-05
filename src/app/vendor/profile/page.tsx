@@ -91,7 +91,7 @@ export default function Profile() {
                     className="rounded-3xl object-cover"
                   />
                 ) : (
-                  <div className="w-33 h-33 bg-[#F2F2F2] rounded-3xl flex items-center justify-center text-[23px] text-[#6C35A7] font-bold">
+                  <div className="w-33 h-33 md:w-57 md:h-57 bg-[#F2F2F2] rounded-3xl flex items-center justify-center text-[23px] text-[#6C35A7] font-bold">
                     Upload Photo
                   </div>
                 )}
