@@ -23,13 +23,6 @@ const PLACEHOLDERS: Record<
 };
 
 export default function WebsiteSettings() {
-  const currentUser = {
-    header: "Shola Enterprises",
-    tagline: "+234 801 234 5678",
-    instagram: "instagram.com",
-    facebook: "facebook.com",
-  };
-
   const [formData, setFormData] = useState<CreateWebsiteSettingsPayload>({
     businessId: "",
     header: "",
@@ -71,9 +64,9 @@ export default function WebsiteSettings() {
         });
         setSettingsId(data.id);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         if (err.response?.status === 404) {
-          // No settings yet — start with a blank form
+          // No settings yet — init businessId only
           setFormData((f) => ({ ...f, businessId }));
         } else {
           setError(err.message || "Failed to load settings.");
@@ -83,7 +76,7 @@ export default function WebsiteSettings() {
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((f) => ({ ...f, [e.target.name]: e.target.value }));
   };
 
   const handleSave = async () => {
@@ -91,22 +84,13 @@ export default function WebsiteSettings() {
     setError("");
     try {
       if (settingsId) {
-        // update
-        await updateWebsiteSettings(settingsId, {
-          businessId: formData.businessId,
-          header: formData.header,
-          tagline: formData.tagline,
-          instagramLink: formData.instagramLink,
-          facebookLink: formData.facebookLink,
-        });
-        toast.success("Settings Updates Successfully!");
+        await updateWebsiteSettings(settingsId, formData);
+        toast.success("Settings updated successfully!");
       } else {
-        // create
         const created = await createWebsiteSettings(formData);
         setSettingsId(created.id);
-        toast.success("Settings Created Successfully!");
+        toast.success("Settings created successfully!");
       }
-      // optional: show a toast here
     } catch (err: any) {
       setError(err.message || "Failed to save settings.");
     } finally {
@@ -114,8 +98,19 @@ export default function WebsiteSettings() {
     }
   };
 
+  // 1️⃣ While loading, show a simple indicator
+  if (loading) {
+    return (
+      <div className="w-full flex justify-center py-10">
+        <p className="text-gray-500">Loading settings…</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full">
+    <div className="w-full space-y-6">
+      {error && <p className="text-red-500">{error}</p>}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {fields.map((field) => (
           <div key={field.name} className="flex flex-col gap-2 group">
@@ -128,18 +123,20 @@ export default function WebsiteSettings() {
             <Input
               id={field.name}
               name={field.name}
-              value={formData[field.name as keyof typeof formData]}
+              value={formData[field.name]}
               onChange={handleChange}
               placeholder={PLACEHOLDERS[field.name]}
+              disabled={saving}
               className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
             />
           </div>
         ))}
       </div>
+
       <Button
-        type="submit"
         onClick={handleSave}
-        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700 mt-10"
+        disabled={saving}
+        className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] hover:bg-purple-700"
       >
         {saving ? "Saving…" : "Save Changes"}
       </Button>

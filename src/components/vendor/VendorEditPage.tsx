@@ -1,14 +1,12 @@
 "use client";
-// components/vendor/VendorPublicPage.tsx
+
 import Image from "next/image";
 import DisplayGrid from "./DisplayGrid";
 import type { Service } from "@/app/services/service";
 import { Facebook, Instagram, Pencil, Share } from "../Icons";
-// import ShareWebsiteModal from "@/components/vendor/ShareWebsiteModal";
 import { useState } from "react";
 import { useParams } from "next/navigation";
 import ShareWebsiteModal from "./ShareModal";
-import { Button } from "../ui/button";
 import { WebsiteSettings } from "@/app/services/website";
 import Link from "next/link";
 

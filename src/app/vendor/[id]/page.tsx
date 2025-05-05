@@ -1,20 +1,20 @@
-// app/vendor/[businessId]/page.tsx
-// import { getBusinessById } from "@/app/services/business";
-import { getBusinessById, getBusinessByUser } from "@/app/services/business";
+import { getBusinessById } from "@/app/services/business";
 import { getServicesByBusiness } from "@/app/services/service";
 import { getWebsiteSettingsByBusiness } from "@/app/services/website";
 import VendorPublicPage from "@/components/vendor/VendorPublicPage";
 
-export default async function PublicVendorPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const business = await getBusinessById(params.id);
-  const services = await getServicesByBusiness(params.id);
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function PublicVendorPage({ params }: Props) {
+  const { id } = await params;
+
+  const business = await getBusinessById(id);
+  const services = await getServicesByBusiness(id);
   let description = "Welcome to our services—stay tuned for more details!";
   try {
-    const settings = await getWebsiteSettingsByBusiness(params.id);
+    const settings = await getWebsiteSettingsByBusiness(id);
     // if tagline is defined and non‑empty, use it
     if (settings.tagline) {
       description = settings.tagline;

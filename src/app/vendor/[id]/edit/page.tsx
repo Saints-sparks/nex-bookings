@@ -1,21 +1,19 @@
-// app/vendor/[businessId]/edit/page.tsx
-// import { getBusinessById, updateBusinessById } from "@/app/services/business";
 import { getServicesByBusiness } from "@/app/services/service";
 import {
   getWebsiteSettingsByBusiness,
   WebsiteSettings,
 } from "@/app/services/website";
 import VendorEdit from "@/components/vendor/VendorEditPage";
-import VendorPublicPage from "@/components/vendor/VendorPublicPage";
 import { AxiosError } from "axios";
 
-export default async function VendorEditPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function VendorEditPage({ params }: Props) {
+  const { id } = await params;
   const DEFAULT_SETTINGS: WebsiteSettings = {
-    businessId: params.id,
+    businessId: id,
     id: "", // no settings yet, so no ID
     header: "Enter Header Here",
     tagline:
@@ -23,11 +21,11 @@ export default async function VendorEditPage({
     facebookLink: "#",
     instagramLink: "#",
   };
-  const services = await getServicesByBusiness(params.id);
+  const services = await getServicesByBusiness(id);
   let settings: WebsiteSettings = DEFAULT_SETTINGS;
 
   try {
-    const fetched = await getWebsiteSettingsByBusiness(params.id);
+    const fetched = await getWebsiteSettingsByBusiness(id);
     // If you get back a valid object, merge it over the defaults
     settings = { ...DEFAULT_SETTINGS, ...fetched };
   } catch (err: any) {
