@@ -1,4 +1,5 @@
 "use client";
+
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { File as FileIcon } from "lucide-react";
 import { Input } from "../ui/input";
@@ -7,27 +8,7 @@ import { useState } from "react";
 import { createService, CreateServicePayload } from "@/app/services/service";
 import Image from "next/image";
 import { Down } from "../Icons";
-
-// 👉 helper to do unsigned, client‐side Cloudinary uploads
-async function uploadToCloudinary(file: File): Promise<string> {
-  const cloudName = "ddbs7m7nt"; // ← replace
-  const uploadPreset = "presetOne"; // ← replace
-
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", uploadPreset);
-
-  const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    {
-      method: "POST",
-      body: formData,
-    }
-  );
-  if (!res.ok) throw new Error("Upload failed");
-  const data = await res.json();
-  return data.secure_url as string;
-}
+import { uploadToCloudinary } from "@/lib/cloudinary";
 
 export function ServiceDrawer({
   open,
@@ -45,16 +26,13 @@ export function ServiceDrawer({
     imageUrl: "",
   });
   const [uploading, setUploading] = useState(false);
-  const [unit, setUnit] = useState<"hours" | "days" | "weeks" | "months">(
-    "hours"
-  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  // new: handle file selection + upload
+  // handle file selection + upload
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -142,6 +120,7 @@ export function ServiceDrawer({
               )}
             </div>
 
+            {/* title, price, duration inputs */}
             <div className="group">
               <label htmlFor="title" className="text-[#807E7E] font-medium">
                 Service Title
@@ -189,9 +168,7 @@ export function ServiceDrawer({
                   <select
                     id="durationType"
                     name="durationType"
-                    // value={form.durationType}
-                    // onChange={handleChange}
-                    className="appearance-none  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                    className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                   >
                     <option value="hours">Hours</option>
                     <option value="days">Days</option>
@@ -199,7 +176,6 @@ export function ServiceDrawer({
                     <option value="months">Months</option>
                   </select>
                   <Down />
-                  <div className=""></div>
                 </div>
               </div>
             </div>
@@ -207,6 +183,7 @@ export function ServiceDrawer({
             {error && <p className="text-red-500">{error}</p>}
           </div>
 
+          {/* actions */}
           <div className="px-6 py-4 border-t flex justify-between gap-2">
             <Button
               disabled={loading || uploading}

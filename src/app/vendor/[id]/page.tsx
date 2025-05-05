@@ -31,7 +31,7 @@ export default async function PublicVendorPage({
     <VendorPublicPage
       businessName={business.businessName}
       description={description}
-      logoUrl="/nex.svg"
+      logoUrl={business.logo}
       services={services}
     />
   );

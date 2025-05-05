@@ -7,24 +7,7 @@ import { useState, useEffect } from "react";
 import { deleteService, Service, updateService } from "@/app/services/service";
 import Image from "next/image";
 import { Down } from "../Icons";
-
-// -------- Cloudinary upload helper (unsigned) --------
-async function uploadToCloudinary(file: File): Promise<string> {
-  const cloudName = "YOUR_CLOUD_NAME"; // ← replace
-  const uploadPreset = "YOUR_UPLOAD_PRESET"; // ← replace
-
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", uploadPreset);
-
-  const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    { method: "POST", body: formData }
-  );
-  if (!res.ok) throw new Error("Upload failed");
-  const data = await res.json();
-  return data.secure_url as string;
-}
+import { uploadToCloudinary } from "@/lib/cloudinary";
 
 interface Props {
   open: boolean;
@@ -49,7 +32,7 @@ export function EditServiceDrawer({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
-  // 1) Prefill form when `service` prop changes
+  // Prefill form when service changes
   useEffect(() => {
     if (service) {
       setForm({
@@ -61,11 +44,10 @@ export function EditServiceDrawer({
     }
   }, [service]);
 
-  // 2) Handle text inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  // 3) Handle file selection & Cloudinary upload
+  // file selection & upload
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -82,7 +64,7 @@ export function EditServiceDrawer({
     }
   };
 
-  // 4) Save updates
+  // Save updates
   const handleSave = async () => {
     if (!service) return;
     setError("");
@@ -103,7 +85,7 @@ export function EditServiceDrawer({
     }
   };
 
-  // 5) Delete service
+  // Delete service
   const handleDelete = async () => {
     if (!service) return;
     setError("");
@@ -133,20 +115,17 @@ export function EditServiceDrawer({
           </div>
 
           <div className="p-6 flex-1 overflow-y-auto space-y-4">
-            {/* --- Image Upload / Preview --- */}
+            {/* Image Upload / Preview */}
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center flex flex-col items-center">
-              <div className="flex mb-2 items-center justify-start mx-auto">
-                {form.imageUrl && (
-                  <Image
-                    src={form.imageUrl}
-                    width={100}
-                    height={100}
-                    alt="Service"
-                    className="h-24 object-contain"
-                  />
-                )}
-              </div>
-
+              {form.imageUrl && (
+                <Image
+                  src={form.imageUrl}
+                  width={100}
+                  height={100}
+                  alt="Service"
+                  className="h-24 object-contain mb-2"
+                />
+              )}
               <p className="font-bold text-black">
                 Drag & drop files or{" "}
                 <label
@@ -170,7 +149,7 @@ export function EditServiceDrawer({
               {uploading && <p className="text-sm mt-2">Uploading…</p>}
             </div>
 
-            {/* --- Title, Price, Duration --- */}
+            {/* Title, Price, Duration */}
             <div className="group">
               <label htmlFor="title" className="text-[#807E7E] font-medium">
                 Service Title
@@ -218,9 +197,7 @@ export function EditServiceDrawer({
                   <select
                     id="durationType"
                     name="durationType"
-                    // value={form.durationType}
-                    // onChange={handleChange}
-                    className="appearance-none  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                    className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                   >
                     <option value="hours">Hours</option>
                     <option value="days">Days</option>
@@ -228,7 +205,6 @@ export function EditServiceDrawer({
                     <option value="months">Months</option>
                   </select>
                   <Down />
-                  <div className=""></div>
                 </div>
               </div>
             </div>
@@ -236,7 +212,7 @@ export function EditServiceDrawer({
             {error && <p className="text-red-500">{error}</p>}
           </div>
 
-          {/* --- Actions --- */}
+          {/* Actions */}
           <div className="px-6 py-4 border-t flex justify-between gap-2">
             <Button
               disabled={loading || uploading}

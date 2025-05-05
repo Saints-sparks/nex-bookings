@@ -144,13 +144,16 @@ export default function Profile() {
             <div className="flex justify-between px-6">
               {[
                 { label: "Account Information", icon: <Account /> },
-                { label: "Website Settings",   icon: <Globe />   },
-                { label: "Subscriptions",      icon: <Card />    },
-                { label: "Account Settings",   icon: <Settings/> },
+                { label: "Website Settings", icon: <Globe /> },
+                { label: "Subscriptions", icon: <Card /> },
+                { label: "Account Settings", icon: <Settings /> },
               ].map((tab) => {
                 const isActive = selectedTab === tab.label;
                 return (
-                  <div key={tab.label} className="flex flex-col items-center relative">
+                  <div
+                    key={tab.label}
+                    className="flex flex-col items-center relative"
+                  >
                     <Button
                       onClick={() => setSelectedTab(tab.label)}
                       className="bg-transparent text-[#6C35A7] shadow-none py-0 hover:bg-transparent"
@@ -171,8 +174,8 @@ export default function Profile() {
             <AccountInfo businessName={businessName} user={user} />
           )}
           {selectedTab === "Website Settings" && <WebsiteSettings />}
-          {selectedTab === "Subscriptions"     && <Subscriptions />}
-          {selectedTab === "Account Settings"  && <AccountSettings />}
+          {selectedTab === "Subscriptions" && <Subscriptions />}
+          {selectedTab === "Account Settings" && <AccountSettings />}
         </div>
       </div>
     </div>

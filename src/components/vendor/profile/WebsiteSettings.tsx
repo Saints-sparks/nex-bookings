@@ -12,6 +12,16 @@ import {
 } from "@/app/services/website";
 import { toast } from "sonner";
 
+const PLACEHOLDERS: Record<
+  keyof Omit<CreateWebsiteSettingsPayload, "businessId">,
+  string
+> = {
+  header: "e.g. Shola Enterprises",
+  tagline: "e.g. +234 801 234 5678",
+  instagramLink: "e.g. instagram.com/yourhandle",
+  facebookLink: "e.g. facebook.com/yourpage",
+};
+
 export default function WebsiteSettings() {
   const currentUser = {
     header: "Shola Enterprises",
@@ -31,6 +41,16 @@ export default function WebsiteSettings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  const fields: {
+    label: string;
+    name: keyof Omit<CreateWebsiteSettingsPayload, "businessId">;
+  }[] = [
+    { label: "Header", name: "header" },
+    { label: "Tagline", name: "tagline" },
+    { label: "Instagram Link", name: "instagramLink" },
+    { label: "Facebook Link", name: "facebookLink" },
+  ];
 
   useEffect(() => {
     const businessId = localStorage.getItem("nex_businessId");
@@ -97,12 +117,7 @@ export default function WebsiteSettings() {
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-        {[
-          { label: "Edit Header Here", name: "header" },
-          { label: "Edit Tagline Here", name: "tagline" },
-          { label: "Enter Instagram Profile Link", name: "instagramLink" },
-          { label: "Enter Facebook profile Link", name: "facebookLink" },
-        ].map((field) => (
+        {fields.map((field) => (
           <div key={field.name} className="flex flex-col gap-2 group">
             <Label
               htmlFor={field.name}
@@ -115,6 +130,7 @@ export default function WebsiteSettings() {
               name={field.name}
               value={formData[field.name as keyof typeof formData]}
               onChange={handleChange}
+              placeholder={PLACEHOLDERS[field.name]}
               className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
             />
           </div>

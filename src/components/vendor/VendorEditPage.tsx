@@ -37,10 +37,12 @@ export default function VendorEdit({ services, settings }: Props) {
             className="mx-auto"
           />
           <div className="absolute right-0 lg:right-10 flex text-[#6C35A7] font-bold text-[16px] gap-4 hidden md:flex">
-            <div className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
-              <Pencil />
-              <p>Edit Website</p>
-            </div>
+            <Link href="/vendor/profile">
+              <div className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
+                <Pencil />
+                <p>Edit Website</p>
+              </div>
+            </Link>
             <div
               onClick={() => setOpenShareModal(true)}
               className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]"

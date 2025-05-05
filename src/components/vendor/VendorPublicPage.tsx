@@ -24,7 +24,7 @@ export default function VendorPublicPage({
           alt={businessName}
           width={121}
           height={34}
-          className="mx-auto"
+          className="w-[121px] h-[36px] object-cover mx-auto"
         />
       </header>
 
