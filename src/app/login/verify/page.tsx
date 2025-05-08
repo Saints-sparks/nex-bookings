@@ -63,6 +63,7 @@ export default function SignUpDetailsPage() {
               Enter the 6-digit code sent to your email to verify your identity
               and continue resetting your password.{" "}
             </p>
+            {error && <div className="text-red-600">{error}</div>}
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="group ">

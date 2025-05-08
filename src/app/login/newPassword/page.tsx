@@ -60,6 +60,7 @@ export default function NewPassword() {
               Create a new password to secure your account and complete the
               reset process.{" "}
             </p>
+            {error && <div className="text-red-600">{error}</div>}
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="group ">
@@ -124,7 +125,7 @@ export default function NewPassword() {
               type="submit"
               className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
             >
-              Proceed
+              {loading ? "…" : "Proceed"}
             </Button>
           </form>
         </div>
