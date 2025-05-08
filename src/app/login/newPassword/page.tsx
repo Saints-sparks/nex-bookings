@@ -6,25 +6,37 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, EyeIcon, EyeOffIcon } from "lucide-react";
 import Image from "next/image";
+import { confirmPasswordResetWithOtp } from "@/app/services/auth";
 
 export default function NewPassword() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
-    password: "",
-    confirm: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Ideally, validate password matching and other logic here
-    router.push("/vendor/home"); // Navigate to vendor home after successful submission
+    if (password !== confirm) {
+      setError("Passwords do not match.");
+      return;
+    }
+
+    const email = localStorage.getItem("pendingResetEmail")!;
+    const otp = localStorage.getItem("pendingResetOtp")!;
+
+    setError(null);
+    setLoading(true);
+    try {
+      await confirmPasswordResetWithOtp({ email, otp, newPassword: password });
+      router.push("/login"); // or wherever you send them to sign in
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to reset password.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,8 +57,8 @@ export default function NewPassword() {
               New Password
             </h2>
             <p className="leading-[34px] text-sm sm:text-[17px] font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et{" "}
+              Create a new password to secure your account and complete the
+              reset process.{" "}
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -59,20 +71,19 @@ export default function NewPassword() {
               </label>
               <div className="relative">
                 <Input
-                  id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={form.password}
-                  onChange={handleChange}
+                  type={show ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Your Password"
                   required
                   className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
                 />
                 <span
                   className="absolute top-4 right-4 cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={() => setShow(!show)}
                 >
-                  {showPassword ? (
+                  {show ? (
                     <EyeOffIcon size={20} className="text-[#6C35A7]" />
                   ) : (
                     <EyeIcon size={20} className="text-[#6C35A7]" />
@@ -89,11 +100,10 @@ export default function NewPassword() {
               </label>
               <div className="relative">
                 <Input
-                  id="confirm"
                   name="confirm"
                   type={showConfirm ? "text" : "password"}
-                  value={form.confirm}
-                  onChange={handleChange}
+                  value={confirm}
+                  onChange={(e) => setConfirm(e.target.value)}
                   placeholder="Your Password"
                   required
                   className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"

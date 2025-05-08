@@ -1,27 +1,45 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
+import { requestPasswordResetOtp } from "@/app/services/auth";
 
 export default function SignUpDetailsPage() {
   const router = useRouter();
+  const [otp, setOtp] = useState("");
+  const [timer, setTimer] = useState(30);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
-    otp: "",
-  });
+  useEffect(() => {
+    if (timer <= 0) return;
+    const id = setInterval(() => setTimer((t) => t - 1), 1000);
+    return () => clearInterval(id);
+  }, [timer]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleResend = async () => {
+    if (timer > 0) return;
+    setResendLoading(true);
+    setError(null);
+    try {
+      const email = localStorage.getItem("pendingResetEmail")!;
+      await requestPasswordResetOtp({ email });
+      setTimer(30);
+    } catch (e: any) {
+      setError(e.response?.data?.message || "Failed to resend OTP.");
+    } finally {
+      setResendLoading(false);
+    }
   };
 
-  const handleNext = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Ideally validate and send to backend here
-    router.push("/login/newPassword"); // Go to OTP page
+    localStorage.setItem("pendingResetOtp", otp);
+    router.push("/login/newPassword");
   };
 
   return (
@@ -42,11 +60,11 @@ export default function SignUpDetailsPage() {
               Confirm OTP
             </h2>
             <p className="leading-[34px] text-[17px] font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et{" "}
+              Enter the 6-digit code sent to your email to verify your identity
+              and continue resetting your password.{" "}
             </p>
           </div>
-          <form className="space-y-6" onSubmit={handleNext}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="group ">
               <label
                 htmlFor="name"
@@ -55,18 +73,32 @@ export default function SignUpDetailsPage() {
                 Enter OTP here
               </label>
               <Input
-                id="otp"
                 name="otp"
-                value={form.otp}
-                onChange={handleChange}
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                maxLength={6}
                 placeholder="Enter Your OTP"
                 required
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
-            <div className="w-full flex justify-between">
-              <p className="font-bold text-[#6C35A7]">Resend OTP</p>
-              <p>00:30</p>
+            <div className="flex items-center justify-between text-sm">
+              <button
+                type="button"
+                onClick={handleResend}
+                disabled={timer > 0 || resendLoading}
+                className={`font-semibold ${
+                  timer > 0
+                    ? "text-gray-400 cursor-not-allowed"
+                    : "text-[#6C35A7]"
+                }`}
+              >
+                {resendLoading
+                  ? "Resending…"
+                  : timer > 0
+                  ? `Resend in 00:${timer.toString().padStart(2, "0")}`
+                  : "Resend OTP"}
+              </button>
             </div>
 
             <Button

@@ -8,7 +8,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { signup, SignupPayload } from "../services/auth";
+import {
+  requestEmailVerificationOtp,
+  signup,
+  SignupPayload,
+} from "../services/auth";
 
 export default function SignUpDetailsPage() {
   const router = useRouter();
@@ -38,7 +42,13 @@ export default function SignUpDetailsPage() {
       const signupData = await signup(form);
       const userId = signupData.business.userId;
       localStorage.setItem("nex_userId", userId);
-      router.push("/signup/details");
+      localStorage.setItem("pendingEmail", form.email);
+
+      // 3️⃣ Immediately trigger the verification OTP
+      await requestEmailVerificationOtp({ email: form.email });
+
+      // 4️⃣ Redirect to the OTP confirmation page
+      router.push("/signup/verify");
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || "Signup failed. Try again.");
@@ -65,7 +75,8 @@ export default function SignUpDetailsPage() {
               Create Your Account
             </h2>
             <p className="leading-[24px] md:leading-[34px] text-[13px] sm:text-[17px] font-medium font-inter">
-            Sign Up Today to Begin Showcasing Your Unique Services to More Customers Online{" "}
+              Sign Up Today to Begin Showcasing Your Unique Services to More
+              Customers Online{" "}
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>

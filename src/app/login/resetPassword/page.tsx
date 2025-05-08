@@ -6,28 +6,33 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
+import { requestPasswordResetOtp } from "@/app/services/auth";
 
 export default function ResetPassword() {
   const router = useRouter();
-  const [form, setForm] = useState({
-    email: "",
-  });
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleNext = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Ideally validate and send to backend here
-    router.push("/login/verify"); // Go to OTP page
+    setError(null);
+    setLoading(true);
+    try {
+      await requestPasswordResetOtp({ email });
+      localStorage.setItem("pendingResetEmail", email);
+      router.push("/login/verify");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to send reset code.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="h-screen items-center justify-center">
-      <div className="bg-[#FFB049] p-2 text-white text-center fixed top-0 left-0 right-0 z-10">
-        <Image
-          src="/nex.svg" alt="Nex Bookings logo" />
+      <div className="bg-[#FFB049] p-3 text-white text-center fixed top-0 left-0 right-0 z-10 flex justify-center">
+        <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
       </div>
       <button
         className="bg-transparent text-black shadow-none sm:hidden p-5 mt-15"
@@ -42,11 +47,12 @@ export default function ResetPassword() {
               Reset Password
             </h2>
             <p className="leading-[34px] text-sm sm:text-[17px] font-medium">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et{" "}
+              Enter your email to get a reset code and set a new password for
+              your Nex Bookings account.{" "}
             </p>
+            {error && <div className="text-red-600">{error}</div>}
           </div>
-          <form className="space-y-6" onSubmit={handleNext}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="group">
               <label
                 htmlFor="email"
@@ -55,11 +61,10 @@ export default function ResetPassword() {
                 Email Address
               </label>
               <Input
-                id="email"
                 name="email"
                 type="email"
-                value={form.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@gmail.com"
                 required
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
@@ -70,7 +75,7 @@ export default function ResetPassword() {
               type="submit"
               className="w-full bg-[#6C35A7] rounded-full py-7 font-medium text-[16px] mt-4"
             >
-              Submit
+              {loading ? "Sending Code…" : "Send Reset Code"}
             </Button>
           </form>
         </div>
