@@ -1,46 +1,28 @@
 // app/vendor/home/page.tsx
 "use client";
-
-import { useEffect, useState } from "react";
 import VendorNavbar from "@/components/vendor/NavBar";
 import VendorServices from "@/components/vendor/ServicesGrid";
 import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
 import { EditServiceDrawer } from "@/components/vendor/EditServiceDrawer";
-// import { Service } from "@/services/service";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Service } from "@/app/services/service";
+import { useServiceManager } from "@/app/hooks/useServiceManager";
 
 export default function VendorHome() {
-  const [businessName, setBusinessName] = useState("");
-  const [openAdd, setOpenAdd] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [selected, setSelected] = useState<Service | null>(null);
-  const [refreshKey, setRefreshKey] = useState(0);
-  const [businessId, setBusinessId] = useState<string | null>(null);
-
-  useEffect(() => {
-    setBusinessId(localStorage.getItem("nex_businessId"));
-  }, []);
-
-  useEffect(() => {
-    // pull it out of localStorage (or wherever you saved it)
-    const name = localStorage.getItem("nex_businessName");
-    if (name) setBusinessName(name);
-  }, []);
-
-  const handleServiceAdded = () => {
-    setOpenAdd(false);
-    setRefreshKey((k) => k + 1);
-  };
-  const handleServiceUpdated = () => {
-    setRefreshKey((k) => k + 1);
-  };
-
-  const onEdit = (svc: Service) => {
-    setSelected(svc);
-    setOpenEdit(true);
-  };
+  const {
+    businessName,
+    businessId,
+    openAdd,
+    openEdit,
+    selected,
+    refreshKey,
+    setOpenAdd,
+    setOpenEdit,
+    onAddClick,
+    onEditClick,
+    handleAdded,
+    handleUpdated,
+  } = useServiceManager();
 
   return (
     <div className="flex flex-col pb-10 relative">
@@ -59,7 +41,7 @@ export default function VendorHome() {
           </div>
           <div className="flex gap-3 hidden sm:flex">
             <Button
-              onClick={() => setOpenAdd(true)}
+              onClick={onAddClick}
               className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full hover:bg-purple-700"
             >
               Add Service
@@ -76,13 +58,13 @@ export default function VendorHome() {
           </div>
         </div>
         {/* Services Grid */}
-        <VendorServices key={refreshKey} onEdit={onEdit} />
+        <VendorServices key={refreshKey} onEdit={onEditClick} />
       </div>
       {/* Mobile buttons */}
       <div className="fixed bg-white p-3 w-full bottom-0 left-0 right-0 z-50 sm:hidden">
         <div className="flex gap-3 justify-center">
           <Button
-            onClick={() => setOpenAdd(true)}
+            onClick={onAddClick}
             className="bg-[#6C35A7] w-1/2 text-[16px] p-6 font-500 rounded-full "
           >
             Add Service
@@ -104,13 +86,13 @@ export default function VendorHome() {
       <ServiceDrawer
         open={openAdd}
         onOpenChange={setOpenAdd}
-        onServiceAdded={handleServiceAdded}
+        onServiceAdded={handleAdded}
       />
       <EditServiceDrawer
         open={openEdit}
         onOpenChange={setOpenEdit}
         service={selected}
-        onServiceUpdated={handleServiceUpdated}
+        onServiceUpdated={handleUpdated}
       />
     </div>
   );

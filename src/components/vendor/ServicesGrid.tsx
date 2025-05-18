@@ -3,6 +3,9 @@ import ServiceCard from "@/components/vendor/ServiceCard";
 import { useEffect, useState } from "react";
 import SkeletonCard from "./SkeletonCard";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import { useServiceManager } from "@/app/hooks/useServiceManager";
+import { ServiceDrawer } from "./ServiceDrawer";
 
 export default function VendorServices({
   onEdit,
@@ -12,6 +15,7 @@ export default function VendorServices({
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const { openAdd, setOpenAdd, handleAdded, refreshKey } = useServiceManager();
 
   useEffect(() => {
     const businessId = localStorage.getItem("nex_businessId");
@@ -53,9 +57,21 @@ export default function VendorServices({
           width={429}
           height={373}
         />
-        <p className="max-w-[487px] text-[13px] md:text-[20px] leading-[28px] md:leading-[34px] font-inter ">
-          You have not created any service yet, Add a Service to get started
+        <p className="max-w-[487px] text-[13px] md:text-[18px] leading-[28px] md:leading-[34px] font-inter ">
+          You have not created any service yet, Click Button below to get
+          started
         </p>
+        <Button
+          onClick={() => setOpenAdd(true)}
+          className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full hover:bg-purple-700"
+        >
+          Add Service
+        </Button>
+        <ServiceDrawer
+          open={openAdd}
+          onOpenChange={setOpenAdd}
+          onServiceAdded={handleAdded}
+        />
       </section>
     );
   }

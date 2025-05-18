@@ -25,7 +25,7 @@ export default function VendorEdit({ services, settings }: Props) {
   const publicUrl = `http://localhost:3000/vendor/${id}`;
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
-      <header className="bg-[#F2F2F2] px-8 py-4 sm:py-2 text-white text-center w-full fixed top-0 z-10 flex items-center justify-center">
+      <header className="bg-[#F2F2F2] px-8 py-4 sm:py-4 text-white text-center w-full fixed top-0 z-10 flex items-center justify-center">
         <div className="relative w-full flex items-center justify-center">
           <Image
             src="/nex.svg"
@@ -55,24 +55,28 @@ export default function VendorEdit({ services, settings }: Props) {
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-5 sm:px-0">
         {/* Hero */}
         <div className="flex flex-col gap-3 py-10 text-center max-w-[487px]">
-          <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
-            {settings.header}
-          </h1>
-          <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter leading-[24px] md:leading-[34px]">
-            {settings.tagline}
-          </p>
+          <Link href="/vendor/profile" className="">
+            <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
+              {settings.header}
+            </h1>
+          </Link>
+          <Link href="/vendor/profile">
+            <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter leading-[24px] md:leading-[34px]">
+              {settings.tagline}
+            </p>
+          </Link>
           <div className="flex gap-10 justify-center mt-5">
             <Link
               href={settings.facebookLink}
-              target="_blank"
-              rel="noopener noreferrer"
+              // target="_blank"
+              // rel="noopener noreferrer"
             >
               <Facebook />
             </Link>
             <Link
               href={settings.instagramLink}
-              target="_blank"
-              rel="noopener noreferrer"
+              // target="_blank"
+              // rel="noopener noreferrer"
             >
               <Instagram />
             </Link>
