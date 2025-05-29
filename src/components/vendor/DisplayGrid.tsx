@@ -3,12 +3,11 @@ import { Service } from "@/app/services/service";
 import DisplayCard from "./DisplayCard";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { useState } from "react";
 import { ServiceDrawer } from "./ServiceDrawer";
 import { useServiceManager } from "@/app/hooks/useServiceManager";
 
 export default function DisplayGrid({ services }: { services: Service[] }) {
-  const { openAdd, setOpenAdd, handleAdded, refreshKey } = useServiceManager();
+  const { openAdd, setOpenAdd, handleAdded } = useServiceManager();
 
   if (services.length === 0) {
     return (

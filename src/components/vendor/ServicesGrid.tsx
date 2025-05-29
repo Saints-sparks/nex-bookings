@@ -15,7 +15,7 @@ export default function VendorServices({
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const { openAdd, setOpenAdd, handleAdded, refreshKey } = useServiceManager();
+  const { openAdd, setOpenAdd, handleAdded } = useServiceManager();
 
   useEffect(() => {
     const businessId = localStorage.getItem("nex_businessId");
