@@ -28,7 +28,7 @@ export default function VendorEdit({ services, settings }: Props) {
       <header className="bg-[#F2F2F2] px-8 py-4 sm:py-4 text-white text-center w-full fixed top-0 z-10 flex items-center justify-center">
         <div className="relative w-full flex items-center justify-center">
           <Image
-            src="/nex.svg"
+            src="/logo.svg"
             alt="Vendor Logo"
             width={121}
             height={34}

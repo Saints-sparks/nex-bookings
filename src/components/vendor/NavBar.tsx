@@ -17,7 +17,12 @@ export default function VendorNavbar() {
   return (
     <nav className="flex md:px-[50px] px-8 py-4 sm:py-2 bg-[#F2F2F2] items-center justify-center fixed top-0 left-0 right-0 z-10">
       <div className="w-[920px] flex justify-between sm:items-center">
-        <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
+        <Image
+          src="/logo.svg"
+          alt="Nex Bookings logo"
+          width={113}
+          height={32}
+        />
 
         <div className="flex items-center gap-4 sm:gap-6">
           {/* Home */}

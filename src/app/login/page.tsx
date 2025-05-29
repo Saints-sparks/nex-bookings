@@ -61,7 +61,12 @@ export default function VerificationPage() {
   return (
     <div className="h-screen items-center justify-center">
       <div className="bg-[#FFB049] p-3 text-white text-center fixed top-0 left-0 right-0 z-10 flex justify-center">
-        <Image src="/nex.svg" alt="Nex Bookings logo" width={113} height={32} />
+        <Image
+          src="/logo.svg"
+          alt="Nex Bookings logo"
+          width={113}
+          height={32}
+        />
       </div>
       <div className="flex w-full justify-around px-3 py-6 sm:py-0 sm:pt-20  gap-10 mt-16 sm:mt-10">
         <div className="flex flex-col gap-6 max-w-[529px]">
