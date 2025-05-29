@@ -226,10 +226,6 @@ const PrivacyPolicy = () => {
               <ul className="list-disc list-inside">
                 <li>Encryption of data  </li>
                 <li>
-                  [Specify where possible, e.g., data in transit using SSL/TLS,
-                  data at rest]
-                </li>
-                <li>
                   Access controls to limit access to personal data to authorized
                   personnel.
                 </li>
@@ -307,11 +303,6 @@ const PrivacyPolicy = () => {
                   complaint with a supervisory authority if you believe that our
                   processing of your personal data infringes applicable data
                   protection laws.  
-                </li>
-                <li>
-                  [For GDPR, this would be a data protection authority in an EU
-                  member state. For Nigeria, this would be the Nigeria Data
-                  Protection Commission (NDPC)]
                 </li>
               </ul>
               To exercise any of these rights, please contact us at
@@ -434,7 +425,8 @@ const PrivacyPolicy = () => {
           <div className="">
             <h3 className="font-bold">16. Contact Information  </h3>
             <p>
-              If you have any questions about these Terms, please contact us at: <br />
+              If you have any questions about these Terms, please contact us at:{" "}
+              <br />
               Osiso Bookings Email: Info@osisobookings.com
             </p>
           </div>
