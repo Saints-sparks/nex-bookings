@@ -24,9 +24,9 @@ const Footer = () => (
       <Image
         src="/osiso.svg"
         alt="Osiso Pro logo"
-        width={135}
-        height={38}
-        className="w-[112px] h-[32px] md:w-[135px] md:h-[38px]"
+        width={44}
+        height={44}
+        className="w-[44px] h-[44px]"
       />
       <p className="text-[24px] font-bold">Info@osisobookings.com</p>
     </div>
