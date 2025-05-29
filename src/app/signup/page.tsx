@@ -143,9 +143,16 @@ export default function SignUpDetailsPage() {
                 htmlFor="terms"
                 className="text-[#807E7E] leading-[28px] peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                I agree to (a) Terms of Use, and (b) Privacy Policy. I agree to
-                receive more information from Alibaba.com about its products and
-                services.
+                I agree to (a)
+                <Link href="/terms-of-service" className="hover:text-[#6C35A7]">
+                   Terms of Use
+                </Link>
+                , and (b)
+                <Link href="/privacy-policy" className="hover:text-[#6C35A7]">
+                   Privacy Policy
+                </Link>
+                . I agree to receive more information from Alibaba.com about its
+                products and services.
               </label>
             </div>
             {error && <p className="text-red-500">{error}</p>}

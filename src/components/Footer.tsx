@@ -8,8 +8,8 @@ const Footer = () => (
     <div className="flex flex-col md:flex-row justify-between gap-10 w-full items-center md:items-start">
       <div className="flex flex-col md:flex-row gap-8 lg:gap-16 font-bold text-[20px] md:text-[22px] lg:text-[24px] leading-[49px] text-center md:text-left">
         <Link href="#">Home</Link>
-        <Link href="#">Terms & Conditions</Link>
-        <Link href="#">Privacy Policy</Link>
+        <Link href="/terms-of-service">Terms & Conditions</Link>
+        <Link href="/privacy-policy">Privacy Policy</Link>
       </div>
       <div className="flex gap-6 ">
         <div className="bg-white w-[56px] h-[56px] flex items-center justify-center rounded-2xl">
@@ -22,7 +22,7 @@ const Footer = () => (
     </div>
     <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 w-full">
       <Image
-        src="/logo.svg"
+        src="/osiso.svg"
         alt="Osiso Pro logo"
         width={135}
         height={38}

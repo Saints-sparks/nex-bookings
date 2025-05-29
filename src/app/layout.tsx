@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Alegreya_Sans, Inter } from "next/font/google";
-import { Toaster } from 'sonner';
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const alegreyaSans = Alegreya_Sans({
@@ -18,6 +18,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Osiso Pro",
   description: "Discover and Manage Your Bookings with Ease",
+  icons: {
+    icon: "/group.svg",
+  },
 };
 
 export default function RootLayout({
