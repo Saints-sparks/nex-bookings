@@ -10,7 +10,7 @@ export default function AccountSettings() {
             Privacy Policy
             <Image
               src="/nex-right.svg"
-              alt="Nex Bookings logo"
+              alt="Osiso Pro logo"
               width={24}
               height={24}
             />

@@ -23,7 +23,7 @@ const Footer = () => (
     <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 w-full">
       <Image
         src="/logo.svg"
-        alt="Nex Bookings logo"
+        alt="Osiso Pro logo"
         width={135}
         height={38}
         className="w-[112px] h-[32px] md:w-[135px] md:h-[38px]"

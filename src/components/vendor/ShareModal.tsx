@@ -22,7 +22,7 @@ export default function ShareWebsiteModal({
   onOpenChange,
   url,
 }: ShareWebsiteModalProps) {
-  const shareMessage = "Check out my services on Nex Bookings!";
+  const shareMessage = "Check out my services on Osiso Pro!";
   const handleCopy = () => {
     navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard!");

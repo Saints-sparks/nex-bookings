@@ -32,12 +32,7 @@ export default function ResetPassword() {
   return (
     <div className="h-screen items-center justify-center">
       <div className="bg-[#FFB049] p-3 text-white text-center fixed top-0 left-0 right-0 z-10 flex justify-center">
-        <Image
-          src="/logo.svg"
-          alt="Nex Bookings logo"
-          width={113}
-          height={32}
-        />
+        <Image src="/logo.svg" alt="Osiso Pro logo" width={113} height={32} />
       </div>
       <button
         className="bg-transparent text-black shadow-none sm:hidden p-5 mt-15"
@@ -53,7 +48,7 @@ export default function ResetPassword() {
             </h2>
             <p className="leading-[34px] text-sm sm:text-[17px] font-medium">
               Enter your email to get a reset code and set a new password for
-              your Nex Bookings account.{" "}
+              your Osiso Pro account.{" "}
             </p>
             {error && <div className="text-red-600">{error}</div>}
           </div>

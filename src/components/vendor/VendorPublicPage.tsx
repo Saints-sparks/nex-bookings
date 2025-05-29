@@ -45,7 +45,7 @@ export default function VendorPublicPage({
         {/* Footer */}
         <footer className="px-5 my-8 flex items-center text-black text-[20px] leading-[34px] w-full hidden sm:flex">
           <div className="flex-grow border-t border-[#807E7E]" />
-          <span className="px-4">Powered by Nex Bookings</span>
+          <span className="px-4">Powered by Osiso Pro</span>
           <div className="flex-grow border-t border-[#807E7E]" />
         </footer>
       </main>

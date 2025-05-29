@@ -16,7 +16,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Nex Bookings",
+  title: "Osiso Pro",
   description: "Discover and Manage Your Bookings with Ease",
 };
 
