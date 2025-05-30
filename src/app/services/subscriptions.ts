@@ -69,6 +69,16 @@ export interface UserSubscriptionResponse {
   };
 }
 
+export interface PaginatedSubscriptions {
+  data: UserSubscriptionResponse[];
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
 /**
  * Fetch features grouped by subscription plan
  */
@@ -126,11 +136,13 @@ export async function subscribeToPlan(
 /**
  * Get all subscriptions for a given user
  */
+
 export async function getUserSubscriptions(
   userId: string
 ): Promise<UserSubscriptionResponse[]> {
-  const res = await api.get<UserSubscriptionResponse[]>(
+  const res = await api.get<PaginatedSubscriptions>(
     `/subscription-plans/subscriptions/user/${userId}`
   );
-  return res.data;
+  // **unwrap** the `data` array:
+  return res.data.data;
 }

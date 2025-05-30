@@ -7,6 +7,12 @@ import { EditServiceDrawer } from "@/components/vendor/EditServiceDrawer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useServiceManager } from "@/app/hooks/useServiceManager";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import Subscriptions from "@/components/vendor/profile/Subscriptions";
+import { useEffect, useState } from "react";
+import { getUserSubscriptions } from "@/app/services/subscriptions";
+
+type Pending = "add" | null;
 
 export default function VendorHome() {
   const {
@@ -18,11 +24,49 @@ export default function VendorHome() {
     refreshKey,
     setOpenAdd,
     setOpenEdit,
-    onAddClick,
+    onAddClick: origOnAddClick,
     onEditClick,
     handleAdded,
     handleUpdated,
   } = useServiceManager();
+
+  const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
+  const [openSubModal, setOpenSubModal] = useState(false);
+  const [pendingAction, setPendingAction] = useState<Pending>(null);
+
+  useEffect(() => {
+    const raw = localStorage.getItem("nex_user");
+    const user = raw ? JSON.parse(raw) : null;
+    if (!user) return;
+
+    getUserSubscriptions(user.id)
+      .then((subs) => {
+        // assume you treat any “ACTIVE” as good
+        const active = subs.some((s) => s.status === "ACTIVE");
+        setHasActiveSubscription(active);
+      })
+      .catch(() => {
+        setHasActiveSubscription(false);
+      });
+  }, []);
+
+  const onAddClick = () => {
+    if (hasActiveSubscription) {
+      setOpenAdd(true);
+    } else {
+      setPendingAction("add");
+      setOpenSubModal(true);
+    }
+  };
+
+  const onSubModalChange = (open: boolean) => {
+    // on close, if they’d clicked “Add”, open the drawer
+    if (!open && pendingAction === "add") {
+      setOpenAdd(true);
+      setPendingAction(null);
+    }
+    setOpenSubModal(open);
+  };
 
   return (
     <div className="flex flex-col pb-10 relative">
@@ -94,6 +138,17 @@ export default function VendorHome() {
         service={selected}
         onServiceUpdated={handleUpdated}
       />
+      <Dialog open={openSubModal} onOpenChange={onSubModalChange}>
+        <DialogContent
+          style={{ width: "1040px", maxWidth: "1200px", maxHeight: "718px" }}
+          className="bg-white rounded-2xl p-6 mx-auto overflow-y-auto scrollbar-hide"
+        >
+          <DialogTitle className="text-2xl font-bold mb-4 hidden">
+            Subscribe to Add Services
+          </DialogTitle>
+          <Subscriptions />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
