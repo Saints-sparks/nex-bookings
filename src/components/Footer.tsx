@@ -12,12 +12,16 @@ const Footer = () => (
         <Link href="/privacy-policy">Privacy Policy</Link>
       </div>
       <div className="flex gap-6 ">
-        <div className="bg-white w-[56px] h-[56px] flex items-center justify-center rounded-2xl">
-          <Instagram />
-        </div>
-        <div className="bg-white w-[56px] h-[56px] flex items-center justify-center rounded-2xl">
-          <X />
-        </div>
+        <Link href="https://www.instagram.com/osisopro/">
+          <div className="bg-white w-[56px] h-[56px] flex items-center justify-center rounded-2xl">
+            <Instagram />
+          </div>
+        </Link>
+        <Link href="https://x.com/osisopro/">
+          <div className="bg-white w-[56px] h-[56px] flex items-center justify-center rounded-2xl">
+            <X />
+          </div>
+        </Link>
       </div>
     </div>
     <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 w-full">
