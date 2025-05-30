@@ -52,7 +52,7 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
           >
             <Link
-              href="https://nex-bookings.vercel.app/signup"
+              href="#"
               className="w-1/2 md:w-auto"
             >
               <button className="bg-[#FFB049] rounded-full py-3 w-full md:w-[137px]">
@@ -60,7 +60,7 @@ const Hero = () => {
               </button>
             </Link>
             <Link
-              href="https://nex-bookings.vercel.app/"
+              href="#"
               className="w-1/2 md:w-auto"
             >
               <button className="bg-[#6C35A7] text-white rounded-full w-full py-3 md:w-[137px]">
