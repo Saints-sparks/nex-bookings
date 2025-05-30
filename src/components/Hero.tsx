@@ -27,7 +27,7 @@ const Hero = () => {
         >
           {/* Heading */}
           <motion.h1
-            className="mt-6 md:mt-0 text-[25px] md:text-[42px] font-bold text-[#6C35A7] leading-[45px] md:leading-[100%]"
+            className="mt-8 md:mt-0 text-[25px] md:text-[42px] font-bold text-[#6C35A7] leading-[45px] md:leading-[100%]"
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
