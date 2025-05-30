@@ -31,7 +31,8 @@ const Hero = () => {
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
-            360 Bookings, Always Everywhere
+            Empowering vendors! <br />
+            Create, share, and get booked instantly.
           </motion.h1>
 
           {/* Paragraph */}
