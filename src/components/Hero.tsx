@@ -14,10 +14,10 @@ const heroVariants = {
 const Hero = () => {
   return (
     <section className="md:h-screen flex flex-col justify-end">
-      <div className="flex-1 xl:flex-none flex flex-col md:flex-row items-center md:justify-between px-4 md:px-18 lg:px-26 mt-20 md:mt-0">
+      <div className="flex-1 xl:flex-none flex flex-col md:flex-row items-center md:justify-between px-6 md:px-18 lg:px-26 mt-20 md:mt-0">
         {/* 3️⃣ Animate the text container with variants + stagger */}
         <motion.div
-          className="max-w-[618px] flex flex-col gap-3 md:gap-5"
+          className="max-w-[618px] flex flex-col gap-3 md:gap-5 self-start"
           variants={{
             hidden: {},
             show: { transition: { staggerChildren: 0.2 } },
@@ -27,7 +27,7 @@ const Hero = () => {
         >
           {/* Heading */}
           <motion.h1
-            className="mt-8 md:mt-0 text-[25px] md:text-[42px] font-bold text-[#6C35A7] leading-[45px] md:leading-[100%]"
+            className="mt-20 md:mt-0 text-[27px] md:text-[42px] font-bold text-[#6C35A7] leading-[45px] md:leading-[100%] "
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
@@ -37,7 +37,7 @@ const Hero = () => {
 
           {/* Paragraph */}
           <motion.p
-            className="font-medium leading-[30px] md:leading-[40px] text-[15px] md:text-[19px]"
+            className="font-medium leading-[30px] md:leading-[40px] text-[17px] md:text-[19px]"
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
