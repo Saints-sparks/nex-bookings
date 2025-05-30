@@ -12,7 +12,7 @@ const fadeInUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
-export default function Home() {
+export default function Landing() {
   return (
     <div>
       {/* Navbar slides down */}
