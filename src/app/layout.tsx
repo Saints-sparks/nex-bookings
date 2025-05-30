@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Osiso Pro",
   description: "Discover and Manage Your Bookings with Ease",
   icons: {
-    icon: "/group.svg",
+    icon: "/fav.png",
   },
 };
 
