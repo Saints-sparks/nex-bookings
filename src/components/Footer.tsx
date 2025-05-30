@@ -28,7 +28,7 @@ const Footer = () => (
         height={44}
         className="w-[44px] h-[44px]"
       />
-      <p className="text-[24px] font-bold">Info@osisobookings.com</p>
+      <p className="text-[24px] font-bold">Info@osisopro.com</p>
     </div>
   </footer>
 );
