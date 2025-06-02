@@ -2,20 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
-// import { getSubscriptionPlans, SubscriptionPlan, subscribeToPlan } from "@/services/subscriptions";
+import { getSubscriptionPlans, SubscriptionPlan } from "@/app/services/subscriptions";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner"; // or your preferred toast library
-import {
-  getSubscriptionPlans,
-  subscribeToPlan,
-  SubscriptionPlan,
-} from "@/app/services/subscriptions";
+import { toast } from "sonner";
+import { usePayment } from "@/hooks/usePayment";
 
 export default function Subscriptions() {
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { processPayment, isLoading: paymentLoading } = usePayment();
 
   useEffect(() => {
     async function fetchPlans() {
@@ -32,26 +29,24 @@ export default function Subscriptions() {
   const handleSubscribe = async (planId: string) => {
     const raw = localStorage.getItem("nex_user");
     const user = raw ? JSON.parse(raw) : null;
-    if (!user) return toast.error("Please log in.");
+    if (!user) {
+      toast.error("Please log in.");
+      return;
+    }
 
     setLoadingPlanId(planId);
     try {
-      // 1. Integrate payment flow → get actual paymentId
-      const paymentId = "YOUR_PAYMENT_GATEWAY_ID";
-      // 2. Call subscribe
-      await subscribeToPlan({
-        email: user.email,
-        userId: user.id,
-        username: user.fullName,
-        paymentId,
-        subscriptionPlanId: planId,
-      });
-      toast.success("Subscription successful!");
-      router.refresh();
+      // Initialize payment for subscription
+      const success = await processPayment(planId, user.email);
+      if (!success) {
+        setLoadingPlanId(null);
+        return;
+      }
     } catch (err: any) {
       toast.error(err.response?.data?.message || err.message);
     } finally {
-      setLoadingPlanId(null);
+      // loading state will be managed by hook and local state
+      if (!paymentLoading) setLoadingPlanId(null);
     }
   };
 
@@ -61,10 +56,11 @@ export default function Subscriptions() {
 
   return (
     <div className="w-full">
+      <h2 className="text-2xl font-bold mb-4">Choose a Subscription Plan</h2>
       <div className="grid md:grid-cols-2 gap-6">
         {plans.map((plan, idx) => {
           const isFirst = idx === 0;
-          const isLoading = loadingPlanId === plan.id;
+          const isLoading = (loadingPlanId === plan.id) || paymentLoading;
 
           return (
             <div

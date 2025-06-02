@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://nex-be-ohft.onrender.com/",
+  baseURL: "http://localhost:8080/", // Update with your actual API base URL
 });
 
 export default api;

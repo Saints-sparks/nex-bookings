@@ -1,6 +1,45 @@
 // services/subscriptions.ts
 import api from "@/lib/api";
 
+// Payment interfaces
+export interface PaymentInitializeRequest {
+  plan_id: string;
+  email: string;
+}
+
+export interface PaymentInitializeResponse {
+  status: string;
+  message: string;
+  data: {
+    authorization_url: string;
+    access_code: string;
+    reference: string;
+    plan_name: string;
+    amount: number;
+  };
+}
+
+export interface PaymentVerifyRequest {
+  reference: string;
+}
+
+export interface PaymentVerifyResponse {
+  status: string;
+  message: string;
+  data: {
+    reference: string;
+    amount: number;
+    status: string;
+    paid_at: string;
+    currency: string;
+    gateway_response: string;
+    customer: {
+      email: string;
+      name: string;
+    };
+  };
+}
+
 // DTOs
 export interface FeatureDTO {
   id: string;
@@ -145,4 +184,24 @@ export async function getUserSubscriptions(
   );
   // **unwrap** the `data` array:
   return res.data.data;
+}
+
+export async function initializePayment(data: PaymentInitializeRequest): Promise<PaymentInitializeResponse> {
+  const token = localStorage.getItem("nex_token");
+  const response = await api.post<PaymentInitializeResponse>("/api/payments/initialize", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
+
+export async function verifyPayment(data: PaymentVerifyRequest): Promise<PaymentVerifyResponse> {
+  const token = localStorage.getItem("nex_token");
+  const response = await api.post<PaymentVerifyResponse>("/api/payments/verify", data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
 }
