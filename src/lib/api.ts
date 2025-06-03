@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/", // Update with your actual API base URL
+  baseURL: "https://2360-102-89-32-114.ngrok-free.app", // Update with your actual API base URL
 });
 
 export default api;
