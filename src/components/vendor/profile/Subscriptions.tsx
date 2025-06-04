@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
-import { getSubscriptionPlans, SubscriptionPlan } from "@/app/services/subscriptions";
+import {
+  getSubscriptionPlans,
+  SubscriptionPlan,
+} from "@/app/services/subscriptions";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { usePayment } from "@/hooks/usePayment";
@@ -46,7 +49,7 @@ export default function Subscriptions() {
       toast.error(err.response?.data?.message || err.message);
     } finally {
       // loading state will be managed by hook and local state
-      if (!paymentLoading) setLoadingPlanId(null);
+      setLoadingPlanId(null);
     }
   };
 
@@ -60,7 +63,7 @@ export default function Subscriptions() {
       <div className="grid md:grid-cols-2 gap-6">
         {plans.map((plan, idx) => {
           const isFirst = idx === 0;
-          const isLoading = (loadingPlanId === plan.id) || paymentLoading;
+          const isLoading = loadingPlanId === plan.id;
 
           return (
             <div
