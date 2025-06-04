@@ -51,18 +51,12 @@ const Hero = () => {
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
-            <Link
-              href="#"
-              className="w-1/2 md:w-auto"
-            >
+            <Link href="#" className="w-1/2 md:w-auto">
               <button className="bg-[#FFB049] rounded-full py-3 w-full md:w-[137px]">
                 Create Account
               </button>
             </Link>
-            <Link
-              href="#"
-              className="w-1/2 md:w-auto"
-            >
+            <Link href="#" className="w-1/2 md:w-auto">
               <button className="bg-[#6C35A7] text-white rounded-full w-full py-3 md:w-[137px]">
                 Log In
               </button>
