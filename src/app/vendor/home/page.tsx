@@ -139,10 +139,7 @@ export default function VendorHome() {
         onServiceUpdated={handleUpdated}
       />
       <Dialog open={openSubModal} onOpenChange={onSubModalChange}>
-        <DialogContent
-          style={{ width: "1040px", maxWidth: "1200px", maxHeight: "718px" }}
-          className="bg-white rounded-2xl p-6 mx-auto overflow-y-auto scrollbar-hide"
-        >
+        <DialogContent className="bg-white rounded-2xl p-6 mx-auto overflow-y-auto scrollbar-hide w-[90%] sm:w-[600px] lg:w-[1040px]  max-h-[718px] sm:max-w-[900px]">
           <DialogTitle className="text-2xl font-bold mb-4 hidden">
             Subscribe to Add Services
           </DialogTitle>
