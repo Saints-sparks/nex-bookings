@@ -1,10 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
-import CallToAction from "@/components/CallToAction";
-import FastOperations from "@/components/FastOperations";
+import CallToAction from "@/components/landing/CallToAction";
+import FastOperations from "@/components/landing/FastOperations";
 import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
+import Hero from "@/components/landing/Hero";
 import Navbar from "@/components/Navbar";
+import Pricing from "@/components/landing/Pricing";
 
 // Define animation variants
 const fadeInUp = {
@@ -40,6 +41,9 @@ export default function Landing() {
       >
         <FastOperations />
       </motion.div>
+
+      {/* Pricing section can be added here if needed */}
+      {/* <Pricing /> */}
 
       {/* Call to action pulses in */}
       <motion.div

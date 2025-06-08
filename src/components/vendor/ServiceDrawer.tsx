@@ -19,18 +19,26 @@ export function ServiceDrawer({
   onOpenChange: (open: boolean) => void;
   onServiceAdded: () => void;
 }) {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<{
+    title: string;
+    price: string;
+    duration: string;
+    durationType: "hours" | "days" | "weeks" | "months";
+    imageUrl: string;
+  }>({
     title: "",
     price: "",
     duration: "",
+    durationType: "hours",
     imageUrl: "",
   });
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   // handle file selection + upload
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,11 +68,19 @@ export function ServiceDrawer({
         title: form.title,
         price: Number(form.price),
         duration: Number(form.duration),
+        durationType: form.durationType,
         imageUrl: form.imageUrl,
       };
+      console.log("Creating service with payload:", payload);
       await createService(payload);
       onServiceAdded();
-      setForm({ title: "", price: "", duration: "", imageUrl: "" });
+      setForm({
+        title: "",
+        price: "",
+        duration: "",
+        durationType: "hours",
+        imageUrl: "",
+      });
     } catch (err: any) {
       setError(err.message || "Failed to create service");
     } finally {
@@ -168,6 +184,8 @@ export function ServiceDrawer({
                   <select
                     id="durationType"
                     name="durationType"
+                    value={form.durationType}
+                    onChange={handleChange}
                     className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                   >
                     <option value="hours">Hours</option>

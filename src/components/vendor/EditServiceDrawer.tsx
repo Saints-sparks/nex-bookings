@@ -57,7 +57,6 @@ export function EditServiceDrawer({
       const url = await uploadToCloudinary(file);
       setForm((p) => ({ ...p, imageUrl: url }));
     } catch (err: any) {
-      console.error(err);
       setError("Image upload failed");
     } finally {
       setUploading(false);

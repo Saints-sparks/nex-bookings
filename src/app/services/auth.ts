@@ -103,7 +103,6 @@ export async function signin(data: SigninPayload): Promise<SigninResponse> {
 
 export async function introspect(): Promise<IntrospectResponse> {
   const res = await api.get<IntrospectResponse>("/auth/introspect");
-  console.log(res.data);
   return res.data;
 }
 

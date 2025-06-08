@@ -7,6 +7,7 @@ interface ServiceCardProps {
   title: string;
   price: number;
   duration: number;
+  durationType: "hours" | "days" | "weeks" | "months";
   imageUrl: string;
   onEdit: () => void;
 }
@@ -15,6 +16,7 @@ export default function ServiceCard({
   title,
   price,
   duration,
+  durationType,
   imageUrl,
   onEdit,
 }: ServiceCardProps) {
@@ -30,7 +32,7 @@ export default function ServiceCard({
           className="h-48 object-cover"
         />
         <span className="absolute top-2 right-2 bg-[#FFB049] text-[12px] font-bold px-3 py-2 rounded-xl font-inter">
-          {duration} {duration === 1 ? "Hour" : "Hours"}
+          {duration} {durationType.toUpperCase()}
         </span>
       </div>
 

@@ -6,6 +6,7 @@ export interface Service {
   title: string;
   price: number;
   duration: number;
+  durationType: "hours" | "days" | "weeks" | "months";
   imageUrl: string;
   businessId: string;
   business: {
@@ -21,6 +22,7 @@ export interface CreateServicePayload {
   title: string;
   price: number;
   duration: number;
+  durationType: "hours" | "days" | "weeks" | "months";
   imageUrl: string;
 }
 
@@ -48,6 +50,7 @@ export async function createService(
     Title: data.title,
     Price: data.price,
     Duration: data.duration,
+    DurationType: data.durationType,
     ImageUrl: data.imageUrl,
   };
 

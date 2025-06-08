@@ -60,9 +60,9 @@ export default function Profile() {
       // 3️⃣ Update state & persist
       setProfilePic(url);
       localStorage.setItem("nex_businessLogo", url);
-      console.log("Logo updated:", url);
     } catch (err: any) {
       console.error("Logo upload/update failed:", err);
+      // Handle error appropriately
       // Optionally show a toast or set an error state
     } finally {
       setUploading(false);

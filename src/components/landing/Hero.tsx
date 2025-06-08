@@ -14,10 +14,10 @@ const heroVariants = {
 const Hero = () => {
   return (
     <section className="md:h-screen flex flex-col justify-end">
-      <div className="flex-1 xl:flex-none flex flex-col md:flex-row items-center md:justify-between px-6 md:px-18 lg:px-26 mt-20 md:mt-0">
+      <div className="flex-1 xl:flex-none flex flex-col md:flex-row items-center md:justify-between px-6 md:px-18 lg:px-26 mt-20 md:mt-28">
         {/* 3️⃣ Animate the text container with variants + stagger */}
         <motion.div
-          className="max-w-[618px] flex flex-col gap-3 md:gap-5 self-start"
+          className="max-w-[618px] flex flex-col gap-3 md:gap-5 lg:self-start"
           variants={{
             hidden: {},
             show: { transition: { staggerChildren: 0.2 } },
