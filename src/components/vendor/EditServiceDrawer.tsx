@@ -26,6 +26,7 @@ export function EditServiceDrawer({
     title: "",
     price: "",
     duration: "",
+    durationType: "hours" as "hours" | "days" | "weeks" | "months",
     imageUrl: "",
   });
   const [loading, setLoading] = useState(false);
@@ -39,13 +40,15 @@ export function EditServiceDrawer({
         title: service.title,
         price: String(service.price),
         duration: String(service.duration),
+        durationType: service.durationType,
         imageUrl: service.imageUrl,
       });
     }
   }, [service]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
   // file selection & upload
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +76,7 @@ export function EditServiceDrawer({
         title: form.title,
         price: Number(form.price),
         duration: Number(form.duration),
+        durationType: form.durationType,
         imageUrl: form.imageUrl,
       });
       onServiceUpdated();
@@ -196,6 +200,8 @@ export function EditServiceDrawer({
                   <select
                     id="durationType"
                     name="durationType"
+                    value={form.durationType}
+                    onChange={handleChange}
                     className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                   >
                     <option value="hours">Hours</option>
