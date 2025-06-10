@@ -43,7 +43,7 @@ export default function Landing() {
       </motion.div>
 
       {/* Pricing section can be added here if needed */}
-      {/* <Pricing /> */}
+      <Pricing />
 
       {/* Call to action pulses in */}
       <motion.div
