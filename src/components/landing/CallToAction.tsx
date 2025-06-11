@@ -12,7 +12,7 @@ const CallToAction = () => {
           Get Started Today and unlock a new stream of customers
         </h1>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Link href="#">
+          <Link href="/signup">
             <button className="bg-[#6C35A7] text-white font-medium py-3 w-[164px] mx-auto rounded-full hover:bg-opacity-90 transition">
               Create Account
             </button>
