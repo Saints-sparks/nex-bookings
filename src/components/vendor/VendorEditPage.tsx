@@ -22,7 +22,7 @@ export default function VendorEdit({ services, settings }: Props) {
   const [openShareModal, setOpenShareModal] = useState(false);
   const params = useParams();
   const id = params.id;
-  const publicUrl = `http://localhost:3000/vendor/${id}`;
+  const publicUrl = `http://osisopro.com/vendor/${id}`;
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
       <header className="bg-[#F2F2F2] px-8 py-4 sm:py-4 text-white text-center w-full fixed top-0 z-10 flex items-center justify-center">
