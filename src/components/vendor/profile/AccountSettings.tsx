@@ -27,6 +27,17 @@ export default function AccountSettings() {
             />
           </div>
         </Link>
+         <Link href="#">
+          <div className="flex bg-[#F6F6F6] text-[#6C35A7] font-bold text-[17px] justify-between p-6 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors duration-300">
+            Reset Password
+            <Image
+              src="/nex-right.svg"
+              alt="Green right arrow"
+              width={24}
+              height={24}
+            />
+          </div>
+        </Link>
         <div className="flex bg-[#F6F6F6] text-[#F62E2E] font-bold text-[17px] justify-between p-6 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors duration-300">
           Delete Account
           <Image

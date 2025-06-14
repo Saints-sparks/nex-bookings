@@ -70,7 +70,7 @@ export default function Verification() {
       >
         <ChevronLeft size={20} />
       </button>
-      <div className="flex w-full justify-between sm:py-6 px-6 gap-10 sm:mt-14">
+      <div className="flex w-full justify-around sm:py-6 px-6 gap-10 md:mt-15">
         <div className="flex flex-col gap-6">
           <div className="">
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">

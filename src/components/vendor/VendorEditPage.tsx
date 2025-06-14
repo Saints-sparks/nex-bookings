@@ -54,7 +54,7 @@ export default function VendorEdit({ services, settings }: Props) {
 
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-5 sm:px-0">
         {/* Hero */}
-        <div className="flex flex-col gap-3 py-10 text-center max-w-[487px]">
+        <div className="flex flex-col gap-3 py-10 text-center max-w-[487px] mt-10">
           <Link href="/vendor/profile" className="">
             <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
               {settings.header}
