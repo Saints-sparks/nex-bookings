@@ -54,7 +54,7 @@ export default function SignUpDetailsPage() {
       const { business } = await completeSignup(payload);
       localStorage.setItem("nex_businessId", business.id);
       // on success, redirect to vendor home or dashboard
-      router.push("/vendor/home");
+      router.push("/login");
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || "Could not complete signup.");
