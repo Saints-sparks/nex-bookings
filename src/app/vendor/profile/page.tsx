@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import VendorNavbar from "@/components/vendor/NavBar";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import AccountInfo from "@/components/vendor/profile/AccountInformation";
 import WebsiteSettings from "@/components/vendor/profile/WebsiteSettings";
 import Subscriptions from "@/components/vendor/profile/Subscriptions";
@@ -15,9 +15,11 @@ import { uploadToCloudinary } from "@/lib/cloudinary";
 
 export default function Profile() {
   const router = useRouter();
+  const params = useSearchParams();
   const [businessName, setBusinessName] = useState("");
   const [user, setUser] = useState<any>(null);
-  const [selectedTab, setSelectedTab] = useState("Account Information");
+  const initialTab = params.get("tab") || "Account Information";
+  const [selectedTab, setSelectedTab] = useState(initialTab);
   const [profilePic, setProfilePic] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);

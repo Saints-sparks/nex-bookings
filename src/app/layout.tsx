@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Alegreya_Sans, Inter } from "next/font/google";
 import { Toaster } from "sonner";
-import { Providers } from "./providers"; 
+import { Providers } from "./providers";
 import "./globals.css";
 
 const alegreyaSans = Alegreya_Sans({

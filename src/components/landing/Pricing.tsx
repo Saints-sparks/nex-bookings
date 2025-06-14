@@ -1,5 +1,6 @@
 "use client";
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const plans = [
   {
@@ -11,7 +12,7 @@ const plans = [
       "Receive Fifty (50) Email Notification monthly",
       "Access to Booking Records",
       "Customizable Website",
-      "15,000 Monthly Website Visitors",
+      "15,000 Monthly Website Visitors Limit",
     ],
   },
   {
@@ -30,6 +31,20 @@ const plans = [
 ];
 
 export default function Subscriptions() {
+  const router = useRouter();
+
+  const handleBuy = (planIndex: number) => {
+    // target URL once they’re logged in
+    const redirectTo = `/vendor/profile?tab=Subscriptions&planIndex=${planIndex}`;
+    // send them to login if not authed
+    const token = localStorage.getItem("nex_token");
+    if (!token) {
+      router.push(`/login?redirect=${encodeURIComponent(redirectTo)}`);
+    } else {
+      // already authed? go straight
+      router.push(redirectTo);
+    }
+  };
   return (
     <div className="max-w-[1000px] mx-auto py-20 px-6 md:px-0">
       <h1 className="text-[#6C35A7] font-bold text-[25px] md:text-[42px] text-center">
@@ -77,6 +92,7 @@ export default function Subscriptions() {
 
                 {/* Mobile-only Buy button */}
                 <button
+                  onClick={() => handleBuy(idx)}
                   className={`mt-6 w-full py-3 rounded-full font-medium hover:opacity-90 transition ${
                     isFirst
                       ? "bg-[#6C35A7] text-white"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,8 @@ import api from "@/lib/api";
 
 export default function VerificationPage() {
   const router = useRouter();
+  const params = useSearchParams();
+  const redirectParam = params.get("redirect") || "/vendor/home";
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -47,7 +49,7 @@ export default function VerificationPage() {
       localStorage.setItem("nex_businessName", business.businessName);
       localStorage.setItem("nex_user", JSON.stringify(user));
       // redirect on success
-      router.push("/vendor/home");
+      router.push(redirectParam);
     } catch (err: any) {
       console.error("Login error:", err);
       setError(
