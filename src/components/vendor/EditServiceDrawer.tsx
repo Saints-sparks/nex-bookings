@@ -196,20 +196,22 @@ export function EditServiceDrawer({
                   required
                   className="flex-1 p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
                 />
-                <div className="flex px-3 items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]">
+                <div className="cursor-pointer relative flex px-3 items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]">
                   <select
                     id="durationType"
                     name="durationType"
                     value={form.durationType}
                     onChange={handleChange}
-                    className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
+                    className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium pr-5 cursor-pointer"
                   >
                     <option value="hours">Hours</option>
                     <option value="days">Days</option>
                     <option value="weeks">Weeks</option>
                     <option value="months">Months</option>
                   </select>
-                  <Down />
+                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+                    <Down />
+                  </span>
                 </div>
               </div>
             </div>

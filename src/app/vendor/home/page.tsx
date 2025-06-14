@@ -1,18 +1,17 @@
 // app/vendor/home/page.tsx
 "use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import VendorNavbar from "@/components/vendor/NavBar";
 import VendorServices from "@/components/vendor/ServicesGrid";
 import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
 import { EditServiceDrawer } from "@/components/vendor/EditServiceDrawer";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { useServiceManager } from "@/app/hooks/useServiceManager";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import Subscriptions from "@/components/vendor/profile/Subscriptions";
-import { useEffect, useState } from "react";
-import { getUserSubscriptions } from "@/app/services/subscriptions";
-
-type Pending = "add" | null;
+import { useServiceManager } from "@/app/hooks/useServiceManager";
+import { useSubscriptions } from "@/app/context/SubscriptionContext";
 
 export default function VendorHome() {
   const {
@@ -30,47 +29,35 @@ export default function VendorHome() {
     handleUpdated,
   } = useServiceManager();
 
-  const [hasActiveSubscription, setHasActiveSubscription] = useState(false);
+  // 1️⃣ grab subscriptions state from context
+  const { userSubs, subsLoading, subsError, refreshUserSubs } =
+    useSubscriptions();
+
+  // 2️⃣ derive whether there’s an active subscription
+  const hasActiveSubscription =
+    !subsLoading && !subsError && userSubs.some((s) => s.status === "ACTIVE");
+
+  // local state for the subscription modal & pending action
   const [openSubModal, setOpenSubModal] = useState(false);
-  const [pendingAction, setPendingAction] = useState<Pending>(null);
 
-  useEffect(() => {
-    const raw = localStorage.getItem("nex_user");
-    const user = raw ? JSON.parse(raw) : null;
-    if (!user) return;
-
-    getUserSubscriptions(user.id)
-      .then((subs) => {
-        // assume you treat any “ACTIVE” as good
-        const active = subs.some((s) => s.status === "ACTIVE");
-        setHasActiveSubscription(active);
-      })
-      .catch(() => {
-        setHasActiveSubscription(false);
-      });
-  }, []);
-
+  // 3️⃣ wrap the original add-click
   const onAddClick = () => {
     if (hasActiveSubscription) {
       setOpenAdd(true);
     } else {
-      setPendingAction("add");
       setOpenSubModal(true);
     }
   };
 
+  // 4️⃣ when the modal closes, re-open the drawer if needed
   const onSubModalChange = (open: boolean) => {
-    // on close, if they’d clicked “Add”, open the drawer
-    if (!open && pendingAction === "add") {
-      setOpenAdd(true);
-      setPendingAction(null);
-    }
     setOpenSubModal(open);
   };
 
   return (
     <div className="flex flex-col pb-10 relative">
       <VendorNavbar />
+
       <div className="max-w-[1000px] lg:min-w-[920px] mx-auto mt-20 p-6 sm:p-10">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
@@ -101,15 +88,17 @@ export default function VendorHome() {
             </Link>
           </div>
         </div>
+
         {/* Services Grid */}
         <VendorServices key={refreshKey} onEdit={onEditClick} />
       </div>
+
       {/* Mobile buttons */}
       <div className="fixed bg-white p-3 w-full bottom-0 left-0 right-0 z-50 sm:hidden">
         <div className="flex gap-3 justify-center">
           <Button
             onClick={onAddClick}
-            className="bg-[#6C35A7] w-1/2 text-[16px] p-6 font-500 rounded-full "
+            className="bg-[#6C35A7] w-1/2 text-[16px] p-6 font-500 rounded-full"
           >
             Add Service
           </Button>
@@ -138,9 +127,11 @@ export default function VendorHome() {
         service={selected}
         onServiceUpdated={handleUpdated}
       />
+
+      {/* Subscription Prompt Modal */}
       <Dialog open={openSubModal} onOpenChange={onSubModalChange}>
-        <DialogContent className="bg-white rounded-2xl p-6 mx-auto overflow-y-auto scrollbar-hide w-[90%] sm:w-[600px] lg:w-[1040px]  max-h-[718px] sm:max-w-[900px]">
-          <DialogTitle className="text-2xl font-bold mb-4 hidden">
+        <DialogContent className="bg-white rounded-2xl p-6 mx-auto overflow-y-auto scrollbar-hide w-[90%] sm:w-[600px] lg:w-[1040px] max-h-[718px] sm:max-w-[900px]">
+          <DialogTitle className="text-2xl font-bold mb-4">
             Subscribe to Add Services
           </DialogTitle>
           <Subscriptions />

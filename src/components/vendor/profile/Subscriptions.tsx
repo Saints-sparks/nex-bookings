@@ -62,7 +62,6 @@ export default function Subscriptions() {
   // 5️⃣ render the plan cards
   return (
     <div className="w-full">
-      <h2 className="text-2xl font-bold mb-4">Choose a Subscription Plan</h2>
       <div className="grid md:grid-cols-2 gap-6">
         {plans.map((plan, idx) => {
           const isFirst = idx === 0;
