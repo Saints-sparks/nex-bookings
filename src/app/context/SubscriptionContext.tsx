@@ -16,7 +16,7 @@ import {
 } from "@/app/services/subscriptions";
 
 type SubPlan = SubscriptionPlan[];
-type SubUser = { subscriptionPlanId: string; status: string }[];
+type SubUser = UserSubscriptionResponse[];
 
 type Ctx = {
   plans: SubPlan;
@@ -84,12 +84,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
       const user = JSON.parse(raw);
       const subs = await getUserSubscriptions(user.id);
       const arr = Array.isArray(subs) ? subs : [];
-      setUserSubs(
-        arr.map((s: UserSubscriptionResponse) => ({
-          subscriptionPlanId: s.subscriptionPlanId,
-          status: s.status,
-        }))
-      );
+      setUserSubs(subs);
       setSE(null);
     } catch (err: any) {
       setSE(err.message || "Failed to load subs");

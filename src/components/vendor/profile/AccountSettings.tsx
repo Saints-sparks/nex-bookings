@@ -27,7 +27,7 @@ export default function AccountSettings() {
             />
           </div>
         </Link>
-         <Link href="#">
+        <Link href="#">
           <div className="flex bg-[#F6F6F6] text-[#6C35A7] font-bold text-[17px] justify-between p-6 rounded-lg cursor-pointer hover:bg-gray-200 transition-colors duration-300">
             Reset Password
             <Image

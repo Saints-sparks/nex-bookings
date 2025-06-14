@@ -186,22 +186,34 @@ export async function getUserSubscriptions(
   return res.data.data;
 }
 
-export async function initializePayment(data: PaymentInitializeRequest): Promise<PaymentInitializeResponse> {
+export async function initializePayment(
+  data: PaymentInitializeRequest
+): Promise<PaymentInitializeResponse> {
   const token = localStorage.getItem("nex_token");
-  const response = await api.post<PaymentInitializeResponse>("/api/payments/initialize", data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.post<PaymentInitializeResponse>(
+    "/api/payments/initialize",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 }
 
-export async function verifyPayment(data: PaymentVerifyRequest): Promise<PaymentVerifyResponse> {
+export async function verifyPayment(
+  data: PaymentVerifyRequest
+): Promise<PaymentVerifyResponse> {
   const token = localStorage.getItem("nex_token");
-  const response = await api.post<PaymentVerifyResponse>("/api/payments/verify", data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await api.post<PaymentVerifyResponse>(
+    "/api/payments/verify",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return response.data;
 }
