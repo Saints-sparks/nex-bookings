@@ -61,7 +61,7 @@ export default function Subscriptions() {
   }
 
   // find active subscription
-  const activeSub = userSubs.find((s) => s.status === "ACTIVE");
+  const activeSub = userSubs && userSubs.find((s) => s.status === "ACTIVE");
 
   // when viewing a plan, grab both plan details and subscription record
   const viewedPlan = plans.find((p) => p.id === viewPlanId) || null;

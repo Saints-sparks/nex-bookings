@@ -35,7 +35,7 @@ export default function VendorHome() {
 
   // 2️⃣ derive whether there’s an active subscription
   const hasActiveSubscription =
-    !subsLoading && !subsError && userSubs.some((s) => s.status === "ACTIVE");
+    !subsLoading && !subsError && userSubs && userSubs.some((s) => s.status === "ACTIVE");
 
   // local state for the subscription modal & pending action
   const [openSubModal, setOpenSubModal] = useState(false);

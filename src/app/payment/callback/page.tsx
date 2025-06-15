@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { usePayment } from "@/hooks/usePayment";
 import { CheckCircle, XCircle, Loader } from "lucide-react";
 import Image from "next/image";
+import Spinner from "@/components/Spinner";
 
 function Modal({ children }: { children: React.ReactNode }) {
   return (
@@ -149,7 +150,7 @@ function PaymentCallbackContent() {
 
 export default function PaymentCallback() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Spinner />}>
       <PaymentCallbackContent />
     </Suspense>
   );
