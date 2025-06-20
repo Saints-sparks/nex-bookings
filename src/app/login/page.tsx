@@ -5,7 +5,13 @@ import Spinner from "@/components/Spinner";
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center">
+          <Spinner />
+        </div>
+      }
+    >
       <LoginForm />
     </Suspense>
   );

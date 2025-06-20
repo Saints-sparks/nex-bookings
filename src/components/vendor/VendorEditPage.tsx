@@ -11,9 +11,6 @@ import { WebsiteSettings } from "@/app/services/website";
 import Link from "next/link";
 
 interface Props {
-  //   businessName: string;
-  //   description: string;
-  //   logoUrl: string;
   services: Service[];
   settings: WebsiteSettings;
 }
@@ -23,6 +20,8 @@ export default function VendorEdit({ services, settings }: Props) {
   const params = useParams();
   const id = params.id;
   const publicUrl = `https://osisopro.com/vendor/${id}`;
+  const settingsTabParam = encodeURIComponent("Website Settings");
+
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
       <header className="bg-[#F2F2F2] px-8 py-4 sm:py-4 text-white text-center w-full fixed top-0 z-10 flex items-center justify-center">
@@ -35,7 +34,7 @@ export default function VendorEdit({ services, settings }: Props) {
             className="mx-auto"
           />
           <div className="absolute right-0 lg:right-10 flex text-[#6C35A7] font-bold text-[16px] gap-4 hidden md:flex">
-            <Link href="/vendor/profile">
+            <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
               <div className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
                 <Pencil />
                 <p>Edit Website</p>
@@ -55,29 +54,21 @@ export default function VendorEdit({ services, settings }: Props) {
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-5 sm:px-0">
         {/* Hero */}
         <div className="flex flex-col gap-3 py-10 text-center max-w-[487px] mt-10">
-          <Link href="/vendor/profile" className="">
+          <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
             <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
               {settings.header}
             </h1>
           </Link>
-          <Link href="/vendor/profile">
+          <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
             <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter leading-[24px] md:leading-[34px]">
               {settings.tagline}
             </p>
           </Link>
           <div className="flex gap-10 justify-center mt-5">
-            <Link
-              href={settings.facebookLink}
-              // target="_blank"
-              // rel="noopener noreferrer"
-            >
+            <Link href={settings.facebookLink}>
               <Facebook />
             </Link>
-            <Link
-              href={settings.instagramLink}
-              // target="_blank"
-              // rel="noopener noreferrer"
-            >
+            <Link href={settings.instagramLink}>
               <Instagram />
             </Link>
           </div>
@@ -90,14 +81,18 @@ export default function VendorEdit({ services, settings }: Props) {
           open={openShareModal}
           onOpenChange={setOpenShareModal}
           url={publicUrl}
+          settings={settings}
         />
 
+        {/* Mobile bottom bar */}
         <div className="fixed bg-[#F2F2F2] py-5 px-2 w-full bottom-0 left-0 right-0 z-50 sm:hidden font-bold text-[14px] text-[#6C35A7]">
-          <div className="flex gap-3 justify-center">
-            <div className="flex gap-2 items-center justify-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px] w-1/2">
-              <Pencil />
-              <p>Edit Website</p>
-            </div>
+          <div className="flex gap-3 w-full">
+            <Link href={`/vendor/profile?tab=${settingsTabParam}`} className="w-1/2 self-center">
+              <div className="flex gap-2 items-center  hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
+                <Pencil />
+                <p>Edit Website</p>
+              </div>
+            </Link>
             <div
               onClick={() => setOpenShareModal(true)}
               className="flex gap-2 items-center justify-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px] w-1/2"

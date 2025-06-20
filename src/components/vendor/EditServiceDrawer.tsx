@@ -174,6 +174,8 @@ export function EditServiceDrawer({
               <Input
                 id="price"
                 name="price"
+                type="number"
+                min="0"
                 value={form.price}
                 onChange={handleChange}
                 placeholder="0"

@@ -1,17 +1,23 @@
+import { AxiosError } from "axios";
+
 import { getServicesByBusiness } from "@/app/services/service";
 import {
   getWebsiteSettingsByBusiness,
   WebsiteSettings,
 } from "@/app/services/website";
 import VendorEdit from "@/components/vendor/VendorEditPage";
-import { AxiosError } from "axios";
 
 type Props = {
   params: Promise<{ id: string }>;
 };
 
+function withDefault(userVal: string | undefined, defaultVal: string) {
+  return userVal?.trim() ? userVal : defaultVal;
+}
+
 export default async function VendorEditPage({ params }: Props) {
   const { id } = await params;
+
   const DEFAULT_SETTINGS: WebsiteSettings = {
     businessId: id,
     id: "", // no settings yet, so no ID
@@ -21,21 +27,38 @@ export default async function VendorEditPage({ params }: Props) {
     facebookLink: "#",
     instagramLink: "#",
   };
-  const services = await getServicesByBusiness(id);
-  let settings: WebsiteSettings = DEFAULT_SETTINGS;
 
+  // 1️⃣ Fetch services
+  const services = await getServicesByBusiness(id);
+
+  // 2️⃣ Try to fetch existing settings (404 → null)
+  let fetched: WebsiteSettings | null = null;
   try {
-    const fetched = await getWebsiteSettingsByBusiness(id);
-    // If you get back a valid object, merge it over the defaults
-    settings = { ...DEFAULT_SETTINGS, ...fetched };
+    fetched = await getWebsiteSettingsByBusiness(id);
   } catch (err: any) {
-    if (err instanceof AxiosError && err.response?.status === 404) {
-      // keep DEFAULT_SETTINGS
-    } else {
-      // rethrow on other errors
+    if (!(err instanceof AxiosError && err.response?.status === 404)) {
       throw err;
     }
   }
+
+  // 3️⃣ Merge defaults + fetched, but heal any empty strings
+  const settings: WebsiteSettings = {
+    // base defaults
+    ...DEFAULT_SETTINGS,
+    // override with whatever keys exist on fetched
+    ...(fetched || {}),
+    // explicitly restore default for any blank fields
+    header: withDefault(fetched?.header, DEFAULT_SETTINGS.header),
+    tagline: withDefault(fetched?.tagline, DEFAULT_SETTINGS.tagline),
+    facebookLink: withDefault(
+      fetched?.facebookLink,
+      DEFAULT_SETTINGS.facebookLink
+    ),
+    instagramLink: withDefault(
+      fetched?.instagramLink,
+      DEFAULT_SETTINGS.instagramLink
+    ),
+  };
 
   return (
     <div className="flex flex-col lg:flex-row">

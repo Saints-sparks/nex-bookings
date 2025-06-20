@@ -10,19 +10,35 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Facebook, Instagram, Snapchat, WhatsApp, X } from "../Icons";
 import { useIsMobile } from "@/app/hooks/useIsMobile";
+import { WebsiteSettings } from "@/app/services/website";
 
 interface ShareWebsiteModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   url: string;
+  settings: WebsiteSettings;
 }
 
 export default function ShareWebsiteModal({
   open,
   onOpenChange,
   url,
+  settings,
 }: ShareWebsiteModalProps) {
-  const shareMessage = "Check out my services on Osiso Pro!";
+  const PLACEHOLDER_HEADER = "Enter Header Here";
+  const PLACEHOLDER_TAGLINE =
+    "Enter details about your business here, A paragraph is best suited";
+
+  // Decide if header/tagline are “real”:
+  const hasRealHeader =
+    settings.header?.trim() && settings.header !== PLACEHOLDER_HEADER;
+  const hasRealTagline =
+    settings.tagline?.trim() && settings.tagline !== PLACEHOLDER_TAGLINE;
+  const shareMessage = hasRealHeader
+    ? `${settings.header}${
+        hasRealTagline ? `\n${settings.tagline}` : ""
+      }\n\nCheck us out on Osiso Pro! 👇`
+    : `Discover great services on Osiso Pro! 👇`;
   const handleCopy = () => {
     navigator.clipboard.writeText(url);
     toast.success("Link copied to clipboard!");
@@ -49,7 +65,7 @@ export default function ShareWebsiteModal({
   const encodedMessage = encodeURIComponent(shareMessage);
   const encodedUrl = encodeURIComponent(url);
   const shareLinks = {
-    whatsapp: `https://api.whatsapp.com/send?text=${encodedMessage}%20${encodedUrl}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encodedMessage}%0A%0A${encodedUrl}`,
     twitter: `https://twitter.com/intent/tweet?text=${encodedMessage}&url=${encodedUrl}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedMessage}`,
     // Snapchat’s web share endpoint only allows attachmentUrl—no custom text.
@@ -83,13 +99,13 @@ export default function ShareWebsiteModal({
             >
               <WhatsApp />
             </button>
-            <button
+            {/* <button
               aria-label="Share on Instagram"
               onClick={handleInstagram}
               className="bg-[#F6F6F6] p-1.5 md:p-3 rounded-2xl"
             >
               <Instagram />
-            </button>
+            </button> */}
             <button
               aria-label="Share on Facebook"
               onClick={() => shareWindow(shareLinks.facebook)}

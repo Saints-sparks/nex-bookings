@@ -158,6 +158,8 @@ export function ServiceDrawer({
               <Input
                 id="price"
                 name="price"
+                type="number"
+                min="0"
                 value={form.price}
                 onChange={handleChange}
                 placeholder="0"
@@ -215,7 +217,7 @@ export function ServiceDrawer({
             <Button
               disabled={loading}
               onClick={() => onOpenChange(false)}
-              className="text-red-500 bg-transparent w-1/2 rounded-full py-6 hover:bg-red-100"
+              className="text-red-500 bg-transparent w-1/2 rounded-full py-6 hover:bg-red-100 shadow-none"
             >
               Cancel
             </Button>

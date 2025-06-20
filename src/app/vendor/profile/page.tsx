@@ -7,7 +7,13 @@ import Spinner from "@/components/Spinner";
 
 export default function ProfilePage() {
   return (
-    <Suspense fallback={<Spinner />}>
+    <Suspense
+      fallback={
+        <div className="h-screen flex items-center justify-center">
+          <Spinner />
+        </div>
+      }
+    >
       <ProfileContent />
     </Suspense>
   );
