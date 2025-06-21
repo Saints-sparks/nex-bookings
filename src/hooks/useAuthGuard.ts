@@ -13,7 +13,7 @@ export function useAuthGuard() {
   useEffect(() => {
     const isPublic =
       PUBLIC_ROUTES.includes(pathname) ||
-      (pathname.startsWith("http://localhost:3000/vendor/") &&
+      (pathname.startsWith("https://osisopro.com/vendor/") &&
         pathname.split("/").length === 3);
 
     const token = localStorage.getItem("nex_token");

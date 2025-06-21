@@ -87,7 +87,10 @@ export default function VendorEdit({ services, settings }: Props) {
         {/* Mobile bottom bar */}
         <div className="fixed bg-[#F2F2F2] py-5 px-2 w-full bottom-0 left-0 right-0 z-50 sm:hidden font-bold text-[14px] text-[#6C35A7]">
           <div className="flex gap-3 w-full">
-            <Link href={`/vendor/profile?tab=${settingsTabParam}`} className="w-1/2 self-center">
+            <Link
+              href={`/vendor/profile?tab=${settingsTabParam}`}
+              className="w-1/2 self-center"
+            >
               <div className="flex gap-2 items-center  hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]">
                 <Pencil />
                 <p>Edit Website</p>
