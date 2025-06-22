@@ -9,9 +9,17 @@ import AccountInfo from "@/components/vendor/profile/AccountInformation";
 import WebsiteSettings from "@/components/vendor/profile/WebsiteSettings";
 import Subscriptions from "@/components/vendor/profile/Subscriptions";
 import AccountSettings from "@/components/vendor/profile/AccountSettings";
-import { Account, Card, Globe, Settings, Pencil } from "@/components/Icons";
+import {
+  Account,
+  Card,
+  Globe,
+  Settings,
+  Pencil,
+  Gift,
+} from "@/components/Icons";
 import { updateBusiness } from "@/app/services/business";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import Referral from "@/components/vendor/profile/Referral";
 
 export default function ProfileClient() {
   const router = useRouter();
@@ -137,6 +145,7 @@ export default function ProfileClient() {
                 { label: "Account Information", icon: <Account /> },
                 { label: "Website Settings", icon: <Globe /> },
                 { label: "Subscriptions", icon: <Card /> },
+                { label: "Referrals", icon: <Gift /> },
                 { label: "Account Settings", icon: <Settings /> },
               ].map((tab) => {
                 const isActive = selectedTab === tab.label;
@@ -166,6 +175,7 @@ export default function ProfileClient() {
           )}
           {selectedTab === "Website Settings" && <WebsiteSettings />}
           {selectedTab === "Subscriptions" && <Subscriptions />}
+          {selectedTab === "Referrals" && <Referral />}
           {selectedTab === "Account Settings" && <AccountSettings />}
         </div>
       </div>
