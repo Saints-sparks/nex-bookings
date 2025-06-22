@@ -43,10 +43,11 @@ export default function LoginClient() {
       localStorage.setItem("nex_token", accessToken);
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
-      const { user, business } = await introspect();
+      const { user, business, referralCode } = await introspect();
       localStorage.setItem("nex_businessId", business.id);
       localStorage.setItem("nex_businessName", business.businessName);
       localStorage.setItem("nex_user", JSON.stringify(user));
+      localStorage.setItem("referralCode", referralCode);
 
       router.push(redirectParam);
     } catch (err: any) {

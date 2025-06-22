@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,15 +16,25 @@ import {
 
 export default function SignUpDetailsPage() {
   const router = useRouter();
+  const params = useSearchParams();
   const [agreed, setAgreed] = useState(false);
 
   const [form, setForm] = useState<SignupPayload>({
     businessName: "",
     email: "",
     fullName: "",
+    referralCode: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Prefill referralCode from URL query on first render
+  useEffect(() => {
+    const ref = params.get("ref");
+    if (ref) {
+      setForm((prev) => ({ ...prev, referralCode: ref }));
+    }
+  }, [params]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -44,10 +54,9 @@ export default function SignUpDetailsPage() {
       localStorage.setItem("nex_userId", userId);
       localStorage.setItem("pendingEmail", form.email);
 
-      // 3️⃣ Immediately trigger the verification OTP
+      // Trigger verification OTP
       await requestEmailVerificationOtp({ email: form.email });
 
-      // 4️⃣ Redirect to the OTP confirmation page
       router.push("/signup/verify");
     } catch (err: any) {
       console.error(err);
@@ -70,19 +79,20 @@ export default function SignUpDetailsPage() {
       </button>
       <div className="flex w-full justify-around sm:py-10 px-6 gap-10 sm:mt-14">
         <div className="flex flex-col gap-6 max-w-[529px]">
-          <div className="">
+          <div>
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
               Create Your Account
             </h2>
             <p className="leading-[24px] md:leading-[34px] text-[13px] sm:text-[17px] font-medium font-inter">
               Sign Up Today to Begin Showcasing Your Unique Services to More
-              Customers Online{" "}
+              Customers Online
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="group ">
+            {/* Company Name */}
+            <div className="group">
               <label
-                htmlFor="name"
+                htmlFor="businessName"
                 className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
               >
                 Company Name
@@ -97,6 +107,7 @@ export default function SignUpDetailsPage() {
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
+            {/* Email Address */}
             <div className="group">
               <label
                 htmlFor="email"
@@ -115,9 +126,10 @@ export default function SignUpDetailsPage() {
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
+            {/* Full Name */}
             <div className="group">
               <label
-                htmlFor="name"
+                htmlFor="fullName"
                 className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
               >
                 Enter Full Name
@@ -128,11 +140,29 @@ export default function SignUpDetailsPage() {
                 value={form.fullName}
                 onChange={handleChange}
                 placeholder="Full Name"
-                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
                 required
+                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
-            <div className=" items-start gap-6 mt-10 flex">
+            {/* Referral Code (Prefilled) */}
+            <div className="group">
+              <label
+                htmlFor="referralCode"
+                className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
+              >
+                Enter Referral Code (Optional)
+              </label>
+              <Input
+                id="referralCode"
+                name="referralCode"
+                value={form.referralCode}
+                onChange={handleChange}
+                placeholder="FSGH*&&SBH"
+                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+              />
+            </div>
+            {/* Terms Checkbox */}
+            <div className="flex items-start gap-6 mt-10">
               <Checkbox
                 id="terms"
                 checked={agreed}
@@ -143,16 +173,15 @@ export default function SignUpDetailsPage() {
                 htmlFor="terms"
                 className="text-[#807E7E] leading-[28px] peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                I agree to (a)
+                I agree to{" "}
                 <Link href="/terms-of-service" className="hover:text-[#6C35A7]">
-                   Terms of Use
-                </Link>
-                , and (b)
+                  Terms of Use
+                </Link>{" "}
+                and{" "}
                 <Link href="/privacy-policy" className="hover:text-[#6C35A7]">
-                   Privacy Policy
+                  Privacy Policy
                 </Link>
-                . I agree to receive more information from Alibaba.com about its
-                products and services.
+                .
               </label>
             </div>
             {error && <p className="text-red-500">{error}</p>}
@@ -164,16 +193,6 @@ export default function SignUpDetailsPage() {
               {loading ? "Signing Up..." : "Sign Up"}
             </Button>
           </form>
-          <div className="text-center w-full">
-            <p>
-              Have an account?{" "}
-              <Link href="/login">
-                <span className="font-bold text-[#6C35A7] cursor-pointer">
-                  Sign in
-                </span>
-              </Link>
-            </p>
-          </div>
         </div>
 
         <div className="hidden sm:block">
