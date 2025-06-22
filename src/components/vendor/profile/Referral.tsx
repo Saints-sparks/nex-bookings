@@ -1,18 +1,25 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { WhatsApp, Instagram, X, Facebook, Snapchat } from "@/components/Icons";
-import { CopyIcon } from "lucide-react";
+import {
+  WhatsApp,
+  Instagram,
+  X,
+  Facebook,
+  Snapchat,
+  Copy,
+} from "@/components/Icons";
 import { toast } from "sonner";
 import { getReferralWallet } from "@/app/services/referral";
-// adjust the path to your icons.tsx file
 
 export default function ReferralCard() {
+  const [code, setCode] = useState<string>("");
   const [balance, setBalance] = useState<number | null>(null);
   const [referralLink, setReferralLink] = useState<string>("");
 
   useEffect(() => {
     // Read referral code from storage (set during login)
     const code = localStorage.getItem("referralCode") || "";
+    setCode(code);
 
     const baseUrl = "https://osisopro.com";
     setReferralLink(`${baseUrl}/signup?ref=${encodeURIComponent(code)}`);
@@ -36,22 +43,27 @@ export default function ReferralCard() {
     // Add your toast/notification logic here
   };
 
+  const message = `🤩 Join me on Osiso Bookings and book like a pro!
+Use my referral code: *${code}* or just click the link below 👇
+
+${referralLink}`;
+
   const socialPlatforms = [
     {
       name: "WhatsApp",
       Icon: WhatsApp,
-      url: `https://wa.me/?text=${encodeURIComponent(referralLink)}`,
+      url: `https://wa.me/?text=${encodeURIComponent(message)}`,
     },
     {
       name: "Instagram",
       Icon: Instagram,
-      url: `https://www.instagram.com/?url=${encodeURIComponent(referralLink)}`,
+      url: `https://www.instagram.com/?url=${encodeURIComponent(referralLink)}`, // Instagram doesn't support pre-filled DMs from browser
     },
     {
       name: "X",
       Icon: X,
-      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-        referralLink
+      url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        message
       )}`,
     },
     {
@@ -75,16 +87,16 @@ export default function ReferralCard() {
       <div className="flex flex-col md:flex-row items-center justify-between gap-20">
         {/* Link & Social Section */}
         <div className="">
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center mb-2">
             <h4 className="text-[17px] md:text-[19px] font-bold mb-2">
               Referral Link
             </h4>
             <button
               onClick={handleCopy}
-              className="p-2 bg-[gray-100] flex gap-3 rounded hover:bg-gray-200 font-bold text-[#6C35A7] "
+              className="p-2 bg-[gray-100] flex gap-3 rounded-lg rounded hover:bg-gray-200 font-bold text-[#6C35A7] "
               aria-label="Copy link"
             >
-              <CopyIcon className="h-5 w-5 text-[#6C35A7]" /> Copy
+              <Copy /> Copy
             </button>
           </div>
           <div className="flex items-center space-x-2 bg-white rounded-xl p-4 ">
