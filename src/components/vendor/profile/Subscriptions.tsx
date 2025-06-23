@@ -36,6 +36,11 @@ export default function Subscriptions() {
       return;
     }
 
+    if (activeSub) {
+      toast.error("You already have an active subscription.");
+      return;
+    }
+
     setLoadingPlanId(planId);
     try {
       const success = await processPayment(planId, user.email);
@@ -132,7 +137,7 @@ export default function Subscriptions() {
                 ) : (
                   <button
                     onClick={() => handleSubscribe(plan.id)}
-                    disabled={isProcessing || paymentLoading}
+                    disabled={isProcessing || paymentLoading || !!activeSub}
                     className={`w-full py-3 rounded-full font-medium hover:opacity-90 transition ${
                       isFirst
                         ? "bg-[#6C35A7] text-white"

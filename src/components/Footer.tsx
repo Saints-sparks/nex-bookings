@@ -32,7 +32,24 @@ const Footer = () => (
         height={44}
         className="w-[44px] h-[44px]"
       />
-      <p className="text-[24px] font-bold">Info@osisopro.com</p>
+      <Link
+        href="mailto:info@osisopro.com"
+        className="relative inline-block text-[24px] font-bold group"
+      >
+        info@osisopro.com
+        <span
+          className="
+            absolute left-0 -bottom-1 
+            h-[2px] bg-white 
+            w-full 
+            scale-x-0 
+            origin-left 
+            transition-transform 
+            duration-300 
+            group-hover:scale-x-100
+          "
+        />
+      </Link>
     </div>
   </footer>
 );

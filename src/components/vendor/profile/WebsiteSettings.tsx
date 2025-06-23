@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,10 +18,16 @@ const PLACEHOLDERS: Record<
   string
 > = {
   header: "e.g. Shola Enterprises",
-  tagline: "e.g. +234 801 234 5678",
+  tagline: "e.g. Your business tagline",
   instagramLink: "e.g. instagram.com/yourhandle",
   facebookLink: "e.g. facebook.com/yourpage",
 };
+
+// Utility to ensure URLs include protocol
+function normalizeUrl(url: string) {
+  if (!url) return url;
+  return url.match(/^https?:\/\//i) ? url : `https://${url}`;
+}
 
 export default function WebsiteSettings() {
   const [formData, setFormData] = useState<CreateWebsiteSettingsPayload>({
@@ -66,7 +73,6 @@ export default function WebsiteSettings() {
       })
       .catch((err: any) => {
         if (err.response?.status === 404) {
-          // No settings yet — init businessId only
           setFormData((f) => ({ ...f, businessId }));
         } else {
           setError(err.message || "Failed to load settings.");
@@ -83,11 +89,18 @@ export default function WebsiteSettings() {
     setSaving(true);
     setError("");
     try {
+      // Normalize links before sending
+      const payload: CreateWebsiteSettingsPayload = {
+        ...formData,
+        instagramLink: normalizeUrl(formData.instagramLink),
+        facebookLink: normalizeUrl(formData.facebookLink),
+      };
+
       if (settingsId) {
-        await updateWebsiteSettings(settingsId, formData);
+        await updateWebsiteSettings(settingsId, payload);
         toast.success("Settings updated successfully!");
       } else {
-        const created = await createWebsiteSettings(formData);
+        const created = await createWebsiteSettings(payload);
         setSettingsId(created.id);
         toast.success("Settings created successfully!");
       }
@@ -98,7 +111,6 @@ export default function WebsiteSettings() {
     }
   };
 
-  // 1️⃣ While loading, show a simple indicator
   if (loading) {
     return (
       <div className="w-full flex justify-center py-10">

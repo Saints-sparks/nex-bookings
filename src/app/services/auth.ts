@@ -5,6 +5,7 @@ export interface SignupPayload {
   businessName: string;
   email: string;
   fullName: string;
+  referralCode?: string; // Optional, for referral programs
 }
 
 export interface CompleteSignupPayload {
@@ -57,6 +58,7 @@ export interface IntrospectResponse {
     businessName: string;
     industry: string;
   };
+  referralCode: string;
 }
 
 export interface RequestOtpPayload {

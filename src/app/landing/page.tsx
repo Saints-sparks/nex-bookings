@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/landing/Hero";
 import Navbar from "@/components/Navbar";
 import Pricing from "@/components/landing/Pricing";
+import { useRedirectIfAuthenticated } from "@/hooks/useRedirectIfAuthenticated";
 
 // Define animation variants
 const fadeInUp = {
@@ -14,6 +15,7 @@ const fadeInUp = {
 };
 
 export default function Landing() {
+  useRedirectIfAuthenticated();
   return (
     <div>
       {/* Navbar slides down */}
