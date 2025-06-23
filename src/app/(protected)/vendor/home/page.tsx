@@ -111,7 +111,7 @@ export default function VendorHome() {
           </Button>
           <Link
             className="w-1/2 text-[16px]"
-            href={`/vendor/${businessId}`}
+            href={`/vendor/${businessId}/edit`}
             target="_blank"
             rel="noopener noreferrer"
           >
