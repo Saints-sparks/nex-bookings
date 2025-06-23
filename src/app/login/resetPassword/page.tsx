@@ -23,7 +23,8 @@ export default function ResetPassword() {
       localStorage.setItem("pendingResetEmail", email);
       router.push("/login/verify");
     } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to send reset code.");
+      const apiError = err.response?.data?.error || err.response?.data?.message;
+      setError(apiError || "Failed to send reset code.");
     } finally {
       setLoading(false);
     }

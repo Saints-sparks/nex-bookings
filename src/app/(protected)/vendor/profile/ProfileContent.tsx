@@ -17,9 +17,10 @@ import {
   Pencil,
   Gift,
 } from "@/components/Icons";
-import { updateBusiness } from "@/app/services/business";
+import { getBusinessById, updateBusiness } from "@/app/services/business";
 import { uploadToCloudinary } from "@/lib/cloudinary";
 import Referral from "@/components/vendor/profile/Referral";
+import { Loader2 } from "lucide-react";
 
 export default function ProfileClient() {
   const router = useRouter();
@@ -34,12 +35,20 @@ export default function ProfileClient() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const name = localStorage.getItem("nex_businessName");
-    const userStr = localStorage.getItem("nex_user");
-    const savedLogo = localStorage.getItem("nex_businessLogo");
-    if (name) setBusinessName(name);
-    if (userStr) setUser(JSON.parse(userStr));
-    if (savedLogo) setProfilePic(savedLogo);
+    const fetchData = async () => {
+      const name = localStorage.getItem("nex_businessName");
+      const userStr = localStorage.getItem("nex_user");
+      const id = localStorage.getItem("nex_businessId");
+      if (id) {
+        const business = await getBusinessById(id);
+        setProfilePic(business.logo); // Remove or use as needed
+        // You can use 'business' as needed here
+      }
+
+      if (name) setBusinessName(name);
+      if (userStr) setUser(JSON.parse(userStr));
+    };
+    fetchData();
   }, []);
 
   const handleLogout = () => {
@@ -90,7 +99,7 @@ export default function ProfileClient() {
                     alt="Profile Photo"
                     width={128}
                     height={128}
-                    className="rounded-3xl object-cover"
+                    className="rounded-3xl w-33 h-33 md:w-57 md:h-57 object-cover"
                   />
                 ) : (
                   <div className="w-33 h-33 md:w-57 md:h-57 bg-[#F2F2F2] rounded-3xl flex items-center justify-center text-[17px] md:text-[23px] text-[#6C35A7] font-bold">
@@ -114,8 +123,8 @@ export default function ProfileClient() {
                 </div>
 
                 {uploading && (
-                  <div className="absolute inset-0 bg-white/70 flex items-center justify-center rounded-3xl">
-                    <span>Uploading…</span>
+                  <div className="absolute inset-0 bg-white/90 backdrop-blur-sm flex items-center justify-center rounded-3xl">
+                    <Loader2 className="w-8 h-8 animate-spin text-[#6C35A7]" />
                   </div>
                 )}
               </div>

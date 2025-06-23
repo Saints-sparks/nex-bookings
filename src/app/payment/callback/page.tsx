@@ -6,6 +6,7 @@ import { usePayment } from "@/hooks/usePayment";
 import { CheckCircle, XCircle, Loader } from "lucide-react";
 import Image from "next/image";
 import Spinner from "@/components/Spinner";
+import { Close, Done } from "@/components/Icons";
 
 function Modal({ children }: { children: React.ReactNode }) {
   return (
@@ -26,6 +27,9 @@ function PaymentCallbackContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const { handlePaymentCallback } = usePayment();
+  const planId = localStorage.getItem("pending_plan_id");
+  const userRaw = localStorage.getItem("nex_user");
+  const user = userRaw ? JSON.parse(userRaw) : null;
 
   useEffect(() => {
     const verifyPayment = async () => {
@@ -39,16 +43,20 @@ function PaymentCallbackContent() {
       }
 
       try {
-        const success = await handlePaymentCallback(reference);
+        const success = await handlePaymentCallback(
+          reference,
+          planId ?? "",
+          user ?? ""
+        );
 
         if (success) {
           setStatus("success");
           setMessage("Payment successful! Your subscription is now active.");
           setIsModalOpen(true);
-          setTimeout(() => router.push("/vendor/home"), 3000);
+          setTimeout(() => router.replace("/vendor/home"), 3000);
         } else {
           setStatus("error");
-          setMessage("Payment verification failed");
+          setMessage("Error!! Your Payment was not successful");
         }
       } catch (error) {
         setStatus("error");
@@ -57,7 +65,7 @@ function PaymentCallbackContent() {
     };
 
     verifyPayment();
-  }, [searchParams, handlePaymentCallback, router]);
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] px-4">
@@ -87,8 +95,8 @@ function PaymentCallbackContent() {
         )}
 
         {status === "success" && (
-          <>
-            <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
+          <div className="flex flex-col items-center">
+            <Done />
             <h2 className="text-xl font-bold text-green-700 mb-2">
               Payment Successful
             </h2>
@@ -96,16 +104,18 @@ function PaymentCallbackContent() {
             <p className="text-sm text-gray-500">
               Redirecting to your dashboard...
             </p>
-          </>
+          </div>
         )}
 
         {status === "error" && (
-          <>
-            <XCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <div className="flex flex-col items-center">
+            <Close />
             <h2 className="text-xl font-bold text-red-700 mb-2">
               Payment Failed
             </h2>
-            <p className="text-gray-700 mb-6">{message}</p>
+            <p className="font-bold text-[16px] sm:text-[17px] mb-6">
+              {message}
+            </p>
             <div className="space-y-3">
               <button
                 onClick={() => router.push("/vendor/profile")}
@@ -120,30 +130,9 @@ function PaymentCallbackContent() {
                 Back to Dashboard
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
-
-      {/* Success Modal */}
-      {isModalOpen && status === "success" && (
-        <Modal>
-          <div className="text-center">
-            <Image
-              src="/logo.svg"
-              alt="Osiso Logo"
-              width={60}
-              height={60}
-              className="mx-auto mb-4"
-            />
-            <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-green-800 mb-2">
-              Subscription Activated
-            </h2>
-            <p className="text-gray-600 mb-2">{message}</p>
-            <p className="text-sm text-gray-500">Redirecting...</p>
-          </div>
-        </Modal>
-      )}
     </div>
   );
 }

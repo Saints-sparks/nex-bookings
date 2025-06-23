@@ -9,8 +9,10 @@ import { ServiceDrawer } from "./ServiceDrawer";
 
 export default function VendorServices({
   onEdit,
+  onAddClick,
 }: {
   onEdit: (svc: Service) => void;
+  onAddClick: () => void;
 }) {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +64,7 @@ export default function VendorServices({
           started
         </p>
         <Button
-          onClick={() => setOpenAdd(true)}
+          onClick={onAddClick}
           className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full hover:bg-purple-700"
         >
           Add Service

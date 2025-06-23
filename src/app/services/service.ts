@@ -29,16 +29,9 @@ export interface CreateServicePayload {
 export async function getServicesByBusiness(
   businessId: string
 ): Promise<Service[]> {
-  // ① fetch EVERY service
-  console.log(businessId);
-  
-  const res = await api.get<Service[]>(`/services`);
-  console.log(res.data);
-  
-  // ② keep only those that match your business
-  console.log(res.data.filter((s) => s.businessId === businessId));
-  return res.data.filter((s) => s.businessId === businessId);
-  
+  const res = await api.get<Service[] | null>(`/services`);
+  // if res.data is null/undefined → [], else → filter by businessId
+  return res.data?.filter((s) => s.businessId === businessId) ?? [];
 }
 
 export async function createService(

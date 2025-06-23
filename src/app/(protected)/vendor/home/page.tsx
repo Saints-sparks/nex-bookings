@@ -93,7 +93,11 @@ export default function VendorHome() {
         </div>
 
         {/* Services Grid */}
-        <VendorServices key={refreshKey} onEdit={onEditClick} />
+        <VendorServices
+          key={refreshKey}
+          onAddClick={onAddClick}
+          onEdit={onEditClick}
+        />
       </div>
 
       {/* Mobile buttons */}

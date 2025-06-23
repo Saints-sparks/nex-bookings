@@ -78,11 +78,11 @@ export const BookingModal: FC<BookingModalProps> = ({ trigger, serviceId }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="p-0 sm:max-w-[800px] max-w-[300px] sm:w-[800px] rounded-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="p-0  sm:max-w-[800px] max-w-screen sm:w-[800px] rounded-2xl max-h-[90vh] overflow-y-auto">
         <DialogTitle asChild>
           <span className="sr-only">Book a service</span>
         </DialogTitle>
-        <div className="flex flex-col sm:flex-row rounded-3xl">
+        <div className="flex flex-col sm:flex-row rounded-3xl ">
           {/* Date Picker */}
           <div className="flex-1 p-6 bg-white rounded-3xl">
             <h3 className="font-[800] mb-4">Select Date</h3>

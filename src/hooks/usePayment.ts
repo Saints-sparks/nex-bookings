@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { initializePayment, verifyPayment } from "@/app/services/subscriptions";
+import {
+  initializePayment,
+  subscribeToPlan,
+  verifyPayment,
+} from "@/app/services/subscriptions";
 
 export function usePayment() {
   const [isLoading, setIsLoading] = useState(false);
 
   const processPayment = async (planId: string, email: string) => {
     setIsLoading(true);
+    localStorage.setItem("pending_plan_id", planId);
     try {
       // 1. Initialize payment
       const response = await initializePayment({
@@ -35,12 +40,24 @@ export function usePayment() {
     }
   };
 
-  const handlePaymentCallback = async (reference: string) => {
+  const handlePaymentCallback = async (
+    reference: string,
+    planId: string,
+    user: any
+  ) => {
     setIsLoading(true);
+
     try {
       const response = await verifyPayment({ reference });
-      
+
       if (response.status === "success") {
+        await subscribeToPlan({
+          email: user.email,
+          userId: user.id,
+          username: user.fullName,
+          paymentId: reference,
+          subscriptionPlanId: planId,
+        });
         toast.success("Payment successful! Your subscription is now active.");
         return true;
       } else {

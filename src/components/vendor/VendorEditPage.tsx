@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import ShareWebsiteModal from "./ShareModal";
 import { WebsiteSettings } from "@/app/services/website";
 import Link from "next/link";
+import { useSubscriptions } from "@/app/context/SubscriptionContext";
 
 interface Props {
   services: Service[];
@@ -16,6 +17,16 @@ interface Props {
 }
 
 export default function VendorEdit({ services, settings }: Props) {
+  const { userSubs, subsLoading, subsError, refreshUserSubs } =
+    useSubscriptions();
+
+  // 2️⃣ derive whether there’s an active subscription
+  const hasActiveSubscription =
+    !subsLoading &&
+    !subsError &&
+    userSubs &&
+    userSubs.some((s) => s.status === "ACTIVE");
+
   const [openShareModal, setOpenShareModal] = useState(false);
   const params = useParams();
   const id = params.id;

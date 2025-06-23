@@ -40,7 +40,6 @@ export default function ReferralCard() {
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink);
     toast.success("Referral link copied to clipboard!");
-    // Add your toast/notification logic here
   };
 
   const message = `🤩 Join me on Osiso Bookings and book like a pro!
