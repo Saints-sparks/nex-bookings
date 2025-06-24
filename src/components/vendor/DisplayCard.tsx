@@ -1,31 +1,51 @@
+// components/DisplayCard.tsx
+"use client";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { BookingModal } from "./BookingModal";
+// import { BookingModal } from "./booking/BookingModal";
 import { Service } from "@/app/services/service";
+import { useRouter } from "next/navigation";
+import { useMediaQuery } from "react-responsive";
+import { BookingModal } from "../booking/BookingModal";
 
 interface DisplayCardProps {
   service: Service;
 }
 
 export default function DisplayCard({ service }: DisplayCardProps) {
+  const router = useRouter();
+  // Tailwind's "sm" below 640px
+  const isMobile = useMediaQuery({ maxWidth: 639 });
+
+  const handleClick = () => {
+    if (isMobile) {
+      router.push(`/booking/${service.id}`);
+    }
+  };
+
+  const trigger = (
+    <Button
+      onClick={handleClick}
+      className="flex items-center gap-2 text-[16px] bg-[#6C35A7] hover:bg-purple-700 font-bold rounded-full"
+    >
+      Book Now
+    </Button>
+  );
+
   return (
     <div className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white border border-[#E0E0E0]">
-      {/* Image Section */}
       <div className="relative">
         <Image
-          src={service.imageUrl} // replace with actual image path
+          src={service.imageUrl}
           alt={service.title}
           width={353}
           height={174}
           className="h-48 object-cover"
         />
-        {/* Duration Badge */}
-        <span className="absolute top-2 right-2 bg-[#FFB049] text-[11px] font-inter sm:text-[12px] text-black font-bold px-3 py-2 rounded-xl">
+        <span className="absolute top-2 right-2 bg-[#FFB049] text-[11px] sm:text-[12px] font-inter text-black font-bold px-3 py-2 rounded-xl">
           {service.duration} Hours
         </span>
       </div>
-
-      {/* Text Content */}
       <div className="px-4 py-3 bg-[#F2F2F2]">
         <div className="flex items-center justify-between">
           <div>
@@ -34,14 +54,11 @@ export default function DisplayCard({ service }: DisplayCardProps) {
               NGN {service.price}
             </p>
           </div>
-          <BookingModal
-            serviceId={service.id}
-            trigger={
-              <Button className="flex items-center gap-2 text-[16px] bg-[#6C35A7] hover:bg-purple-700 font-bold rounded-full">
-                Book Now
-              </Button>
-            }
-          />
+          {isMobile ? (
+            trigger
+          ) : (
+            <BookingModal serviceId={service.id} trigger={trigger} />
+          )}
         </div>
       </div>
     </div>

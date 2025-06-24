@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/sheet";
 import Image from "next/image";
 import { getBookingsByBusiness, Booking } from "@/app/services/bookings";
-import { format } from "date-fns";
 import { Notifications } from "@/components/Icons";
+import { format, isToday, isAfter, startOfDay } from "date-fns";
+
 
 export default function NotificationsSheet() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -21,7 +22,15 @@ export default function NotificationsSheet() {
     if (!businessId) return setLoading(false);
 
     getBookingsByBusiness(businessId)
-      .then((data) => setBookings(data))
+      .then((data) => {
+        const todayStart = startOfDay(new Date());
+        const upcoming = data?.filter((b) => {
+          const appt = new Date(b.appointmentDate);
+          // include if it's today or after today
+          return isToday(appt) || isAfter(appt, todayStart);
+        });
+        setBookings(upcoming);
+      })
       .catch((err) => {
         console.error("Failed to load bookings:", err);
       })

@@ -30,7 +30,7 @@ export default function VendorPublicPage({
           alt={businessName}
           width={54}
           height={54}
-          className="rounded-3xl w-[54px] h-[54px] object-cover"
+          className="rounded-3xl w-[40px] w-[40px] md:w-[54px] md:h-[54px] object-cover"
         />
       </header>
 

@@ -151,3 +151,23 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
+
+.timeGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* On mobile (up to 639px), switch to two columns */
+@media (max-width: 639px) {
+  .timeGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  /* Ensure each button fills its grid cell */
+  .timeGrid li button {
+    width: 100%;
+  }
+}
