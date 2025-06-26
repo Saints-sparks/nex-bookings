@@ -121,7 +121,7 @@ export default function SignUpDetailsPage() {
                 htmlFor="phoneNumber"
                 className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
               >
-                Enter Phone Number
+                WhatsApp Number
               </label>
               <Input
                 id="phoneNumber"

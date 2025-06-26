@@ -6,7 +6,7 @@ import { useState } from "react";
 
 interface AccountInfoProps {
   businessName: string;
-  user: {email: string; fullName: string; id: string; phoneNumber: string};
+  user: { email: string; fullName: string; id: string; phoneNumber: string };
 }
 
 export default function AccountInfo({ businessName, user }: AccountInfoProps) {
@@ -29,7 +29,7 @@ export default function AccountInfo({ businessName, user }: AccountInfoProps) {
         {[
           { label: "Business Name", name: "businessName" },
           { label: "Email Address", name: "email" },
-          { label: "Phone Number", name: "phone" },
+          { label: "Whatsapp Number", name: "phone" },
           { label: "Full Name", name: "name" },
         ].map((field) => (
           <div key={field.name} className="flex flex-col gap-2 group">
@@ -49,12 +49,12 @@ export default function AccountInfo({ businessName, user }: AccountInfoProps) {
           </div>
         ))}
       </div>
-      <Button
+      {/* <Button
         type="submit"
         className="w-full sm:w-auto bg-[#6C35A7] rounded-full py-7 px-14 font-medium text-[16px] mt-4 hover:bg-purple-700 mt-10"
       >
         Save Changes
-      </Button>
+      </Button> */}
     </div>
   );
 }
