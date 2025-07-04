@@ -16,7 +16,7 @@ import { useSubscriptions } from "@/app/context/SubscriptionContext";
 export default function VendorHome() {
   const {
     businessName,
-    businessId,
+    businessSlug,
     openAdd,
     openEdit,
     selected,
@@ -81,7 +81,7 @@ export default function VendorHome() {
               Add Service
             </Button>
             <Link
-              href={`/vendor/${businessId}/edit`}
+              href={`/vendor/${businessSlug}/edit`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -111,7 +111,7 @@ export default function VendorHome() {
           </Button>
           <Link
             className="w-1/2 text-[16px]"
-            href={`/vendor/${businessId}/edit`}
+            href={`/vendor/${businessSlug}/edit`}
             target="_blank"
             rel="noopener noreferrer"
           >

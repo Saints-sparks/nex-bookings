@@ -6,6 +6,7 @@ export function useServiceManager() {
   // business info
   const [businessName, setBusinessName] = useState<string>("");
   const [businessId, setBusinessId] = useState<string | null>(null);
+  const [businessSlug, setBusinessSlug] = useState<string | null>(null);
 
   // drawer & refresh state
   const [openAdd, setOpenAdd] = useState(false);
@@ -15,6 +16,7 @@ export function useServiceManager() {
 
   useEffect(() => {
     setBusinessId(localStorage.getItem("nex_businessId"));
+    setBusinessSlug(localStorage.getItem("nex_businessSlug"));
     const name = localStorage.getItem("nex_businessName");
     if (name) setBusinessName(name);
   }, []);
@@ -38,6 +40,7 @@ export function useServiceManager() {
   return {
     businessName,
     businessId,
+    businessSlug,
     openAdd,
     setOpenAdd,
     openEdit,
