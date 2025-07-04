@@ -6,9 +6,10 @@ import {
   WebsiteSettings,
 } from "@/app/services/website";
 import VendorEdit from "@/components/vendor/VendorEditPage";
+import { getBusinessBySlug } from "@/app/services/business";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 function withDefault(userVal: string | undefined, defaultVal: string) {
@@ -16,10 +17,11 @@ function withDefault(userVal: string | undefined, defaultVal: string) {
 }
 
 export default async function VendorEditPage({ params }: Props) {
-  const { id } = await params;
+  const { slug } = await params;
+  const business = await getBusinessBySlug(slug);
 
   const DEFAULT_SETTINGS: WebsiteSettings = {
-    businessId: id,
+    businessId: business.id,
     id: "", // no settings yet, so no ID
     header: "Enter Header Here",
     tagline:
@@ -29,12 +31,12 @@ export default async function VendorEditPage({ params }: Props) {
   };
 
   // 1️⃣ Fetch services
-  const services = await getServicesByBusiness(id);
+  const services = await getServicesByBusiness(business.id);
 
   // 2️⃣ Try to fetch existing settings (404 → null)
   let fetched: WebsiteSettings | null = null;
   try {
-    fetched = await getWebsiteSettingsByBusiness(id);
+    fetched = await getWebsiteSettingsByBusiness(business.id);
   } catch (err: any) {
     if (!(err instanceof AxiosError && err.response?.status === 404)) {
       throw err;

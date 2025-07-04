@@ -29,8 +29,8 @@ export default function VendorEdit({ services, settings }: Props) {
 
   const [openShareModal, setOpenShareModal] = useState(false);
   const params = useParams();
-  const id = params.id;
-  const publicUrl = `https://osisopro.com/vendor/${id}`;
+  const slug = params.slug;
+  const publicUrl = `https://${slug}.osisopro.com`;
   const settingsTabParam = encodeURIComponent("Website Settings");
 
   return (

@@ -46,6 +46,8 @@ export default function LoginClient() {
       const { user, business, referralCode } = await introspect();
       localStorage.setItem("nex_businessId", business.id);
       localStorage.setItem("nex_businessName", business.businessName);
+      localStorage.setItem("nex_businessSlug", business.slug);
+
       localStorage.setItem("nex_user", JSON.stringify(user));
       localStorage.setItem("referralCode", referralCode);
 

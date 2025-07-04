@@ -56,6 +56,7 @@ export interface IntrospectResponse {
     id: string;
     userId: string;
     businessName: string;
+    slug: string;
     industry: string;
   };
   referralCode: string;
