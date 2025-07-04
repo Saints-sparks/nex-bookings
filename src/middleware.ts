@@ -6,12 +6,10 @@ export function middleware(req: NextRequest) {
 
   const isDev = process.env.NODE_ENV === "development";
 
-  // Handle dev (lvh.me) and prod (osisopro.com) subdomains
+  // Determine if it's a subdomain-based vendor request
   const isSubdomainRequest = isDev
     ? host.endsWith(".lvh.me:3000")
     : host.endsWith(".osisopro.com");
-
-  let response: NextResponse;
 
   const debugHeaders: Record<string, string> = {
     "x-debug-host": host,
@@ -20,20 +18,31 @@ export function middleware(req: NextRequest) {
     "x-debug-middleware": "executed",
   };
 
+  let response: NextResponse;
+
   if (isSubdomainRequest) {
     const subdomain = host.split(".")[0];
-    const newPath = `/vendor/${subdomain}${url.pathname}`;
 
-    Object.assign(debugHeaders, {
-      "x-debug-subdomain": subdomain,
-      "x-debug-rewrite": "true",
-      "x-debug-new-path": newPath,
-    });
+    if (subdomain && subdomain !== "www") {
+      const newPath = `/vendor/${subdomain}${url.pathname}`;
 
-    url.pathname = newPath;
-    response = NextResponse.rewrite(url);
+      Object.assign(debugHeaders, {
+        "x-debug-subdomain": subdomain,
+        "x-debug-rewrite": "true",
+        "x-debug-new-path": newPath,
+      });
+
+      url.pathname = newPath;
+      response = NextResponse.rewrite(url);
+    } else {
+      // it's 'www' or empty (root), just proceed as normal
+      debugHeaders["x-debug-rewrite"] = "false";
+      debugHeaders["x-debug-reason"] = "non-vendor-subdomain";
+      response = NextResponse.next();
+    }
   } else {
     debugHeaders["x-debug-rewrite"] = "false";
+    debugHeaders["x-debug-reason"] = "host-not-matched";
     response = NextResponse.next();
   }
 
