@@ -44,6 +44,8 @@ export default function AccountInfo({ businessName, user }: AccountInfoProps) {
               name={field.name}
               value={formData[field.name as keyof typeof formData]}
               onChange={handleChange}
+              readOnly
+              disabled
               className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
             />
           </div>
