@@ -3,7 +3,8 @@
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePayment } from "@/hooks/usePayment";
-import { CheckCircle, XCircle, Loader } from "lucide-react";
+import { useSubscriptions } from "@/app/context/SubscriptionContext";
+import { Loader } from "lucide-react";
 import Image from "next/image";
 import Spinner from "@/components/Spinner";
 import { Close, Done } from "@/components/Icons";
@@ -27,6 +28,7 @@ function PaymentCallbackContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const { handlePaymentCallback } = usePayment();
+  const { refreshUserSubs } = useSubscriptions();
   const planId = localStorage.getItem("pending_plan_id");
   const userRaw = localStorage.getItem("nex_user");
   const user = userRaw ? JSON.parse(userRaw) : null;
@@ -53,6 +55,10 @@ function PaymentCallbackContent() {
           setStatus("success");
           setMessage("Payment successful! Your subscription is now active.");
           setIsModalOpen(true);
+          // Refresh subscription data to update the cache
+          await refreshUserSubs();
+          // Clear the pending plan ID
+          localStorage.removeItem("pending_plan_id");
           setTimeout(() => router.replace("/vendor/home"), 3000);
         } else {
           setStatus("error");

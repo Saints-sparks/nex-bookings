@@ -1,7 +1,7 @@
 // components/vendor/profile/Subscriptions.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -28,6 +28,11 @@ export default function Subscriptions() {
   const router = useRouter();
   const { processPayment, isLoading: paymentLoading } = usePayment();
 
+  // Refresh subscriptions when component mounts to ensure fresh data
+  useEffect(() => {
+    refreshUserSubs();
+  }, []);
+
   const handleSubscribe = async (planId: string) => {
     const raw = localStorage.getItem("nex_user");
     const user = raw ? JSON.parse(raw) : null;
@@ -45,8 +50,9 @@ export default function Subscriptions() {
     try {
       const success = await processPayment(planId, user.email);
       if (success) {
-        refreshUserSubs();
-        toast.success("Subscription successful!");
+        // Don't show success toast here - payment is just being initialized
+        // The success toast will be shown after payment verification in the callback
+        toast.info("Redirecting to payment...");
       }
     } catch (err: any) {
       toast.error(err.response?.data?.message || err.message);
@@ -59,10 +65,33 @@ export default function Subscriptions() {
     return <p>Loading subscriptions…</p>;
   }
   if (plansError) {
-    return <p className="text-red-600">{plansError}</p>;
+    return (
+      <div className="text-red-600">
+        <p>{plansError}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
   if (subsError) {
-    return <p className="text-red-600">{subsError}</p>;
+    return (
+      <div className="text-red-600">
+        <p>{subsError}</p>
+        {subsError.includes("Session expired") && (
+          <p className="mt-2 text-sm">Please log out and log back in.</p>
+        )}
+        <button
+          onClick={() => refreshUserSubs()}
+          className="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Retry
+        </button>
+      </div>
+    );
   }
 
   // find active subscription
@@ -75,6 +104,21 @@ export default function Subscriptions() {
 
   return (
     <div className="w-full">
+      {/* Header with refresh button */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Subscriptions</h2>
+        <button
+          onClick={() => {
+            refreshUserSubs();
+            toast.info("Refreshing subscriptions...");
+          }}
+          disabled={subsLoading}
+          className="px-4 py-2 bg-[#6C35A7] text-white rounded-lg hover:bg-[#582a8c] transition disabled:opacity-50"
+        >
+          {subsLoading ? "Refreshing..." : "Refresh"}
+        </button>
+      </div>
+
       <div className="grid md:grid-cols-2 gap-6">
         {plans.map((plan, idx) => {
           const isFirst = idx === 0;

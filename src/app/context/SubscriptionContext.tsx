@@ -87,7 +87,14 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
       setUserSubs(subs);
       setSE(null);
     } catch (err: any) {
-      setSE(err.message || "Failed to load subs");
+      // If 401 error, it might be an auth issue - user might need to re-login
+      if (err.response?.status === 401) {
+        setSE("Session expired. Please log in again.");
+        // Optionally clear the user data
+        // localStorage.removeItem("nex_user");
+      } else {
+        setSE(err.message || "Failed to load subs");
+      }
     } finally {
       setSL(false);
     }

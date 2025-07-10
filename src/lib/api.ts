@@ -2,7 +2,9 @@
 import axios from "axios";
 
 const api = axios.create({
+  // baseURL: "http://localhost:8080/",
   baseURL: "https://nex-be-ohft.onrender.com/", // Update with your actual API base URL
+  // Update with your actual API base URL
 });
 
 if (typeof window !== "undefined") {
