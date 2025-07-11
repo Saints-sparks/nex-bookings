@@ -156,11 +156,57 @@ export default function SignUpDetailsPage() {
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="technology">Technology</SelectItem>
-                  <SelectItem value="finance">Finance</SelectItem>
-                  <SelectItem value="agriculture">Agriculture</SelectItem>
-                  <SelectItem value="education">Education</SelectItem>
-                  <SelectItem value="healthcare">Healthcare</SelectItem>
+                  <SelectItem value="technology">
+                    Technology & IT Services
+                  </SelectItem>
+                  <SelectItem value="finance">
+                    Banking & Financial Services
+                  </SelectItem>
+                  <SelectItem value="agriculture">
+                    Agriculture & Agribusiness
+                  </SelectItem>
+                  <SelectItem value="education">
+                    Education & Training
+                  </SelectItem>
+                  <SelectItem value="healthcare">
+                    Healthcare & Medical Services
+                  </SelectItem>
+                  <SelectItem value="oil-gas">Oil & Gas</SelectItem>
+                  <SelectItem value="manufacturing">Manufacturing</SelectItem>
+                  <SelectItem value="telecoms">Telecommunications</SelectItem>
+                  <SelectItem value="retail">Retail & E-commerce</SelectItem>
+                  <SelectItem value="hospitality">
+                    Hospitality & Tourism
+                  </SelectItem>
+                  <SelectItem value="real-estate">
+                    Real Estate & Construction
+                  </SelectItem>
+                  <SelectItem value="transportation">
+                    Transportation & Logistics
+                  </SelectItem>
+                  <SelectItem value="media">Media & Entertainment</SelectItem>
+                  <SelectItem value="fashion">Fashion & Textiles</SelectItem>
+                  <SelectItem value="food-beverage">Food & Beverage</SelectItem>
+                  <SelectItem value="beauty-wellness">
+                    Beauty & Wellness
+                  </SelectItem>
+                  <SelectItem value="consulting">
+                    Consulting & Professional Services
+                  </SelectItem>
+                  <SelectItem value="mining">
+                    Mining & Natural Resources
+                  </SelectItem>
+                  <SelectItem value="insurance">Insurance</SelectItem>
+                  <SelectItem value="sports-fitness">
+                    Sports & Fitness
+                  </SelectItem>
+                  <SelectItem value="automotive">Automotive</SelectItem>
+                  <SelectItem value="legal">Legal Services</SelectItem>
+                  <SelectItem value="arts-crafts">Arts & Crafts</SelectItem>
+                  <SelectItem value="event-planning">Event Planning</SelectItem>
+                  <SelectItem value="security">Security Services</SelectItem>
+                  <SelectItem value="cleaning">Cleaning Services</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
