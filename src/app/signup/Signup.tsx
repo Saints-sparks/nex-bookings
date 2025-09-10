@@ -23,7 +23,7 @@ export default function SignUpDetailsPage() {
     businessName: "",
     email: "",
     fullName: "",
-    referralCode: "",
+    businessAddress: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -80,15 +80,20 @@ export default function SignUpDetailsPage() {
       <div className="flex w-full justify-around sm:py-10 px-6 gap-10 sm:mt-14">
         <div className="flex flex-col gap-6 max-w-[529px]">
           <div>
+            <div className="flex items-center justify-between"> 
             <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
               Create Your Account
             </h2>
+            <h2 className="text-1xl font-bold text-[#000] leading-[100%] mb-2">
+               1/4 
+            </h2>
+            </div>
             <p className="leading-[24px] md:leading-[34px] text-[13px] sm:text-[17px] font-medium font-inter">
               Sign Up Today to Begin Showcasing Your Unique Services to More
               Customers Online
             </p>
           </div>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6 w-full" onSubmit={handleSubmit}>
             {/* Company Name */}
             <div className="group">
               <label
@@ -147,17 +152,17 @@ export default function SignUpDetailsPage() {
             {/* Referral Code (Prefilled) */}
             <div className="group">
               <label
-                htmlFor="referralCode"
+                htmlFor="businessAddress"
                 className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]"
               >
-                Enter Referral Code (Optional)
+               Enter Business Address
               </label>
               <Input
-                id="referralCode"
-                name="referralCode"
-                value={form.referralCode}
+                id="businessAddress"
+                name="businessAddress"
+                value={form.businessAddress}
                 onChange={handleChange}
-                placeholder="FSGH*&&SBH"
+                placeholder="No 23, adeola street, ikeja"
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
