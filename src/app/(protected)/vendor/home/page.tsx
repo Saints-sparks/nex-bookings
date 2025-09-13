@@ -23,39 +23,40 @@ export default function VendorHome() {
     refreshKey,
     setOpenAdd,
     setOpenEdit,
-    onAddClick: origOnAddClick,
     onEditClick,
     handleAdded,
     handleUpdated,
   } = useServiceManager();
 
-  // 1️⃣ grab subscriptions state from context
-  const { userSubs, subsLoading, subsError, refreshUserSubs } =
-    useSubscriptions();
+  // 1️⃣ Removed the use of useSubscriptions since it is no longer needed to gate the "Add Service" button
+  // const { userSubs, subsLoading, subsError, refreshUserSubs } = useSubscriptions();
 
-  // 2️⃣ derive whether there’s an active subscription
-  const hasActiveSubscription =
-    !subsLoading &&
-    !subsError &&
-    userSubs &&
-    userSubs.some((s) => s.status === "ACTIVE");
+  // 2️⃣ Removed the logic to check for active subscription
+  // const hasActiveSubscription =
+  //   !subsLoading &&
+  //   !subsError &&
+  //   userSubs &&
+  //   userSubs.some((s) => s.status === "ACTIVE");
 
-  // local state for the subscription modal & pending action
-  const [openSubModal, setOpenSubModal] = useState(false);
+  // 3️⃣ Removed local state for the subscription modal and the wrapper for onAddClick
+  // const [openSubModal, setOpenSubModal] = useState(false);
+  // const onAddClick = () => {
+  //   if (hasActiveSubscription) {
+  //     setOpenAdd(true);
+  //   } else {
+  //     setOpenSubModal(true);
+  //   }
+  // };
 
-  // 3️⃣ wrap the original add-click
+  // 4️⃣ Instead, directly use the setOpenAdd function from the useServiceManager hook
   const onAddClick = () => {
-    if (hasActiveSubscription) {
-      setOpenAdd(true);
-    } else {
-      setOpenSubModal(true);
-    }
+    setOpenAdd(true);
   };
 
-  // 4️⃣ when the modal closes, re-open the drawer if needed
-  const onSubModalChange = (open: boolean) => {
-    setOpenSubModal(open);
-  };
+  // 5️⃣ Removed the modal change handler
+  // const onSubModalChange = (open: boolean) => {
+  //   setOpenSubModal(open);
+  // };
 
   return (
     <div className="flex flex-col pb-10 relative">
@@ -75,7 +76,7 @@ export default function VendorHome() {
           </div>
           <div className="flex gap-3 hidden sm:flex">
             <Button
-              onClick={onAddClick}
+              onClick={onAddClick} // 6️⃣ Use the simplified onAddClick
               className="bg-[#6C35A7] p-6 text-[16px] font-500 rounded-full hover:bg-purple-700"
             >
               Add Service
@@ -91,11 +92,45 @@ export default function VendorHome() {
             </Link>
           </div>
         </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 lg:gap-4 mb-10 mt-6 text-start">
+          <div className="flex flex-col bg-[#F2F2F2] p-4 rounded-2xl gap-2">
+            <h4 className="text-[#6C35A7] font-bold text-sm md:text-base lg:text-lg">
+              Bookings (This Month)
+            </h4>
+            <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
+              104
+            </h1>
+          </div>
+          <div className="flex flex-col bg-[#F2F2F2] p-4 rounded-2xl gap-2">
+            <h4 className="text-[#6C35A7] font-bold text-sm md:text-base lg:text-lg">
+              Income (This Month)
+            </h4>
+            <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
+              ₦ 104,000
+            </h1>
+          </div>
+          <div className="flex flex-col bg-[#F2F2F2] p-4 rounded-2xl gap-2">
+            <h4 className="text-[#6C35A7] font-bold text-sm md:text-base lg:text-lg">
+              Bookings (All Time)
+            </h4>
+            <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
+              1364
+            </h1>
+          </div>
+          <div className="flex flex-col bg-[#F2F2F2] p-4 rounded-2xl gap-2">
+            <h4 className="text-[#6C35A7] font-bold text-sm md:text-base lg:text-lg">
+              Income (All Time)
+            </h4>
+            <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
+              ₦ 104,000,000
+            </h1>
+          </div>
+        </div>
 
         {/* Services Grid */}
         <VendorServices
           key={refreshKey}
-          onAddClick={onAddClick}
+          onAddClick={onAddClick} // 7️⃣ Use the simplified onAddClick here too
           onEdit={onEditClick}
         />
       </div>
@@ -104,7 +139,7 @@ export default function VendorHome() {
       <div className="fixed bg-white p-3 w-full bottom-0 left-0 right-0 z-50 sm:hidden">
         <div className="flex gap-3 justify-center">
           <Button
-            onClick={onAddClick}
+            onClick={onAddClick} // 8️⃣ And here
             className="bg-[#6C35A7] w-1/2 text-[16px] p-6 font-500 rounded-full"
           >
             Add Service
@@ -135,7 +170,8 @@ export default function VendorHome() {
         onServiceUpdated={handleUpdated}
       />
 
-      {/* Subscription Prompt Modal */}
+      {/* 9️⃣ Removed the Subscription Prompt Modal component entirely */}
+      {/*
       <Dialog open={openSubModal} onOpenChange={onSubModalChange}>
         <DialogContent className="bg-white rounded-2xl p-6 mx-auto overflow-y-auto scrollbar-hide w-[90%] sm:w-[600px] lg:w-[1040px] max-h-[718px] sm:max-w-[900px]">
           <DialogTitle className="text-2xl font-bold mb-4">
@@ -144,6 +180,7 @@ export default function VendorHome() {
           <Subscriptions />
         </DialogContent>
       </Dialog>
+      */}
     </div>
   );
 }

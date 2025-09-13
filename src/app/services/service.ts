@@ -5,6 +5,9 @@ export interface Service {
   id: string;
   title: string;
   price: number;
+  percentage: number;
+  isVirtual: boolean;
+  description: string;
   duration: number;
   durationType: "hours" | "days" | "weeks" | "months";
   imageUrl: string;
@@ -21,8 +24,11 @@ export interface CreateServicePayload {
   businessId: string;
   title: string;
   price: number;
+  percentage: number;
   duration: number;
   durationType: "hours" | "days" | "weeks" | "months";
+  isVirtual: boolean;
+  description: string;
   imageUrl: string;
 }
 
@@ -42,6 +48,9 @@ export async function createService(
     BusinessId: data.businessId,
     Title: data.title,
     Price: data.price,
+    Percentage: data.percentage,
+    IsVirtual: data.isVirtual,
+    Description: data.description,
     Duration: data.duration,
     DurationType: data.durationType,
     ImageUrl: data.imageUrl,

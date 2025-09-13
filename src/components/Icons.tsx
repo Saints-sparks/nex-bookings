@@ -94,6 +94,26 @@ export const ProfileIcon = ({ isActive = false }: Props) => {
   );
 };
 
+export const PaymentIcon = ({ isActive = false }: Props) =>  {
+  const fill = isActive ? "#6C35A7" : "#807E7E";
+
+  return (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4 8C4 6.89543 4.89543 6 6 6H22C23.1046 6 24 6.89543 24 8V20C24 21.1046 23.1046 22 22 22H6C4.89543 22 4 21.1046 4 20V8ZM6 8V11H22V8H6ZM6 13V20H22V13H6ZM7 16H11V18H7V16ZM15 16H20V18H15V16Z"
+        fill={fill}
+      />
+    </svg>
+  );
+};
+
+
 export const Down = () => {
   return (
     <svg

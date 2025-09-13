@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NotificationsSheet from "./notifications/NotificationsSheet";
 import Image from "next/image";
-import { HomeIcon, ProfileIcon } from "../Icons";
+import { HomeIcon, ProfileIcon, PaymentIcon } from "../Icons";
 import { useState, useEffect } from "react";
 
 export default function VendorNavbar() {
@@ -23,13 +23,13 @@ export default function VendorNavbar() {
     "hover:text-primary transition flex flex-col items-center justify-center font-medium relative";
 
   return (
-    <nav className="flex md:px-[50px] px-8 py-4 sm:py-2 bg-[#F2F2F2] items-center justify-center fixed top-0 left-0 right-0 z-10">
+    <nav className="flex md:px-[50px] px-4 py-4 sm:py-2 bg-[#F2F2F2] items-center justify-center fixed top-0 left-0 right-0 z-10">
       <div className="w-[920px] flex justify-between sm:items-center">
         <Image src="/logo.svg" alt="Osiso Pro logo" width={113} height={32} />
 
         {/* Auth-based navigation */}
         {isAuthenticated ? (
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-5 sm:gap-8">
             {/* Home */}
             <Link
               href="/vendor/home"
@@ -40,6 +40,22 @@ export default function VendorNavbar() {
               <HomeIcon isActive={isActive("/vendor/home")} />
               <p className="hidden sm:block">Home</p>
               {isActive("/vendor/home") && (
+                <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-[#6C35A7]" />
+              )}
+            </Link>
+
+            {/* Payments */}
+            <Link
+              href="/vendor/payments"
+              className={`${navLinkClasses} ${
+                isActive("/vendor/payments")
+                  ? "text-[#6C35A7]"
+                  : "text-[#807E7E]"
+              }`}
+            >
+              <PaymentIcon isActive={isActive("/vendor/payments")} />
+              <p className="hidden sm:block">Payments</p>
+              {isActive("/vendor/payments") && (
                 <span className="absolute -bottom-2 left-0 h-0.5 w-full bg-[#6C35A7]" />
               )}
             </Link>
