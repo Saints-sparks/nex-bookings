@@ -8,7 +8,7 @@ import { ChevronLeft, EyeIcon, EyeOffIcon } from "lucide-react";
 import Image from "next/image";
 import { completeSignup, CompleteSignupPayload } from "@/app/services/auth";
 import { Toggle } from "@/components/ui/toggle";
-import WorkAvailabilitySelector from "@/components/ui/WorkAvailabilitySelector";
+import WorkAvailabilitySelector from "@/components/ui/SingleWorkAvailabilitySelector";
 
 export default function SignUpDetailsPage() {
   const router = useRouter();

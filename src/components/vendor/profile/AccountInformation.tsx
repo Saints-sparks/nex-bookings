@@ -6,7 +6,7 @@ import { useState } from "react";
 
 interface AccountInfoProps {
   businessName: string;
-  user: { email: string; fullName: string; id: string; phoneNumber: string };
+  user: { email: string; fullName: string; id: string; phoneNumber: string; businessAddress: string; };
 }
 
 export default function AccountInfo({ businessName, user }: AccountInfoProps) {
@@ -15,6 +15,7 @@ export default function AccountInfo({ businessName, user }: AccountInfoProps) {
     email: user.email,
     phone: user.phoneNumber,
     name: user.fullName,
+    businessAddress: user.businessAddress,
   };
 
   const [formData, setFormData] = useState(currentUser);
@@ -31,6 +32,7 @@ export default function AccountInfo({ businessName, user }: AccountInfoProps) {
           { label: "Email Address", name: "email" },
           { label: "Whatsapp Number", name: "phone" },
           { label: "Full Name", name: "name" },
+          { label: "Business Address", name: "businessAddress" },
         ].map((field) => (
           <div key={field.name} className="flex flex-col gap-2 group">
             <Label
