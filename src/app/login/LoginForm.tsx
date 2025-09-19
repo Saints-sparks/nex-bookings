@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import api from "@/lib/api";
+import { introspect, signin } from "../services/auth";
 
 export default function LoginClient() {
   const router = useRouter();
@@ -37,21 +39,28 @@ export default function LoginClient() {
     setLoading(true);
 
     // Simulate login delay and set mock data
-    setTimeout(() => {
-      // Set mock authentication data
-      localStorage.setItem("nex_token", "mock_token_12345");
-      localStorage.setItem("nex_businessId", "mock_business_id");
-      localStorage.setItem("nex_businessName", "Mock Business");
-      localStorage.setItem("nex_businessSlug", "mock-business");
-      localStorage.setItem("nex_user", JSON.stringify({
-        id: "mock_user_id",
-        email: form.email,
-        name: "Mock User"
-      }));
+    try{
+      const { accessToken } = await signin(form);
+      localStorage.setItem("nex_token", accessToken);
+      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}⁠`;
+
+      const { user, business, } = await introspect();
+      localStorage.setItem("nex_businessId", business.id);
+      localStorage.setItem("nex_businessName", business.businessName);
+      localStorage.setItem("nex_businessSlug", business.slug);
+
+      localStorage.setItem("nex_user", JSON.stringify(user));
+    
 
       router.push(redirectParam);
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (

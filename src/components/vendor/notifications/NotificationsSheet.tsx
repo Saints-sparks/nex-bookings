@@ -103,7 +103,7 @@ export default function NotificationsSheet() {
                     </div>
                   </div>
                   <p className="font-medium text-[14px] sm:text-[16px]">
-                    Booking Details
+                    View Details
                   </p>
                 </div>
 

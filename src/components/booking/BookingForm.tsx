@@ -123,10 +123,21 @@ const BookingForm: FC<BookingFormProps> = ({ serviceId, onDone }) => {
         </div>
         <div className="group mb-6">
           <label className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]">
-            Full Name (optional)
+            Full Name
           </label>
           <Input
             placeholder="Full Name (optional)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="p-5 rounded-full border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 bg-[#F6F6F6]"
+          />
+        </div>
+        <div className="group mb-6">
+          <label className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]">
+            Email Address
+          </label>
+          <Input
+            placeholder="Email Address"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="p-5 rounded-full border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 bg-[#F6F6F6]"

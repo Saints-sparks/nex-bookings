@@ -9,7 +9,6 @@ import VendorNavbar from "@/components/vendor/NavBar";
 import VendorServices from "@/components/vendor/ServicesGrid";
 import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
 import { EditServiceDrawer } from "@/components/vendor/EditServiceDrawer";
-import Subscriptions from "@/components/vendor/profile/Subscriptions";
 import { useServiceManager } from "@/app/hooks/useServiceManager";
 import { useSubscriptions } from "@/app/context/SubscriptionContext";
 
@@ -28,35 +27,35 @@ export default function VendorHome() {
     handleUpdated,
   } = useServiceManager();
 
-  // 1️⃣ Removed the use of useSubscriptions since it is no longer needed to gate the "Add Service" button
-  // const { userSubs, subsLoading, subsError, refreshUserSubs } = useSubscriptions();
+   //1️⃣ Removed the use of useSubscriptions since it is no longer needed to gate the "Add Service" button
+  const { userSubs, subsLoading, subsError, refreshUserSubs } = useSubscriptions();
 
   // 2️⃣ Removed the logic to check for active subscription
-  // const hasActiveSubscription =
-  //   !subsLoading &&
-  //   !subsError &&
-  //   userSubs &&
-  //   userSubs.some((s) => s.status === "ACTIVE");
+  const hasActiveSubscription =
+  !subsLoading &&
+  !subsError &&
+  userSubs &&
+  userSubs.some((s) => s.status === "ACTIVE");
 
   // 3️⃣ Removed local state for the subscription modal and the wrapper for onAddClick
-  // const [openSubModal, setOpenSubModal] = useState(false);
-  // const onAddClick = () => {
-  //   if (hasActiveSubscription) {
-  //     setOpenAdd(true);
-  //   } else {
-  //     setOpenSubModal(true);
-  //   }
-  // };
+  const [openSubModal, setOpenSubModal] = useState(false);
+//   const onAddClick = () => {
+//   if (hasActiveSubscription) {
+//   setOpenAdd(true);
+//   } else {
+//   setOpenSubModal(true);
+//  }
+//   };
 
   // 4️⃣ Instead, directly use the setOpenAdd function from the useServiceManager hook
   const onAddClick = () => {
     setOpenAdd(true);
   };
 
-  // 5️⃣ Removed the modal change handler
-  // const onSubModalChange = (open: boolean) => {
-  //   setOpenSubModal(open);
-  // };
+//  5️⃣ Removed the modal change handler
+ const onSubModalChange = (open: boolean) => {
+ setOpenSubModal(open);
+};
 
   return (
     <div className="flex flex-col pb-10 relative">
