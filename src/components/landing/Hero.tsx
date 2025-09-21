@@ -68,13 +68,20 @@ const Hero = () => {
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
+          
             <Link href="/signup">
-              <button className="bg-[#FFB049] rounded-full py-3 px-6 md:w-[137px] w-[137px]">
+              <button className="bg-[#6C35A7] text-white font-medium py-3 px-6 rounded-full hover:bg-opacity-90 transition flex items-center justify-center gap-2">
                 Create Account
+                <img
+                  src="/Group 2u.svg"
+                  alt="arrow right"
+                  className="inline-block"
+                />
               </button>
             </Link>
+         
             <Link href="/login">
-              <button className="bg-[#6C35A7] text-white rounded-full py-3 px-6 md:w-[137px] w-[137px]">
+              <button className="bg-[#FFB049] text-white rounded-full py-3 px-6 md:w-[137px] w-[137px]">
                 Log In
               </button>
             </Link>

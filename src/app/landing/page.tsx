@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/landing/Hero";
 import Navbar from "@/components/Navbar";
 import SimplifyBookings from "@/components/landing/SimplifyBookings";
+import Testimonials from "@/components/landing/Testimonial";
+import FAQ from "@/components/landing/FAQ";
 import { useRedirectIfAuthenticated } from "@/hooks/useRedirectIfAuthenticated";
 
 // Define animation variants
@@ -44,8 +46,10 @@ export default function Landing() {
         <FastOperations />
       </motion.div>
 
-      {/* Pricing section can be added here if needed */}
+    
       <SimplifyBookings />
+      <Testimonials />
+      <FAQ />
 
       {/* Call to action pulses in */}
       <motion.div

@@ -43,7 +43,7 @@ const FastOperations = () => {
       <div className="mt-8 grid grid-cols-1 md:grid-cols-6 gap-4">
         <div className="relative group overflow-hidden bg-[#FFB04933] rounded-xl h-[313px] col-span-1 md:col-span-2 align-middle flex justify-center items-end">
           {/* First div (1 of 3) */}
-          <img src="/images/iphone1.png" alt="Fast Operations 1" />
+          <img src="/images/iPhone-13-Pro-Front.svg" alt="Fast Operations 1" />
         </div>
 
         <div className="relative group bg-[#6C35A7] overflow-hidden p-6 sm:p-8 md:p-6 lg:p-8 rounded-xl h-full sm:h-[250px] md:h-[313px] col-span-1 md:col-span-2 flex flex-col justify-end items-start md:items-center text-left md:text-start">
@@ -94,7 +94,7 @@ const FastOperations = () => {
               </p>
             </div>
             <Image
-              src="/images/iphone2.png"
+              src="/images/iPhone-13-Prddto-Front.svg"
               alt="Phone"
               width={242}
               height={490}
@@ -130,7 +130,7 @@ const FastOperations = () => {
               </p>
             </div>
             <Image
-              src="/images/iphone3.png"
+              src="/images/iPhone-13-Pro-Frsdvfont.svg"
               alt="Phone"
               width={242}
               height={490}
