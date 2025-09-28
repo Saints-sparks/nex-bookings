@@ -1,21 +1,25 @@
+// ...existing code...
+// Removed stray bracket
+// }
 // app/vendor/home/page.tsx
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import VendorNavbar from "@/components/vendor/NavBar";
 import VendorServices from "@/components/vendor/ServicesGrid";
 import { ServiceDrawer } from "@/components/vendor/ServiceDrawer";
 import { EditServiceDrawer } from "@/components/vendor/EditServiceDrawer";
 import { useServiceManager } from "@/app/hooks/useServiceManager";
 import { useSubscriptions } from "@/app/context/SubscriptionContext";
+import { getBusinessKpis } from "@/app/services/bookings";
 
 export default function VendorHome() {
   const {
     businessName,
     businessSlug,
+    businessId,
     openAdd,
     openEdit,
     selected,
@@ -27,35 +31,57 @@ export default function VendorHome() {
     handleUpdated,
   } = useServiceManager();
 
-   //1️⃣ Removed the use of useSubscriptions since it is no longer needed to gate the "Add Service" button
-  const { userSubs, subsLoading, subsError, refreshUserSubs } = useSubscriptions();
+  const [kpis, setKpis] = useState<{
+    bookingsThisMonth: number;
+    incomeThisMonth: number;
+    bookingsAllTime: number;
+    incomeAllTime: number;
+  } | null>(null);
+  const [kpisLoading, setKpisLoading] = useState(false);
+  const [kpisError, setKpisError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!businessId) return;
+    setKpisLoading(true);
+    setKpisError(null);
+    getBusinessKpis(businessId)
+      .then((data) => setKpis(data))
+      .catch((err) => {
+        setKpisError("Could not load KPIs");
+      })
+      .finally(() => setKpisLoading(false));
+  }, [businessId]);
+
+  //1️⃣ Removed the use of useSubscriptions since it is no longer needed to gate the "Add Service" button
+  const { userSubs, subsLoading, subsError, refreshUserSubs } =
+    useSubscriptions();
 
   // 2️⃣ Removed the logic to check for active subscription
   const hasActiveSubscription =
-  !subsLoading &&
-  !subsError &&
-  userSubs &&
-  userSubs.some((s) => s.status === "ACTIVE");
+    !subsLoading &&
+    !subsError &&
+    userSubs &&
+    userSubs.some((s) => s.status === "ACTIVE");
 
   // 3️⃣ Removed local state for the subscription modal and the wrapper for onAddClick
   const [openSubModal, setOpenSubModal] = useState(false);
-//   const onAddClick = () => {
-//   if (hasActiveSubscription) {
-//   setOpenAdd(true);
-//   } else {
-//   setOpenSubModal(true);
-//  }
-//   };
+  //   const onAddClick = () => {
+  //   if (hasActiveSubscription) {
+  //   setOpenAdd(true);
+  //   } else {
+  //   setOpenSubModal(true);
+  //  }
+  //   };
 
   // 4️⃣ Instead, directly use the setOpenAdd function from the useServiceManager hook
   const onAddClick = () => {
     setOpenAdd(true);
   };
 
-//  5️⃣ Removed the modal change handler
- const onSubModalChange = (open: boolean) => {
- setOpenSubModal(open);
-};
+  //  5️⃣ Removed the modal change handler
+  const onSubModalChange = (open: boolean) => {
+    setOpenSubModal(open);
+  };
 
   return (
     <div className="flex flex-col pb-10 relative">
@@ -97,7 +123,11 @@ export default function VendorHome() {
               Bookings (This Month)
             </h4>
             <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
-              104
+              {kpisLoading
+                ? "..."
+                : kpisError
+                ? "-"
+                : kpis?.bookingsThisMonth ?? "-"}
             </h1>
           </div>
           <div className="flex flex-col bg-[#F2F2F2] p-4 rounded-2xl gap-2">
@@ -105,7 +135,11 @@ export default function VendorHome() {
               Income (This Month)
             </h4>
             <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
-              ₦ 104,000
+              {kpisLoading
+                ? "..."
+                : kpisError
+                ? "-"
+                : `₦ ${kpis?.incomeThisMonth?.toLocaleString() ?? "-"}`}
             </h1>
           </div>
           <div className="flex flex-col bg-[#F2F2F2] p-4 rounded-2xl gap-2">
@@ -113,7 +147,11 @@ export default function VendorHome() {
               Bookings (All Time)
             </h4>
             <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
-              1364
+              {kpisLoading
+                ? "..."
+                : kpisError
+                ? "-"
+                : kpis?.bookingsAllTime ?? "-"}
             </h1>
           </div>
           <div className="flex flex-col bg-[#F2F2F2] p-4 rounded-2xl gap-2">
@@ -121,7 +159,11 @@ export default function VendorHome() {
               Income (All Time)
             </h4>
             <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
-              ₦ 104,000,000
+              {kpisLoading
+                ? "..."
+                : kpisError
+                ? "-"
+                : `₦ ${kpis?.incomeAllTime?.toLocaleString() ?? "-"}`}
             </h1>
           </div>
         </div>

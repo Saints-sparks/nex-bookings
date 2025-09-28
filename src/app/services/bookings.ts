@@ -1,5 +1,21 @@
 import api from "@/lib/api";
 
+export interface BusinessKpis {
+  bookingsThisMonth: number;
+  incomeThisMonth: number;
+  bookingsAllTime: number;
+  incomeAllTime: number;
+}
+
+export async function getBusinessKpis(
+  businessId: string
+): Promise<BusinessKpis> {
+  const res = await api.get<BusinessKpis>(
+    `/bookings/business/${businessId}/kpis`
+  );
+  return res.data;
+}
+
 export interface Booking {
   id: string;
   appointmentDate: string;

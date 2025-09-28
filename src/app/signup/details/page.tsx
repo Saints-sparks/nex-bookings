@@ -77,13 +77,13 @@ export default function SignUpDetailsPage() {
       <div className="flex w-full justify-around sm:pt-15 px-6 gap-10 sm:mt-10">
         <div className="flex flex-col gap-6 max-w-[529px]">
           <div className="">
-            <div className="flex items-center justify-between"> 
-            <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
-              Finish Sign Up
-            </h2>
-            <h2 className="text-1xl font-bold text-[#000] leading-[100%] mb-2">
-               4/4 
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
+                Finish Sign Up
+              </h2>
+              <h2 className="text-1xl font-bold text-[#000] leading-[100%] mb-2">
+                4/4
+              </h2>
             </div>
             <p className="leading-[34px] text-[17px] font-medium">
               Almost Done with Registration, Enter Details Below to Finish

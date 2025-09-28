@@ -17,24 +17,34 @@ const Hero = () => {
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full z-0"
         style={{
-          width: '1440px',
-          height: '490px',
-          background: 'linear-gradient(90deg, #6C35A7 0%, #D9B6FF 20%, #E085FE 40%, #FDD29A 60%, #EFE8B3 100%)',
+          width: "1440px",
+          height: "490px",
+          background:
+            "linear-gradient(90deg, #6C35A7 0%, #D9B6FF 20%, #E085FE 40%, #FDD29A 60%, #EFE8B3 100%)",
           opacity: 0.2,
-          filter: 'blur(120px)',
+          filter: "blur(120px)",
         }}
       />
 
       {/* Dotted Lines */}
       {/* Top horizontal dotted line */}
-      <div className="absolute top-30 left-1/2 -translate-x-1/2 w-full border-t-2 border-dotted border-gray-400" />
-      
-      {/* Left vertical dotted line */}
-      <div className="absolute top-0 left-[5%] h-full border-l-2 border-dotted border-gray-400" />
-      
-      {/* Right vertical dotted line */}
-      <div className="absolute top-0 right-[5%] h-full border-l-2 border-dotted border-gray-400" />
-      
+      <div
+        className="absolute top-30 left-1/2 -translate-x-1/2 w-full h-[1px]
+                  bg-[repeating-linear-gradient(to_right,rgba(0,0,0,0.16)_0,rgba(0,0,0,0.16)_8px,transparent_8px,transparent_16px)]"
+      />
+
+      {/* Left */}
+      <div
+        className="absolute top-0 left-[5%] h-full w-[1px]
+                   bg-[repeating-linear-gradient(to_bottom,rgba(0,0,0,0.16)_0,rgba(0,0,0,0.16)_8px,transparent_8px,transparent_16px)]"
+      />
+
+      {/* Right */}
+      <div
+        className="absolute top-0 right-[5%] h-full w-[1px]
+                    bg-[repeating-linear-gradient(to_bottom,rgba(0,0,0,0.16)_0,rgba(0,0,0,0.16)_8px,transparent_8px,transparent_16px)]"
+      />
+
       <div className="relative flex flex-col items-center text-center px-6 md:px-18 lg:px-26 z-0">
         <motion.div
           className="max-w-[618px] flex flex-col gap-3 md:gap-5 items-center"
@@ -68,7 +78,6 @@ const Hero = () => {
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
-          
             <Link href="/signup">
               <button className="bg-[#6C35A7] text-white font-medium py-3 px-6 rounded-full hover:bg-opacity-90 transition flex items-center justify-center gap-2">
                 Create Account
@@ -79,7 +88,7 @@ const Hero = () => {
                 />
               </button>
             </Link>
-         
+
             <Link href="/login">
               <button className="bg-[#FFB049] text-white rounded-full py-3 px-6 md:w-[137px] w-[137px]">
                 Log In
@@ -96,7 +105,7 @@ const Hero = () => {
             src="/Group 1.png"
             alt="Nex Bookings mockup"
             fill
-            style={{ objectFit: 'contain' }}
+            style={{ objectFit: "contain" }}
             className="w-full h-full"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
