@@ -45,6 +45,42 @@ const Hero = () => {
                     bg-[repeating-linear-gradient(to_bottom,rgba(0,0,0,0.16)_0,rgba(0,0,0,0.16)_8px,transparent_8px,transparent_16px)]"
       />
 
+      {/* Intersection circles (top-left & top-right) */}
+      {/* These sit where the top horizontal dotted line crosses the left/right vertical dotted lines */}
+      <div
+        aria-hidden="true"
+        className="absolute top-30 left-[5%] z-20 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[16px] h-[16px] sm:w-[20px] sm:h-[20px] rounded-full bg-white"
+        style={{
+          boxShadow:
+            "inset 0 -1px 4px rgba(0,0,0,0.2), 0 3px 4px rgba(0,0,0,0.15)",
+        }}
+      >
+        <div
+          aria-hidden="true"
+          className="rounded-full w-[8px] h-[8px] sm:w-[10px] sm:h-[10px]"
+          style={{
+            background: "linear-gradient(180deg, #DCDCDC 0%, #8F8F8F 100%)",
+          }}
+        />
+      </div>
+
+      <div
+        aria-hidden="true"
+        className="absolute top-30 right-[5%] z-20 translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[16px] h-[16px] sm:w-[20px] sm:h-[20px] rounded-full bg-white"
+        style={{
+          boxShadow:
+            "inset 0 -1px 4px rgba(0,0,0,0.2), 0 3px 4px rgba(0,0,0,0.15)",
+        }}
+      >
+        <div
+          aria-hidden="true"
+          className="rounded-full w-[8px] h-[8px] sm:w-[10px] sm:h-[10px]"
+          style={{
+            background: "linear-gradient(180deg, #DCDCDC 0%, #8F8F8F 100%)",
+          }}
+        />
+      </div>
+
       <div className="relative flex flex-col items-center text-center px-6 md:px-18 lg:px-26 z-0">
         <motion.div
           className="max-w-[618px] flex flex-col gap-3 md:gap-5 items-center"
