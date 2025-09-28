@@ -10,6 +10,7 @@ import { createService, CreateServicePayload } from "@/app/services/service";
 import Image from "next/image";
 import { Down } from "../Icons";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { X } from "lucide-react";
 
 export function ServiceDrawer({
   open,
@@ -23,45 +24,55 @@ export function ServiceDrawer({
   const [form, setForm] = useState<{
     title: string;
     price: string;
-    percentage: string;
+    initialPayment: string;
     duration: string;
     durationType: "hours" | "days" | "weeks" | "months";
     isVirtual: "yes" | "no";
     description: string;
-    imageUrl: string;
+    images: string[];
   }>({
     title: "",
     price: "",
-    percentage: "0",
+    initialPayment: "0",
     duration: "",
     durationType: "hours",
     isVirtual: "no",
     description: "",
-    imageUrl: "",
+    images: [],
   });
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  // handle file selection + upload
+  // handle multiple file selection + upload
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
     setUploading(true);
     setError("");
     try {
-      const url = await uploadToCloudinary(file);
-      setForm((p) => ({ ...p, imageUrl: url }));
+      const urls: string[] = [];
+      for (const file of Array.from(files)) {
+        const url = await uploadToCloudinary(file);
+        urls.push(url);
+      }
+      setForm((p) => ({ ...p, images: [...p.images, ...urls] }));
     } catch (err: any) {
       console.error(err);
       setError("Image upload failed");
     } finally {
       setUploading(false);
     }
+  };
+
+  const removeImage = (url: string) => {
+    setForm((p) => ({ ...p, images: p.images.filter((img) => img !== url) }));
   };
 
   const handleSubmit = async () => {
@@ -71,16 +82,16 @@ export function ServiceDrawer({
       const businessId = localStorage.getItem("nex_businessId");
       if (!businessId) throw new Error("Missing business ID");
 
-      const payload: CreateServicePayload = {
+      const payload = {
         businessId,
         title: form.title,
         price: Number(form.price),
-        percentage: Number(form.percentage),
+        initialPayment: Number(form.initialPayment),
         duration: Number(form.duration),
         durationType: form.durationType,
         isVirtual: form.isVirtual === "yes",
         description: form.description,
-        imageUrl: form.imageUrl,
+        images: form.images,
       };
       console.log("Creating service with payload:", payload);
       await createService(payload);
@@ -88,12 +99,12 @@ export function ServiceDrawer({
       setForm({
         title: "",
         price: "",
-        percentage: "0",
+        initialPayment: "0",
         duration: "",
         durationType: "hours",
         isVirtual: "no",
         description: "",
-        imageUrl: "",
+        images: [],
       });
     } catch (err: any) {
       setError(err.message || "Failed to create service");
@@ -128,29 +139,44 @@ export function ServiceDrawer({
                 </label>
               </p>
               <p className="text-sm text-[#807E7E]">
-                Supported format: JPG, PNG. Make sure the files are not too
-                large.
+                Supported format: JPG, PNG. You can upload multiple images. Make
+                sure the files are not too large.
               </p>
               <input
                 id="file-upload"
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleFile}
                 className="hidden"
               />
               {uploading && <p className="text-sm mt-2">Uploading…</p>}
-              {form.imageUrl && (
-                <Image
-                  src={form.imageUrl}
-                  width={343}
-                  height={141}
-                  alt="Preview"
-                  className="mt-4 mx-auto h-24 object-contain"
-                />
+              {form.images.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                  {form.images.map((img) => (
+                    <div key={img} className="relative inline-block">
+                      <Image
+                        src={img}
+                        width={100}
+                        height={80}
+                        alt="Preview"
+                        className="object-contain rounded-md border"
+                      />
+                      <button
+                        type="button"
+                        className="absolute -top-2 -right-2 bg-white rounded-full p-1 border shadow"
+                        onClick={() => removeImage(img)}
+                        aria-label="Remove image"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
-            {/* title, price, percentage, duration inputs */}
+            {/* title, price, initialPayment, duration inputs */}
             <div className="group">
               <label htmlFor="title" className="text-[#807E7E] font-medium">
                 Service Title
@@ -186,16 +212,16 @@ export function ServiceDrawer({
 
               <div className="group flex-1">
                 <label
-                  htmlFor="percentage"
+                  htmlFor="initialPayment"
                   className="text-[#807E7E] font-medium"
                 >
                   Select Initial Payment (%)
                 </label>
                 <div className="cursor-pointer relative flex items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6] p-4">
                   <select
-                    id="percentage"
-                    name="percentage"
-                    value={form.percentage}
+                    id="initialPayment"
+                    name="initialPayment"
+                    value={form.initialPayment}
                     onChange={handleChange}
                     className="appearance-none w-full bg-transparent text-sm font-medium pr-5 cursor-pointer focus:outline-none"
                   >
@@ -212,7 +238,6 @@ export function ServiceDrawer({
             </div>
 
             <div className="flex gap-4">
-
               <div className="group flex-1">
                 <label
                   htmlFor="isVirtual"
@@ -293,7 +318,6 @@ export function ServiceDrawer({
                 className="w-full h-32 resize-none p-6 rounded-3xl border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
-            
             {error && <p className="text-red-500">{error}</p>}
           </div>
 

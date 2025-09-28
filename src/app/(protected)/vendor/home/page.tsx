@@ -30,7 +30,11 @@ const KpiGrid: React.FC = () => {
           Income (This Month)
         </h4>
         <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
-          {loading ? "..." : error ? "-" : `₦ ${kpis?.incomeThisMonth?.toLocaleString() ?? "-"}`}
+          {loading
+            ? "..."
+            : error
+            ? "-"
+            : `₦ ${kpis?.incomeThisMonth?.toLocaleString() ?? "-"}`}
         </h1>
       </div>
 
@@ -48,7 +52,11 @@ const KpiGrid: React.FC = () => {
           Income (All Time)
         </h4>
         <h1 className="text-black font-bold text-lg md:text-xl lg:text-2xl">
-          {loading ? "..." : error ? "-" : `₦ ${kpis?.incomeAllTime?.toLocaleString() ?? "-"}`}
+          {loading
+            ? "..."
+            : error
+            ? "-"
+            : `₦ ${kpis?.incomeAllTime?.toLocaleString() ?? "-"}`}
         </h1>
       </div>
     </div>
@@ -72,7 +80,8 @@ export default function VendorHome() {
   } = useServiceManager();
 
   // subscription pieces (kept as-is)
-  const { userSubs, subsLoading, subsError, refreshUserSubs } = useSubscriptions();
+  const { userSubs, subsLoading, subsError, refreshUserSubs } =
+    useSubscriptions();
 
   const hasActiveSubscription =
     !subsLoading &&
@@ -93,7 +102,6 @@ export default function VendorHome() {
 
   if (!businessId) return null;
 
-
   return (
     <div className="flex flex-col pb-10 relative">
       <VendorNavbar />
@@ -109,8 +117,8 @@ export default function VendorHome() {
                 {businessName || "Your Business"}
               </h1>
               <p className="font-inter text-[13px] md:text-[18px] leading-[24px] md:leading-[34px] font-medium max-w-[487px]">
-                Showcase your expertise online, making it simple for customers to
-                instantly access your service details
+                Showcase your expertise online, making it simple for customers
+                to instantly access your service details
               </p>
             </div>
             <div className="flex gap-3 hidden sm:flex">
@@ -167,7 +175,11 @@ export default function VendorHome() {
       </div>
 
       {/* Drawers */}
-      <ServiceDrawer open={openAdd} onOpenChange={setOpenAdd} onServiceAdded={handleAdded} />
+      <ServiceDrawer
+        open={openAdd}
+        onOpenChange={setOpenAdd}
+        onServiceAdded={handleAdded}
+      />
       <EditServiceDrawer
         open={openEdit}
         onOpenChange={setOpenEdit}

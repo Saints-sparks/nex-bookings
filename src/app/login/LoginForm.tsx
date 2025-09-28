@@ -39,18 +39,17 @@ export default function LoginClient() {
     setLoading(true);
 
     // Simulate login delay and set mock data
-    try{
+    try {
       const { accessToken } = await signin(form);
       localStorage.setItem("nex_token", accessToken);
       api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}⁠`;
 
-      const { user, business, } = await introspect();
+      const { user, business } = await introspect();
       localStorage.setItem("nex_businessId", business.id);
       localStorage.setItem("nex_businessName", business.businessName);
       localStorage.setItem("nex_businessSlug", business.slug);
 
       localStorage.setItem("nex_user", JSON.stringify(user));
-    
 
       router.push(redirectParam);
     } catch (err: any) {

@@ -1,7 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getWalletSummary, WalletTransaction } from "@/app/services/wallets";
+import Image from "next/image";
 
 export default function Wallets() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [balance, setBalance] = useState<number | null>(null);
+  const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    getWalletSummary()
+      .then((data) => {
+        setBalance(data.balance);
+        setTransactions(data.transactions || []);
+      })
+      .catch(() => setError("Could not load wallet info"))
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -17,7 +35,15 @@ export default function Wallets() {
       <div className="bg-[#F6F6F6] gap-20 flex flex-col p-6 rounded-2xl h-80 justify-center bg-[url('/Rec.png')] bg-no-repeat bg-cover">
         <div>
           <p className="font-medium text-lg mb-3">Wallet Balance</p>
-          <h2 className="font-bold text-4xl mb-4 text-[#6c35a7]">₦ 284,080</h2>
+          <h2 className="font-bold text-4xl mb-4 text-[#6c35a7]">
+            {loading
+              ? "..."
+              : error
+              ? "-"
+              : balance !== null
+              ? `₦ ${balance.toLocaleString()}`
+              : "-"}
+          </h2>
         </div>
         <button
           className="w-full sm:w-auto bg-[#FFB049] rounded-full py-4 px-8 text-white font-medium text-[16px] hover:bg-purple-700"
@@ -31,77 +57,61 @@ export default function Wallets() {
       <div className="bg-[#F6F6F6] h-80 rounded-2xl p-4 overflow-hidden">
         <p className="font-medium text-lg mb-3">Transaction History</p>
         <div className="h-96 overflow-y-scroll overflow-x-hidden">
-          <div className="bg-white p-4 rounded-2xl mb-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <img
-                src="/solar_alt-arrow-down-bold-duotone-1.png"
-                alt="Transaction Icon"
-                className="inline-block mr-4"
+          {loading && <div>Loading transactions...</div>}
+          {error && <div className="text-red-500">{error}</div>}
+          {!loading && !error && transactions.length === 0 && (
+            <section className="p-6 text-center text-black flex flex-col gap-10 justify-center items-center">
+              <Image
+                src="/empty.svg"
+                alt="No transactions available"
+                width={200}
+                height={150}
               />
-              <h4 className="font-bold text-xl text-[#6c35a7]">₦ 30,000</h4>
+              <p className="max-w-[300px] text-[13px] md:text-[16px] leading-[24px] font-inter ">
+                You have no recent wallet transactions yet.
+              </p>
+            </section>
+          )}
+          {transactions.map((txn) => (
+            <div
+              key={txn.id}
+              className="bg-white p-4 rounded-2xl mb-4 flex items-center justify-between"
+            >
+              <div className="flex items-center">
+                <img
+                  src={
+                    txn.type === "payout"
+                      ? "/solar_alt-arrow-down-bold-duotone.png"
+                      : "/solar_alt-arrow-down-bold-duotone-1.png"
+                  }
+                  alt="Transaction Icon"
+                  className="inline-block mr-4"
+                />
+                <h4 className="font-bold text-xl text-[#6c35a7]">
+                  ₦ {txn.amount.toLocaleString()}
+                </h4>
+              </div>
+              <div className="flex flex-col items-end">
+                <p className="text-[16px] text-black">
+                  {new Date(txn.createdAt).toLocaleDateString("en-NG", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                  })}
+                </p>
+                <span className="text-xs text-gray-500">{txn.paymentRef}</span>
+                <span
+                  className={`text-xs ${
+                    txn.status === "success"
+                      ? "text-green-600"
+                      : "text-yellow-600"
+                  } capitalize`}
+                >
+                  {txn.status}
+                </span>
+              </div>
             </div>
-            <p className="text-[16px] text-black">20 Aug, 2023</p>
-          </div>
-
-          <div className="bg-white p-4 rounded-2xl mb-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <img
-                src="/solar_alt-arrow-down-bold-duotone.png"
-                alt="Transaction Icon"
-                className="inline-block mr-4"
-              />
-              <h4 className="font-bold text-xl text-[#6c35a7]">₦ 30,000</h4>
-            </div>
-            <p className="text-[16px] text-black">20 Aug, 2023</p>
-          </div>
-
-          <div className="bg-white p-4 rounded-2xl mb-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <img
-                src="/solar_alt-arrow-down-bold-duotone.png"
-                alt="Transaction Icon"
-                className="inline-block mr-4"
-              />
-              <h4 className="font-bold text-xl text-[#6c35a7]">₦ 30,000</h4>
-            </div>
-            <p className="text-[16px] text-black">20 Aug, 2023</p>
-          </div>
-
-          <div className="bg-white p-4 rounded-2xl mb-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <img
-                src="/solar_alt-arrow-down-bold-duotone.png"
-                alt="Transaction Icon"
-                className="inline-block mr-4"
-              />
-              <h4 className="font-bold text-xl text-[#6c35a7]">₦ 30,000</h4>
-            </div>
-            <p className="text-[16px] text-black">20 Aug, 2023</p>
-          </div>
-
-          <div className="bg-white p-4 rounded-2xl mb-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <img
-                src="/solar_alt-arrow-down-bold-duotone-1.png"
-                alt="Transaction Icon"
-                className="inline-block mr-4"
-              />
-              <h4 className="font-bold text-xl text-[#6c35a7]">₦ 30,000</h4>
-            </div>
-            <p className="text-[16px] text-black">20 Aug, 2023 </p>
-          </div>
-
-          <div className="bg-white p-4 rounded-2xl mb-4 flex items-center justify-between">
-            <div className="flex items-center">
-              <img
-                src="/solar_alt-arrow-down-bold-duotone-1.png"
-                alt="Transaction Icon"
-                className="inline-block mr-4"
-              />
-              <h4 className="font-bold text-xl text-[#6c35a7]">₦ 30,000</h4>
-            </div>
-            <p className="text-[16px] text-black">20 Aug, 2023</p>
-          </div>
+          ))}
         </div>
       </div>
 

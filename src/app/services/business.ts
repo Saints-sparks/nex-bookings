@@ -23,6 +23,13 @@ export interface UpdateBusinessPayload {
   logo?: string;
 }
 
+export interface WorkingHour {
+  day: string;
+  isOpen: boolean;
+  openTime: string;
+  closeTime: string;
+}
+
 export async function getBusinessByUser(userId: string): Promise<Business> {
   // Check if we're using mock data
   if (userId === "mock_user_id") {
@@ -31,10 +38,10 @@ export async function getBusinessByUser(userId: string): Promise<Business> {
       businessName: "Mock Business",
       logo: "/images/mock-logo.png",
       slug: "mock-business",
-      userId: "mock_user_id"
+      userId: "mock_user_id",
     };
   }
-  
+
   const res = await api.get<Business>(`/business/user/${userId}`);
   console.log(res.data);
   return res.data;
@@ -48,15 +55,17 @@ export async function getBusinessById(id: string): Promise<Business> {
       businessName: "Mock Business",
       logo: "/images/mock-logo.png",
       slug: "mock-business",
-      userId: "mock_user_id"
+      userId: "mock_user_id",
     };
   }
-  
+
   const res = await api.get<Business>(`/business/${id}`);
   return res.data;
 }
 
-export async function getBusinessBySlug(slug: string): Promise<BusinessProfile> {
+export async function getBusinessBySlug(
+  slug: string
+): Promise<BusinessProfile> {
   // Check if we're using mock data
   if (slug === "mock-business") {
     return {
@@ -64,10 +73,10 @@ export async function getBusinessBySlug(slug: string): Promise<BusinessProfile> 
       businessName: "Mock Business",
       logo: "/images/mock-logo.png",
       industry: "Technology",
-      slug: "mock-business"
+      slug: "mock-business",
     };
   }
-  
+
   try {
     const response = await api.get<BusinessProfile>(`/business/slug/${slug}`);
     return response.data;
@@ -91,10 +100,26 @@ export async function updateBusiness(
       businessName: payload.businessName || "Mock Business",
       logo: payload.logo || "/images/mock-logo.png",
       slug: "mock-business",
-      userId: "mock_user_id"
+      userId: "mock_user_id",
     };
   }
-  
+
   const res = await api.put<Business>(`/business/${id}`, payload);
   return res.data;
+}
+
+export async function getBusinessWorkingHours(
+  businessId: string
+): Promise<WorkingHour[]> {
+  const res = await api.get<WorkingHour[]>(
+    `/business/${businessId}/working-hours`
+  );
+  return res.data;
+}
+
+export async function updateBusinessWorkingHours(
+  businessId: string,
+  hours: WorkingHour[]
+): Promise<void> {
+  await api.put(`/business/${businessId}/working-hours`, hours);
 }
