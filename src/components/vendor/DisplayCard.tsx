@@ -10,9 +10,10 @@ import { BookingModal } from "../booking/BookingModal";
 
 interface DisplayCardProps {
   service: Service;
+  onClick?: () => void;
 }
 
-export default function DisplayCard({ service }: DisplayCardProps) {
+export default function DisplayCard({ service, onClick }: DisplayCardProps) {
   const router = useRouter();
   // Tailwind's "sm" below 640px
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -33,10 +34,15 @@ export default function DisplayCard({ service }: DisplayCardProps) {
   );
 
   return (
-    <div className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white border border-[#E0E0E0]">
+    <div
+      className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white border border-[#E0E0E0] cursor-pointer"
+      onClick={onClick}
+    >
       <div className="relative">
         <Image
-          src={service.images && service.images.length > 0 ? service.images[0] : ""}
+          src={
+            service.images && service.images.length > 0 ? service.images[0] : ""
+          }
           alt={service.title}
           width={353}
           height={174}

@@ -1,3 +1,8 @@
+// Fetch a single service by ID
+export async function getServiceById(id: string): Promise<Service> {
+  const res = await api.get<Service>(`/services/${id}`);
+  return res.data;
+}
 // services/service.ts
 import api from "@/lib/api";
 
@@ -5,7 +10,8 @@ export interface Service {
   id: string;
   title: string;
   price: number;
-  percentage: number;
+  initialPayment: number;
+  percentage?: number;
   isVirtual: boolean;
   description: string;
   duration: number;
