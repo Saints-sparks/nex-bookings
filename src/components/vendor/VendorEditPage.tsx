@@ -77,7 +77,7 @@ export default function VendorEdit({
 
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-5 sm:px-0">
         {/* Hero */}
-        <div className="flex justify-between w-full mt-10 ">
+        <div className="flex justify-between w-full mt-10 px-6 lg:px-0">
           <div className="flex flex-col gap-3 py-10 text-left flex-1 ">
             <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
               <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
