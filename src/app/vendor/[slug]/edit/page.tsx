@@ -6,6 +6,7 @@ import {
   WebsiteSettings,
 } from "@/app/services/website";
 import VendorEdit from "@/components/vendor/VendorEditPage";
+import { getReviewsByBusinessId } from "@/app/services/business";
 import { getBusinessBySlug } from "@/app/services/business";
 
 type Props = {
@@ -18,7 +19,12 @@ function withDefault(userVal: string | undefined, defaultVal: string) {
 
 export default async function VendorEditPage({ params }: Props) {
   const { slug } = await params;
-  const business = await getBusinessBySlug(slug);
+  const businessProfile = await getBusinessBySlug(slug);
+  // Map BusinessProfile to Business (userId is required by VendorEdit)
+  const business = {
+    ...businessProfile,
+    userId: "", // userId not available from BusinessProfile, set as empty string or fetch if needed
+  };
 
   const DEFAULT_SETTINGS: WebsiteSettings = {
     businessId: business.id,
@@ -32,6 +38,9 @@ export default async function VendorEditPage({ params }: Props) {
 
   // 1️⃣ Fetch services
   const services = await getServicesByBusiness(business.id);
+
+  // 2️⃣ Fetch reviews for this business
+  const reviews = await getReviewsByBusinessId(business.id);
 
   // 2️⃣ Try to fetch existing settings (404 → null)
   let fetched: WebsiteSettings | null = null;
@@ -64,7 +73,12 @@ export default async function VendorEditPage({ params }: Props) {
 
   return (
     <div className="flex flex-col lg:flex-row">
-      <VendorEdit settings={settings} services={services} />
+      <VendorEdit
+        settings={settings}
+        services={services}
+        business={business}
+        reviews={reviews}
+      />
     </div>
   );
 }

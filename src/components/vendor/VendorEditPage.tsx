@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import DisplayGrid from "./DisplayGrid";
+import VendorReviews from "./VendorReviews";
 import type { Service } from "@/app/services/service";
 import { Facebook, Instagram, Pencil, Share } from "../Icons";
 import { useState } from "react";
@@ -10,13 +11,24 @@ import ShareWebsiteModal from "./ShareModal";
 import { WebsiteSettings } from "@/app/services/website";
 import Link from "next/link";
 import { useSubscriptions } from "@/app/context/SubscriptionContext";
+import { Button } from "../ui/button";
+import { Business } from "@/app/services/business";
+
+import { Review } from "@/app/services/business";
 
 interface Props {
   services: Service[];
   settings: WebsiteSettings;
+  business: Business;
+  reviews: Review[];
 }
 
-export default function VendorEdit({ services, settings }: Props) {
+export default function VendorEdit({
+  services,
+  settings,
+  business,
+  reviews,
+}: Props) {
   const { userSubs, subsLoading, subsError, refreshUserSubs } =
     useSubscriptions();
 
@@ -30,7 +42,8 @@ export default function VendorEdit({ services, settings }: Props) {
   const [openShareModal, setOpenShareModal] = useState(false);
   const params = useParams();
   const slug = params.slug;
-  const publicUrl = `https://${slug}.osisopro.com`;
+  // const publicUrl = `https://${slug}.osisopro.com`;
+  const publicUrl = `http://localhost:3000/vendor/${slug}`;
   const settingsTabParam = encodeURIComponent("Website Settings");
 
   return (
@@ -64,26 +77,49 @@ export default function VendorEdit({ services, settings }: Props) {
 
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-5 sm:px-0">
         {/* Hero */}
-        <div className="flex flex-col gap-3 py-10 text-center max-w-[487px] mt-10">
-          <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
-            <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
-              {settings.header}
-            </h1>
-          </Link>
-          <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
-            <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter leading-[24px] md:leading-[34px]">
-              {settings.tagline}
-            </p>
-          </Link>
-          <div className="flex gap-10 justify-center mt-5">
-            <Link href={settings.facebookLink}>
-              <Facebook />
+        <div className="flex justify-between w-full mt-10 ">
+          <div className="flex flex-col gap-3 py-10 text-left flex-1 ">
+            <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
+              <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
+                {settings.header}
+              </h1>
             </Link>
-            <Link href={settings.instagramLink}>
-              <Instagram />
+            <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
+              <p className="font-medium max-w-[400px] text-[14px] md:text-[16px] lg:text-[18px] font-inter leading-[24px] md:leading-[34px]">
+                {settings.tagline}
+              </p>
             </Link>
+            <div className="flex gap-6 items-center  mt-5">
+              <Button className="bg-[#6C35A7] text-white rounded-full py-6 px-10 font-medium text-[15px]">
+                Call Vendor
+              </Button>
+              <Link href={settings.facebookLink}>
+                <div className="bg-[#F2F2F2] rounded-full flex justify-center items-center p-3 transition">
+                  <Facebook />
+                </div>
+              </Link>
+              <Link href={settings.instagramLink}>
+                <div className="bg-[#F2F2F2] rounded-full flex justify-center items-center p-3 transition">
+                  <Instagram />
+                </div>
+              </Link>
+            </div>
           </div>
+
+          <Image
+            src={business.logo || "/logo.svg"}
+            alt="Vendor Logo"
+            width={200}
+            height={150}
+            className="mx-auto"
+          />
         </div>
+
+        {/* Vendor Reviews */}
+        <VendorReviews
+          reviews={reviews}
+          addServiceHref={`/vendor/profile?tab=Services`}
+        />
 
         {/* Services */}
         <DisplayGrid services={services} />

@@ -89,7 +89,7 @@ export default function VendorServices({
             price={svc.price}
             duration={svc.duration}
             durationType={svc.durationType}
-            imageUrl={svc.imageUrl}
+            images={svc.images}
             onEdit={() => onEdit(svc)}
           />
         ))}

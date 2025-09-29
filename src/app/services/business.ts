@@ -30,6 +30,13 @@ export interface WorkingHour {
   closeTime: string;
 }
 
+export interface Review {
+  id: string | number;
+  name: string;
+  rating: number; // 0-5
+  text: string;
+}
+
 export async function getBusinessByUser(userId: string): Promise<Business> {
   // Check if we're using mock data
   if (userId === "mock_user_id") {
@@ -122,4 +129,11 @@ export async function updateBusinessWorkingHours(
   hours: WorkingHour[]
 ): Promise<void> {
   await api.put(`/business/${businessId}/working-hours`, hours);
+}
+
+export async function getReviewsByBusinessId(
+  businessId: string
+): Promise<Review[]> {
+  const res = await api.get<Review[]>(`/business/${businessId}/reviews`);
+  return res.data;
 }

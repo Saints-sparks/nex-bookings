@@ -8,7 +8,7 @@ interface ServiceCardProps {
   price: number;
   duration: number;
   durationType: "hours" | "days" | "weeks" | "months";
-  imageUrl: string;
+  images: string[];
   onEdit: () => void;
 }
 
@@ -17,7 +17,7 @@ export default function ServiceCard({
   price,
   duration,
   durationType,
-  imageUrl,
+  images,
   onEdit,
 }: ServiceCardProps) {
   return (
@@ -25,7 +25,7 @@ export default function ServiceCard({
       {/* Image */}
       <div className="relative">
         <Image
-          src={imageUrl || "/images/nails.png"}
+          src={images && images.length > 0 ? images[0] : ""}
           alt={title}
           width={353}
           height={174}

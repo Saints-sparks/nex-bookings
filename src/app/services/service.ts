@@ -10,7 +10,7 @@ export interface Service {
   description: string;
   duration: number;
   durationType: "hours" | "days" | "weeks" | "months";
-  imageUrl: string;
+  images: string[];
   businessId: string;
   business: {
     businessName: string;

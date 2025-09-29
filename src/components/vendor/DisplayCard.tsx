@@ -36,7 +36,7 @@ export default function DisplayCard({ service }: DisplayCardProps) {
     <div className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white border border-[#E0E0E0]">
       <div className="relative">
         <Image
-          src={service.imageUrl}
+          src={service.images && service.images.length > 0 ? service.images[0] : ""}
           alt={service.title}
           width={353}
           height={174}
