@@ -21,12 +21,25 @@ export default function DisplayCard({ service, onClick }: DisplayCardProps) {
   const handleClick = () => {
     if (isMobile) {
       router.push(`/booking/${service.id}`);
+    } else {
+      // On desktop, clicking the card should open service details
+      onClick?.();
+    }
+  };
+
+  const handleBookNowClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling to card
+    if (isMobile) {
+      router.push(`/booking/${service.id}`);
+    } else {
+      // On desktop, Book Now should also open service details
+      onClick?.();
     }
   };
 
   const trigger = (
     <Button
-      onClick={handleClick}
+      onClick={handleBookNowClick}
       className="flex items-center gap-2 text-[16px] bg-[#6C35A7] hover:bg-purple-700 font-bold rounded-full"
     >
       Book Now
@@ -60,11 +73,10 @@ export default function DisplayCard({ service, onClick }: DisplayCardProps) {
               NGN {service.price}
             </p>
           </div>
-          {isMobile ? (
-            trigger
-          ) : (
-            <BookingModal serviceId={service.id} trigger={trigger} />
-          )}
+          {isMobile
+            ? trigger
+            : // On desktop, Book Now should open ServiceDetailsModal, not BookingModal directly
+              trigger}
         </div>
       </div>
     </div>

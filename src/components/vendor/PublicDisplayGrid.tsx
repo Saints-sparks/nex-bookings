@@ -2,6 +2,7 @@
 // import { Service } from "@/app/services/service";
 import DisplayCard from "./DisplayCard";
 import ServiceDetailsModal from "./ServiceDetailsModal";
+import { BookingModal } from "../booking/BookingModal";
 import { useState } from "react";
 import { getServiceById, Service } from "@/app/services/service";
 import Image from "next/image";
@@ -15,6 +16,7 @@ export default function PublicDisplayGrid({
   businessName: string;
 }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -63,10 +65,19 @@ export default function PublicDisplayGrid({
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onContinueBooking={() => {
-          // You can add booking logic here
           setModalOpen(false);
+          setBookingModalOpen(true);
         }}
       />
+      {selectedService && (
+        <BookingModal
+          trigger={<div />}
+          serviceId={selectedService.id}
+          serviceImage={selectedService.images?.[0]}
+          open={bookingModalOpen}
+          onOpenChange={setBookingModalOpen}
+        />
+      )}
     </section>
   );
 }

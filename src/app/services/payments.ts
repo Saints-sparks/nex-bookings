@@ -17,6 +17,16 @@ export interface PaymentsHistoryResponse {
   totalPages: number;
 }
 
+export interface PaymentSummary {
+  serviceId: string;
+  serviceTitle: string;
+  servicePrice: number;
+  initialPaymentPercent: number;
+  downPayment: number;
+  platformServiceCharge: number;
+  totalAmount: number;
+}
+
 export async function getPaymentsHistoryByBusiness(
   businessId: string,
   page = 1,
@@ -27,6 +37,15 @@ export async function getPaymentsHistoryByBusiness(
     {
       params: { page, limit },
     }
+  );
+  return res.data;
+}
+
+export async function getPaymentSummary(
+  serviceId: string
+): Promise<PaymentSummary> {
+  const res = await api.get<PaymentSummary>(
+    `/api/payments/summary?serviceId=${serviceId}`
   );
   return res.data;
 }
