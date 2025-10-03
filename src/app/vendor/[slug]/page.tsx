@@ -79,6 +79,7 @@ export default async function PublicVendorPage({ params }: Props) {
       services={services}
       instagramLink={instagramLink}
       facebookLink={facebookLink}
+      phoneNumber={business.phoneNumber}
     />
   );
 }

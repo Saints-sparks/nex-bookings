@@ -11,10 +11,17 @@ export interface Business {
 
 export interface BusinessProfile {
   id: string;
+  userId: string;
   businessName: string;
   logo: string;
   industry: string;
   slug: string;
+  workingHours: WorkingHour[];
+  address: string;
+  phoneNumber: string;
+  email: string;
+  description: string;
+  createdAt: string;
 }
 
 export interface UpdateBusinessPayload {
@@ -77,10 +84,24 @@ export async function getBusinessBySlug(
   if (slug === "mock-business") {
     return {
       id: "mock_business_id",
+      userId: "mock_user_id",
       businessName: "Mock Business",
       logo: "/images/mock-logo.png",
       industry: "Technology",
       slug: "mock-business",
+      workingHours: [
+        {
+          day: "Monday",
+          openTime: "09:00",
+          closeTime: "17:00",
+          isOpen: true,
+        },
+      ],
+      address: "123 Mock Street",
+      phoneNumber: "+1234567890",
+      email: "mock@business.com",
+      description: "Mock business description",
+      createdAt: "2025-10-03T10:30:00Z",
     };
   }
 

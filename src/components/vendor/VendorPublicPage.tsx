@@ -1,4 +1,6 @@
 // components/vendor/VendorPublicPage.tsx
+"use client";
+
 import Image from "next/image";
 import type { Service } from "@/app/services/service";
 import PublicDisplayGrid from "./PublicDisplayGrid";
@@ -13,6 +15,7 @@ interface Props {
   services: Service[];
   instagramLink: string;
   facebookLink: string;
+  phoneNumber?: string;
 }
 
 export default function VendorPublicPage({
@@ -22,6 +25,7 @@ export default function VendorPublicPage({
   services,
   instagramLink,
   facebookLink,
+  phoneNumber,
 }: Props) {
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
@@ -60,7 +64,13 @@ export default function VendorPublicPage({
               {description}
             </p>
             <div className="flex gap-6 items-center  mt-5">
-              <Button className="bg-[#6C35A7] text-white rounded-full py-6 px-10 font-medium text-[15px]">
+              <Button
+                className="bg-[#6C35A7] text-white rounded-full py-6 px-10 font-medium text-[15px]"
+                onClick={() =>
+                  phoneNumber && window.open(`tel:${phoneNumber}`, "_self")
+                }
+                disabled={!phoneNumber}
+              >
                 Call Vendor
               </Button>
               {(facebookLink || instagramLink) && (
