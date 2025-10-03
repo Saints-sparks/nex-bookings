@@ -41,7 +41,7 @@ export interface Review {
   id: string | number;
   name: string;
   rating: number; // 0-5
-  text: string;
+  comment: string;
 }
 
 export async function getBusinessByUser(userId: string): Promise<Business> {
@@ -156,5 +156,13 @@ export async function getReviewsByBusinessId(
   businessId: string
 ): Promise<Review[]> {
   const res = await api.get<Review[]>(`/business/${businessId}/reviews`);
+  return res.data;
+}
+
+export async function postReviewBySlug(
+  slug: string,
+  payload: { name: string; rating: number; comment: string }
+): Promise<Review> {
+  const res = await api.post<Review>(`/business/slug/${slug}/reviews`, payload);
   return res.data;
 }

@@ -1,6 +1,11 @@
-import { getBusinessById, getBusinessBySlug } from "@/app/services/business";
+import {
+  getBusinessById,
+  getBusinessBySlug,
+  Review,
+} from "@/app/services/business";
 import { getServicesByBusiness } from "@/app/services/service";
 import { getWebsiteSettingsByBusiness } from "@/app/services/website";
+import { getReviewsByBusinessId } from "@/app/services/business";
 import VendorPublicPage from "@/components/vendor/VendorPublicPage";
 import type { Metadata } from "next";
 
@@ -51,9 +56,16 @@ export default async function PublicVendorPage({ params }: Props) {
 
   const business = await getBusinessBySlug(slug);
   const services = await getServicesByBusiness(business.id);
+  let reviews: Review[] = [];
   let description = "Welcome to our services—stay tuned for more details!";
   let instagramLink = "";
   let facebookLink = "";
+
+  try {
+    reviews = await getReviewsByBusinessId(business.id);
+  } catch (error) {
+    console.log("No reviews found or error fetching reviews");
+  }
 
   try {
     const settings = await getWebsiteSettingsByBusiness(business.id);
@@ -81,6 +93,8 @@ export default async function PublicVendorPage({ params }: Props) {
       facebookLink={facebookLink}
       phoneNumber={business.phoneNumber}
       workingHours={business.workingHours}
+      reviews={reviews}
+      businessSlug={slug}
     />
   );
 }
