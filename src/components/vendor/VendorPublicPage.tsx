@@ -4,9 +4,18 @@
 import Image from "next/image";
 import type { Service } from "@/app/services/service";
 import PublicDisplayGrid from "./PublicDisplayGrid";
+import WorkingHoursModal from "./WorkingHoursModal";
 import Link from "next/link";
 import { Eye, Facebook, Instagram, Pencil, Share } from "../Icons";
 import { Button } from "../ui/button";
+import { useState } from "react";
+
+interface WorkingHour {
+  day: string;
+  isOpen: boolean;
+  openTime: string;
+  closeTime: string;
+}
 
 interface Props {
   businessName: string;
@@ -16,6 +25,7 @@ interface Props {
   instagramLink: string;
   facebookLink: string;
   phoneNumber?: string;
+  workingHours?: WorkingHour[];
 }
 
 export default function VendorPublicPage({
@@ -26,7 +36,9 @@ export default function VendorPublicPage({
   instagramLink,
   facebookLink,
   phoneNumber,
+  workingHours = [],
 }: Props) {
+  const [workingHoursModalOpen, setWorkingHoursModalOpen] = useState(false);
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
       <header className="bg-[#F2F2F2] px-8 py-6 sm:py-2  text-white text-center w-full fixed top-0 z-10 flex justify-center items-center">
@@ -44,7 +56,7 @@ export default function VendorPublicPage({
           </div>
 
           <div
-            // onClick={() => setOpenShareModal(true)}
+            onClick={() => setWorkingHoursModalOpen(true)}
             className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]"
           >
             <Eye />
@@ -100,6 +112,14 @@ export default function VendorPublicPage({
 
         {/* Services */}
         <PublicDisplayGrid services={services} businessName={businessName} />
+
+        {/* Working Hours Modal */}
+        <WorkingHoursModal
+          trigger={<div />}
+          workingHours={workingHours}
+          open={workingHoursModalOpen}
+          onOpenChange={setWorkingHoursModalOpen}
+        />
 
         {/* Footer */}
         <footer className="px-5 my-8 flex items-center text-black text-[20px] leading-[34px] w-full hidden sm:flex">
