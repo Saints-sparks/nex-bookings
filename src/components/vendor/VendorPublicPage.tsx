@@ -76,7 +76,7 @@ export default function VendorPublicPage({
           height={54}
           className="rounded-3xl w-[40px] w-[40px] md:w-[54px] md:h-[54px] object-cover"
         />
-        <div className="absolute right-0 lg:right-10 flex text-[#6C35A7] font-bold text-[16px] gap-4 hidden md:flex">
+        <div className="absolute right-4 lg:right-10 flex text-[#6C35A7] font-bold text-[16px] gap-4 hidden md:flex">
           <div
             onClick={() => setReviewsModalOpen(true)}
             className="flex gap-2 items-center hover:underline transition cursor-pointer md:text-[13px] lg:text-[16px]"
@@ -97,7 +97,7 @@ export default function VendorPublicPage({
 
       <main className="max-w-[1000px] w-full pt-[100px] flex flex-col items-center px-8 sm:px-0">
         {/* Hero */}
-        <div className="flex justify-between w-full mt-10 px-6 lg:px-0">
+        <div className="flex flex-col md:flex-row justify-between w-full mt-10 px-6 lg:px-0">
           <div className="flex flex-1 flex-col gap-3 py-10 ">
             <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
               {businessName}
