@@ -5,7 +5,11 @@ import { Calendar } from "../ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createBooking } from "@/app/services/bookings";
-import { getPaymentSummary, PaymentSummary } from "@/app/services/payments";
+import {
+  getPaymentSummary,
+  PaymentSummary,
+  initializeServiceBookingPayment,
+} from "@/app/services/payments";
 import PaymentSummaryModal from "@/components/vendor/PaymentSummaryModal";
 import { toast } from "sonner";
 
@@ -46,8 +50,10 @@ const BookingForm: FC<BookingFormProps> = ({
   );
 
   const handleContinueToPayment = async () => {
-    if (!phone || !selectedTime || !name) {
-      setError("Please fill in all required fields and select a time slot.");
+    if (!phone || !selectedTime || !name || !email) {
+      setError(
+        "Please fill in all required fields including email and select a time slot."
+      );
       return;
     }
 
@@ -67,8 +73,8 @@ const BookingForm: FC<BookingFormProps> = ({
   };
 
   const handleMakePayment = async () => {
-    if (!phone || !selectedTime || !name) {
-      setError("Missing booking information.");
+    if (!phone || !selectedTime || !name || !email || !paymentSummary) {
+      setError("Missing booking information or email.");
       return;
     }
 
@@ -76,23 +82,42 @@ const BookingForm: FC<BookingFormProps> = ({
     setError(null);
 
     try {
-      // Combine selected date and time into a proper datetime
+      // Initialize payment with Paystack
+      const paymentResponse = await initializeServiceBookingPayment({
+        serviceId: serviceId,
+        serviceTitle: paymentSummary.serviceTitle,
+        servicePrice: paymentSummary.servicePrice,
+        initialPaymentPercent: paymentSummary.initialPaymentPercent,
+        downPayment: paymentSummary.downPayment,
+        platformServiceCharge: paymentSummary.platformServiceCharge,
+        totalAmount: paymentSummary.totalAmount,
+        customerEmail: email,
+      });
+
+      // Store booking details in localStorage for after payment
       const [hour, minute] = selectedTime.split(":").map(Number);
       const appointmentDateTime = new Date(selectedDate);
       appointmentDateTime.setHours(hour, minute, 0, 0);
 
-      await createBooking({
+      const bookingDetails = {
         appointmentDate: appointmentDateTime.toISOString(),
         bookedServiceId: serviceId,
         customerName: name,
         customerPhoneNumber: phone,
         time: selectedTime,
-      });
+        paymentReference: paymentResponse.payment_reference,
+      };
 
-      toast.success("Booking created successfully!");
-      onDone?.();
+      localStorage.setItem("pendingBooking", JSON.stringify(bookingDetails));
+
+      // Redirect to Paystack
+      window.location.href = paymentResponse.authorization_url;
     } catch (err: any) {
-      setError(err.message || "Failed to send booking.");
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to initialize payment."
+      );
     } finally {
       setLoading(false);
     }
@@ -179,10 +204,11 @@ const BookingForm: FC<BookingFormProps> = ({
           </div>
           <div className="group mb-6">
             <label className="text-[#807E7E] font-medium group-focus-within:text-[#6C35A7]">
-              Email Address
+              Email Address*
             </label>
             <Input
-              placeholder="Email Address"
+              placeholder="Email Address*"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="p-5 rounded-full border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 bg-[#F6F6F6]"

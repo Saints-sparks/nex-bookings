@@ -121,3 +121,50 @@ export const requestPayout = async (
   const response = await api.post("/api/payments/request-payout", data);
   return response.data;
 };
+
+export interface ServiceBookingPayment {
+  serviceId: string;
+  serviceTitle: string;
+  servicePrice: number;
+  initialPaymentPercent: number;
+  downPayment: number;
+  platformServiceCharge: number;
+  totalAmount: number;
+  customerEmail: string;
+}
+
+export interface PaymentInitializationResponse {
+  status: boolean;
+  message: string;
+  payment_reference: string;
+  authorization_url: string;
+  access_code: string;
+  amount: number;
+}
+
+export const initializeServiceBookingPayment = async (
+  data: ServiceBookingPayment
+): Promise<PaymentInitializationResponse> => {
+  const response = await api.post(
+    "/api/payments/initialize-service-booking",
+    data
+  );
+  return response.data;
+};
+
+export interface PaymentVerificationRequest {
+  reference: string;
+}
+
+export interface PaymentVerificationResponse {
+  status: string;
+  message: string;
+  data?: any;
+}
+
+export const verifyServiceBookingPayment = async (
+  data: PaymentVerificationRequest
+): Promise<PaymentVerificationResponse> => {
+  const response = await api.post("/api/payments/verify-service-booking", data);
+  return response.data;
+};
