@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { getWalletSummary, WalletTransaction } from "@/app/services/wallets";
-import { getBanks, Bank, verifyAccount } from "@/app/services/payments";
+import {
+  getBanks,
+  Bank,
+  verifyAccount,
+  requestPayout,
+} from "@/app/services/payments";
 import Image from "next/image";
 
 export default function Wallets() {
@@ -20,6 +25,9 @@ export default function Wallets() {
   const [verificationError, setVerificationError] = useState<string | null>(
     null
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -58,6 +66,8 @@ export default function Wallets() {
       accountName: "",
     });
     setVerificationError(null);
+    setSubmitError(null);
+    setSubmitSuccess(null);
   };
 
   const handleAccountVerification = async () => {
@@ -94,6 +104,60 @@ export default function Wallets() {
       }));
     } finally {
       setIsVerifying(false);
+    }
+  };
+
+  const handlePayoutRequest = async () => {
+    if (
+      !payoutForm.amount ||
+      !payoutForm.bankCode ||
+      !payoutForm.accountNumber
+    ) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setSubmitSuccess(null);
+
+    try {
+      // Convert formatted amount back to number
+      const amountValue = parseInt(payoutForm.amount.replace(/,/g, ""));
+
+      const result = await requestPayout({
+        amount: amountValue,
+        account_number: payoutForm.accountNumber,
+        bank_code: payoutForm.bankCode,
+      });
+
+      setSubmitSuccess(
+        `Payout request successful! Transaction ID: ${
+          result.transaction_id
+        }. Net amount: ₦${result.net_amount.toLocaleString()} (after ₦${result.service_charge.toLocaleString()} service charge). ${
+          result.estimated_arrival
+        }`
+      );
+
+      // Refresh wallet data after successful payout
+      getWalletSummary()
+        .then((data) => {
+          setBalance(data.balance);
+          setTransactions(data.transactions || []);
+        })
+        .catch(() => {});
+    } catch (error: any) {
+      if (error.response?.data?.error) {
+        setSubmitError(
+          `${error.response.data.error}: ${error.response.data.details || ""}`
+        );
+      } else {
+        setSubmitError(
+          error.response?.data?.message ||
+            "Failed to process payout request. Please try again."
+        );
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -324,13 +388,25 @@ export default function Wallets() {
                 </p>
               )}
             </div>
+            {submitSuccess && (
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-green-700 text-sm">{submitSuccess}</p>
+              </div>
+            )}
+            {submitError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-red-700 text-sm">{submitError}</p>
+              </div>
+            )}
             <div className="flex justify-end gap-2 mt-6">
               <button
+                onClick={handlePayoutRequest}
                 className={`w-full px-6 py-4 rounded-full font-medium text-white ${
                   payoutForm.amount &&
                   payoutForm.bankCode &&
                   payoutForm.accountNumber &&
-                  payoutForm.accountName
+                  payoutForm.accountName &&
+                  !submitSuccess
                     ? "bg-[#6C35A7] hover:bg-purple-700"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
@@ -339,10 +415,18 @@ export default function Wallets() {
                   !payoutForm.bankCode ||
                   !payoutForm.accountNumber ||
                   !payoutForm.accountName ||
-                  isVerifying
+                  isVerifying ||
+                  isSubmitting ||
+                  !!submitSuccess
                 }
               >
-                {isVerifying ? "Verifying..." : "Send Request"}
+                {isSubmitting
+                  ? "Processing..."
+                  : isVerifying
+                  ? "Verifying..."
+                  : submitSuccess
+                  ? "Request Sent"
+                  : "Send Request"}
               </button>
             </div>
           </div>

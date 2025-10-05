@@ -89,3 +89,35 @@ export const verifyAccount = async (
   const response = await api.post("/api/payments/verify-account", data);
   return response.data;
 };
+
+export interface PayoutRequest {
+  amount: number;
+  account_number: string;
+  bank_code: string;
+}
+
+export interface PayoutResponse {
+  status: boolean;
+  message: string;
+  transaction_id: string;
+  amount: number;
+  service_charge: number;
+  net_amount: number;
+  account_number: string;
+  bank_name: string;
+  account_name: string;
+  paystack_reference: string;
+  estimated_arrival: string;
+}
+
+export interface PayoutError {
+  error: string;
+  details: string;
+}
+
+export const requestPayout = async (
+  data: PayoutRequest
+): Promise<PayoutResponse> => {
+  const response = await api.post("/api/payments/request-payout", data);
+  return response.data;
+};
