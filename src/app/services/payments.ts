@@ -27,6 +27,23 @@ export interface PaymentSummary {
   totalAmount: number;
 }
 
+export interface Bank {
+  id: number;
+  name: string;
+  slug: string;
+  code: string;
+  longcode: string;
+  gateway: string;
+  pay_with_bank: boolean;
+  active: boolean;
+  is_deleted: boolean;
+  country: string;
+  currency: string;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export async function getPaymentsHistoryByBusiness(
   businessId: string,
   page = 1,
@@ -49,3 +66,26 @@ export async function getPaymentSummary(
   );
   return res.data;
 }
+
+export const getBanks = async (): Promise<Bank[]> => {
+  const response = await api.get("/api/payments/banks");
+  return response.data;
+};
+
+export interface AccountVerificationRequest {
+  account_number: string;
+  bank_code: string;
+}
+
+export interface AccountVerificationResponse {
+  account_number: string;
+  account_name: string;
+  bank_id: number;
+}
+
+export const verifyAccount = async (
+  data: AccountVerificationRequest
+): Promise<AccountVerificationResponse> => {
+  const response = await api.post("/api/payments/verify-account", data);
+  return response.data;
+};

@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { getWalletSummary, WalletTransaction } from "@/app/services/wallets";
+import { getBanks, Bank, verifyAccount } from "@/app/services/payments";
 import Image from "next/image";
 
 export default function Wallets() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [balance, setBalance] = useState<number | null>(null);
   const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
+  const [banks, setBanks] = useState<Bank[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [payoutForm, setPayoutForm] = useState({
+    amount: "",
+    bankCode: "",
+    accountNumber: "",
+    accountName: "",
+  });
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verificationError, setVerificationError] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     setLoading(true);
@@ -21,12 +33,68 @@ export default function Wallets() {
       .finally(() => setLoading(false));
   }, []);
 
+  useEffect(() => {
+    if (isModalOpen && banks.length === 0) {
+      getBanks()
+        .then((banksData) => {
+          setBanks(banksData.filter((bank) => bank.active && !bank.is_deleted));
+        })
+        .catch((err) => {
+          console.error("Failed to load banks:", err);
+        });
+    }
+  }, [isModalOpen, banks.length]);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setPayoutForm({
+      amount: "",
+      bankCode: "",
+      accountNumber: "",
+      accountName: "",
+    });
+    setVerificationError(null);
+  };
+
+  const handleAccountVerification = async () => {
+    if (!payoutForm.bankCode || !payoutForm.accountNumber) {
+      return;
+    }
+
+    if (payoutForm.accountNumber.length < 10) {
+      setVerificationError("Account number must be at least 10 digits");
+      return;
+    }
+
+    setIsVerifying(true);
+    setVerificationError(null);
+
+    try {
+      const result = await verifyAccount({
+        account_number: payoutForm.accountNumber,
+        bank_code: payoutForm.bankCode,
+      });
+
+      setPayoutForm((prev) => ({
+        ...prev,
+        accountName: result.account_name,
+      }));
+    } catch (error: any) {
+      setVerificationError(
+        error.response?.data?.message ||
+          "Failed to verify account. Please check your details."
+      );
+      setPayoutForm((prev) => ({
+        ...prev,
+        accountName: "",
+      }));
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   return (
@@ -136,46 +204,145 @@ export default function Wallets() {
                 htmlFor="amount"
                 className="block text-gray-700 font-medium mb-1"
               >
-                Enter Bank Name
+                Amount to Request
               </label>
-              <input
-                type="text"
-                id="bankName"
-                className="w-full p-4 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
-                placeholder="Enter amount to withdraw"
-              />
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium">
+                  ₦
+                </span>
+                <input
+                  type="text"
+                  id="amount"
+                  value={payoutForm.amount}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, ""); // Only allow digits
+                    const formattedValue = value
+                      ? parseInt(value).toLocaleString()
+                      : "";
+                    setPayoutForm((prev) => ({
+                      ...prev,
+                      amount: formattedValue,
+                    }));
+                  }}
+                  className="w-full p-4 pl-8 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+                  placeholder="Enter amount here"
+                />
+              </div>
+              {balance !== null && (
+                <p className="text-sm text-gray-600 mt-1">
+                  Available balance: ₦{balance.toLocaleString()}
+                </p>
+              )}
             </div>
             <div className="mb-4">
               <label
-                htmlFor="amount"
+                htmlFor="bankCode"
+                className="block text-gray-700 font-medium mb-1"
+              >
+                Select Bank
+              </label>
+              <select
+                id="bankCode"
+                value={payoutForm.bankCode}
+                onChange={(e) =>
+                  setPayoutForm((prev) => ({
+                    ...prev,
+                    bankCode: e.target.value,
+                  }))
+                }
+                className="w-full p-4 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6] appearance-none"
+              >
+                <option value="">Select a bank</option>
+                {banks.map((bank) => (
+                  <option key={bank.id} value={bank.code}>
+                    {bank.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="accountNumber"
                 className="block text-gray-700 font-medium mb-1"
               >
                 Enter Account Number
               </label>
-              <input
-                type="number"
-                id="accountNumber"
-                className="w-full p-4 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
-                placeholder="Enter account number here"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  id="accountNumber"
+                  value={payoutForm.accountNumber}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, ""); // Only allow digits
+                    setPayoutForm((prev) => ({
+                      ...prev,
+                      accountNumber: value,
+                      accountName: "", // Clear account name when number changes
+                    }));
+                    setVerificationError(null);
+                  }}
+                  onBlur={handleAccountVerification}
+                  className="w-full p-4 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+                  placeholder="Enter account number here"
+                  maxLength={10}
+                />
+                {isVerifying && (
+                  <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#6C35A7]"></div>
+                  </div>
+                )}
+              </div>
+              {verificationError && (
+                <p className="text-red-500 text-sm mt-1">{verificationError}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
-                htmlFor="amount"
+                htmlFor="accountName"
                 className="block text-gray-700 font-medium mb-1"
               >
-                Enter Account Name
+                Account Name
               </label>
               <input
                 type="text"
                 id="accountName"
-                className="w-full p-4 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
-                placeholder="Enter account name here"
+                value={payoutForm.accountName}
+                readOnly
+                className="w-full p-4 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-gray-100 text-gray-700 cursor-not-allowed"
+                placeholder={
+                  payoutForm.bankCode &&
+                  payoutForm.accountNumber &&
+                  payoutForm.accountNumber.length >= 10
+                    ? "Account name will appear here after verification"
+                    : "Select bank and enter account number first"
+                }
               />
+              {payoutForm.accountName && (
+                <p className="text-green-600 text-sm mt-1 flex items-center">
+                  <span className="mr-1">✓</span>
+                  Account verified
+                </p>
+              )}
             </div>
             <div className="flex justify-end gap-2 mt-6">
-              <button className=" w-full px-6 py-4 rounded-full font-medium text-white bg-[#6C35A7] hover:bg-purple-700">
-                Send Request
+              <button
+                className={`w-full px-6 py-4 rounded-full font-medium text-white ${
+                  payoutForm.amount &&
+                  payoutForm.bankCode &&
+                  payoutForm.accountNumber &&
+                  payoutForm.accountName
+                    ? "bg-[#6C35A7] hover:bg-purple-700"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+                disabled={
+                  !payoutForm.amount ||
+                  !payoutForm.bankCode ||
+                  !payoutForm.accountNumber ||
+                  !payoutForm.accountName ||
+                  isVerifying
+                }
+              >
+                {isVerifying ? "Verifying..." : "Send Request"}
               </button>
             </div>
           </div>
