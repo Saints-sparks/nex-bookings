@@ -83,7 +83,7 @@ const Hero = () => {
 
       <div className="relative flex flex-col items-center text-center px-6 md:px-18 lg:px-26 z-0">
         <motion.div
-          className="max-w-[618px] flex flex-col gap-3 md:gap-5 items-center"
+          className="max-w-[1000px] flex flex-col gap-3 md:gap-5 items-center"
           variants={{
             hidden: {},
             show: { transition: { staggerChildren: 0.2 } },
@@ -92,7 +92,7 @@ const Hero = () => {
           animate="show"
         >
           <motion.h1
-            className="text-[27px] sm:text-[45px] md:text-[38px] lg:text-[48px] xl:text-[46px] max-w-5xl font-bold text-[#6C35A7] leading-[1.2] sm:leading-[1.15] md:leading-[1.1] lg:leading-[1.05] xl:leading-[1]"
+            className="text-[27px] sm:text-[45px] md:text-[38px] lg:text-[48px] xl:text-[46px]  font-bold text-[#6C35A7] leading-[1.2] sm:leading-[1.15] md:leading-[1.1] lg:leading-[1.05] xl:leading-[1]"
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
@@ -101,7 +101,7 @@ const Hero = () => {
           </motion.h1>
 
           <motion.p
-            className="font-medium leading-[30px] md:leading-[40px] text-[17px] md:text-[20px] lg:text-[24px]"
+            className="font-medium leading-[30px] md:leading-[40px] text-[17px] md:text-[20px] lg:text-[24px] max-w-[618px]"
             variants={heroVariants}
             transition={{ duration: 0.6 }}
           >
@@ -115,7 +115,7 @@ const Hero = () => {
             transition={{ duration: 0.6 }}
           >
             <Link href="/signup">
-              <button className="bg-[#6C35A7] text-white font-medium py-3 px-6 rounded-full hover:bg-opacity-90 transition flex items-center justify-center gap-2">
+              <button className="bg-[#6C35A7] text-white font-medium h-full px-6 rounded-full hover:bg-opacity-90 transition flex items-center justify-center gap-2">
                 Create Account
                 <img
                   src="/Group 2u.svg"
