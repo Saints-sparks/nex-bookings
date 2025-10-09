@@ -27,7 +27,7 @@ export function EditServiceDrawer({
     price: "",
     duration: "",
     durationType: "hours" as "hours" | "days" | "weeks" | "months",
-    imageUrl: "",
+    images: [] as string[],
   });
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -41,7 +41,7 @@ export function EditServiceDrawer({
         price: String(service.price),
         duration: String(service.duration),
         durationType: service.durationType,
-        imageUrl: service.imageUrl,
+        images: service.images || [],
       });
     }
   }, [service]);
@@ -58,7 +58,7 @@ export function EditServiceDrawer({
     setError("");
     try {
       const url = await uploadToCloudinary(file);
-      setForm((p) => ({ ...p, imageUrl: url }));
+      setForm((p) => ({ ...p, images: [...p.images, url] }));
     } catch (err: any) {
       setError("Image upload failed");
     } finally {
@@ -74,10 +74,13 @@ export function EditServiceDrawer({
     try {
       await updateService(service.id, {
         title: form.title,
-        price: Number(form.price),
-        duration: Number(form.duration),
+        price: parseFloat(form.price),
+        duration: parseInt(form.duration),
         durationType: form.durationType,
-        imageUrl: form.imageUrl,
+        isVirtual: service.isVirtual,
+        description: service.description,
+        images: form.images,
+        initialPayment: service.initialPayment,
       });
       onServiceUpdated();
       onOpenChange(false);
@@ -120,9 +123,9 @@ export function EditServiceDrawer({
           <div className="p-6 flex-1 overflow-y-auto space-y-4">
             {/* Image Upload / Preview */}
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center flex flex-col items-center">
-              {form.imageUrl && (
+              {form.images.length > 0 && (
                 <Image
-                  src={form.imageUrl}
+                  src={form.images[0]}
                   width={100}
                   height={100}
                   alt="Service"

@@ -4,6 +4,8 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { usePayment } from "@/hooks/usePayment";
 import { useSubscriptions } from "@/app/context/SubscriptionContext";
+import { verifyServiceBookingPayment } from "@/app/services/payments";
+import { createBooking } from "@/app/services/bookings";
 import { Loader } from "lucide-react";
 import Image from "next/image";
 import Spinner from "@/components/Spinner";
@@ -26,6 +28,9 @@ function PaymentCallbackContent() {
   );
   const [message, setMessage] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [paymentType, setPaymentType] = useState<
+    "subscription" | "booking" | null
+  >(null);
   const router = useRouter();
   const { handlePaymentCallback } = usePayment();
   const { refreshUserSubs } = useSubscriptions();
@@ -44,29 +49,76 @@ function PaymentCallbackContent() {
         return;
       }
 
-      try {
-        const success = await handlePaymentCallback(
-          reference,
-          planId ?? "",
-          user ?? ""
-        );
+      // Check if this is a service booking payment
+      const pendingBooking = localStorage.getItem("pendingBooking");
 
-        if (success) {
-          setStatus("success");
-          setMessage("Payment successful! Your subscription is now active.");
-          setIsModalOpen(true);
-          // Refresh subscription data to update the cache
-          await refreshUserSubs();
-          // Clear the pending plan ID
-          localStorage.removeItem("pending_plan_id");
-          setTimeout(() => router.replace("/vendor/home"), 3000);
-        } else {
+      if (pendingBooking) {
+        // Handle service booking payment
+        setPaymentType("booking");
+        try {
+          const bookingDetails = JSON.parse(pendingBooking);
+
+          // Verify payment with backend
+          const verificationResponse = await verifyServiceBookingPayment({
+            reference,
+          });
+
+          if (verificationResponse.status === "success") {
+            // Create the booking after successful payment
+            await createBooking({
+              appointmentDate: bookingDetails.appointmentDate,
+              bookedServiceId: bookingDetails.bookedServiceId,
+              customerName: bookingDetails.customerName,
+              customerPhoneNumber: bookingDetails.customerPhoneNumber,
+              time: bookingDetails.time,
+            });
+
+            setStatus("success");
+            setMessage("Payment successful! Your booking has been confirmed.");
+            setIsModalOpen(true);
+
+            // Clear pending booking
+            localStorage.removeItem("pendingBooking");
+
+            setTimeout(() => router.replace("/"), 3000);
+          } else {
+            setStatus("error");
+            setMessage("Payment verification failed. Please contact support.");
+          }
+        } catch (error: any) {
+          console.error("Booking payment verification error:", error);
           setStatus("error");
-          setMessage("Error!! Your Payment was not successful");
+          setMessage(
+            "An error occurred while processing your booking. Please contact support."
+          );
         }
-      } catch (error) {
-        setStatus("error");
-        setMessage("An error occurred while verifying your payment");
+      } else {
+        // Handle subscription payment (existing logic)
+        setPaymentType("subscription");
+        try {
+          const success = await handlePaymentCallback(
+            reference,
+            planId ?? "",
+            user ?? ""
+          );
+
+          if (success) {
+            setStatus("success");
+            setMessage("Payment successful! Your subscription is now active.");
+            setIsModalOpen(true);
+            // Refresh subscription data to update the cache
+            await refreshUserSubs();
+            // Clear the pending plan ID
+            localStorage.removeItem("pending_plan_id");
+            setTimeout(() => router.replace("/vendor/home"), 3000);
+          } else {
+            setStatus("error");
+            setMessage("Error!! Your Payment was not successful");
+          }
+        } catch (error) {
+          setStatus("error");
+          setMessage("An error occurred while verifying your payment");
+        }
       }
     };
 
@@ -124,16 +176,26 @@ function PaymentCallbackContent() {
             </p>
             <div className="space-y-3">
               <button
-                onClick={() => router.push("/vendor/profile")}
+                onClick={() =>
+                  paymentType === "booking"
+                    ? router.push("/")
+                    : router.push("/vendor/profile")
+                }
                 className="w-full bg-[#6C35A7] text-white py-2 px-4 rounded-full hover:bg-[#582a8c] transition"
               >
                 Try Again
               </button>
               <button
-                onClick={() => router.push("/vendor/home")}
+                onClick={() =>
+                  paymentType === "booking"
+                    ? router.push("/")
+                    : router.push("/vendor/home")
+                }
                 className="w-full bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300 transition"
               >
-                Back to Dashboard
+                {paymentType === "booking"
+                  ? "Back to Home"
+                  : "Back to Dashboard"}
               </button>
             </div>
           </div>

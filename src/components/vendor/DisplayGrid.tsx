@@ -8,7 +8,6 @@ import { ServiceDrawer } from "./ServiceDrawer";
 import { useServiceManager } from "@/app/hooks/useServiceManager";
 import { useSubscriptions } from "@/app/context/SubscriptionContext";
 import { useState } from "react";
-import Subscriptions from "./profile/Subscriptions";
 
 export default function DisplayGrid({ services }: { services: Service[] }) {
   const { openAdd, setOpenAdd, handleAdded } = useServiceManager();
@@ -66,7 +65,6 @@ export default function DisplayGrid({ services }: { services: Service[] }) {
             <DialogTitle className="text-2xl font-bold mb-4">
               Subscribe to Add Services
             </DialogTitle>
-            <Subscriptions />
           </DialogContent>
         </Dialog>
       </section>

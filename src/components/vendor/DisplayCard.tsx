@@ -10,9 +10,10 @@ import { BookingModal } from "../booking/BookingModal";
 
 interface DisplayCardProps {
   service: Service;
+  onClick?: () => void;
 }
 
-export default function DisplayCard({ service }: DisplayCardProps) {
+export default function DisplayCard({ service, onClick }: DisplayCardProps) {
   const router = useRouter();
   // Tailwind's "sm" below 640px
   const isMobile = useMediaQuery({ maxWidth: 639 });
@@ -20,12 +21,25 @@ export default function DisplayCard({ service }: DisplayCardProps) {
   const handleClick = () => {
     if (isMobile) {
       router.push(`/booking/${service.id}`);
+    } else {
+      // On desktop, clicking the card should open service details
+      onClick?.();
+    }
+  };
+
+  const handleBookNowClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling to card
+    if (isMobile) {
+      router.push(`/booking/${service.id}`);
+    } else {
+      // On desktop, Book Now should also open service details
+      onClick?.();
     }
   };
 
   const trigger = (
     <Button
-      onClick={handleClick}
+      onClick={handleBookNowClick}
       className="flex items-center gap-2 text-[16px] bg-[#6C35A7] hover:bg-purple-700 font-bold rounded-full"
     >
       Book Now
@@ -33,10 +47,15 @@ export default function DisplayCard({ service }: DisplayCardProps) {
   );
 
   return (
-    <div className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white border border-[#E0E0E0]">
+    <div
+      className="rounded-xl overflow-hidden sm:max-w-[343px] bg-white border border-[#E0E0E0] cursor-pointer"
+      onClick={onClick}
+    >
       <div className="relative">
         <Image
-          src={service.imageUrl}
+          src={
+            service.images && service.images.length > 0 ? service.images[0] : ""
+          }
           alt={service.title}
           width={353}
           height={174}
@@ -54,11 +73,10 @@ export default function DisplayCard({ service }: DisplayCardProps) {
               NGN {service.price}
             </p>
           </div>
-          {isMobile ? (
-            trigger
-          ) : (
-            <BookingModal serviceId={service.id} trigger={trigger} />
-          )}
+          {isMobile
+            ? trigger
+            : // On desktop, Book Now should open ServiceDetailsModal, not BookingModal directly
+              trigger}
         </div>
       </div>
     </div>

@@ -70,18 +70,23 @@ export default function Verification() {
       >
         <ChevronLeft size={20} />
       </button>
-      <div className="flex w-full justify-around sm:py-6 px-6 gap-10 sm:mt-15">
-        <div className="flex flex-col gap-6">
+      <div className="flex w-full justify-around sm:py-10 px-6 gap-10 sm:mt-14">
+        <div className="flex flex-col gap-6 max-w-[529px]">
           <div className="">
-            <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
-              Confirm OTP
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-3xl font-bold text-[#6C35A7] leading-[100%] mb-2">
+                Confirm OTP
+              </h2>
+              <h2 className="text-1xl font-bold text-[#000] leading-[100%] mb-2">
+                2/4
+              </h2>
+            </div>
             <p className="leading-[34px] text-[17px] font-medium">
               Check Email use to register for unique OTP and insert it below{" "}
             </p>
             {error && <div className="text-red-600 font-medium">{error}</div>}
           </div>
-          <form className="space-y-6" onSubmit={handleSubmit}>
+          <form className="space-y-6 w-full" onSubmit={handleSubmit}>
             <div className="group ">
               <label
                 htmlFor="name"
@@ -130,7 +135,7 @@ export default function Verification() {
         </div>
 
         <div className="hidden sm:block">
-          <Image src="/images/signup.png" width={684} height={723} alt="" />
+          <Image src="/images/signup.png" width={573} height={645} alt="" />
         </div>
       </div>
     </div>

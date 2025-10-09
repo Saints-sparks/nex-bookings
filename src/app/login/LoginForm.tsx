@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { introspect, signin, SigninPayload } from "../services/auth";
 import api from "@/lib/api";
+import { introspect, signin } from "../services/auth";
 
 export default function LoginClient() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function LoginClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [form, setForm] = useState<SigninPayload>({
+  const [form, setForm] = useState({
     email: "",
     password: "",
   });
@@ -38,18 +38,18 @@ export default function LoginClient() {
     setError("");
     setLoading(true);
 
+    // Simulate login delay and set mock data
     try {
       const { accessToken } = await signin(form);
       localStorage.setItem("nex_token", accessToken);
-      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+      api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}⁠`;
 
-      const { user, business, referralCode } = await introspect();
+      const { user, business } = await introspect();
       localStorage.setItem("nex_businessId", business.id);
       localStorage.setItem("nex_businessName", business.businessName);
       localStorage.setItem("nex_businessSlug", business.slug);
 
       localStorage.setItem("nex_user", JSON.stringify(user));
-      localStorage.setItem("referralCode", referralCode);
 
       router.push(redirectParam);
     } catch (err: any) {

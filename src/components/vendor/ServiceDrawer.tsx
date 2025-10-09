@@ -1,3 +1,4 @@
+// app/vendor/home/page.tsx
 "use client";
 
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -9,6 +10,7 @@ import { createService, CreateServicePayload } from "@/app/services/service";
 import Image from "next/image";
 import { Down } from "../Icons";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { X } from "lucide-react";
 
 export function ServiceDrawer({
   open,
@@ -22,33 +24,45 @@ export function ServiceDrawer({
   const [form, setForm] = useState<{
     title: string;
     price: string;
+    initialPayment: string;
     duration: string;
     durationType: "hours" | "days" | "weeks" | "months";
-    imageUrl: string;
+    isVirtual: "yes" | "no";
+    description: string;
+    images: string[];
   }>({
     title: "",
     price: "",
+    initialPayment: "0",
     duration: "",
     durationType: "hours",
-    imageUrl: "",
+    isVirtual: "no",
+    description: "",
+    images: [],
   });
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  // handle file selection + upload
+  // handle multiple file selection + upload
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
     setUploading(true);
     setError("");
     try {
-      const url = await uploadToCloudinary(file);
-      setForm((p) => ({ ...p, imageUrl: url }));
+      const urls: string[] = [];
+      for (const file of Array.from(files)) {
+        const url = await uploadToCloudinary(file);
+        urls.push(url);
+      }
+      setForm((p) => ({ ...p, images: [...p.images, ...urls] }));
     } catch (err: any) {
       console.error(err);
       setError("Image upload failed");
@@ -57,19 +71,27 @@ export function ServiceDrawer({
     }
   };
 
+  const removeImage = (url: string) => {
+    setForm((p) => ({ ...p, images: p.images.filter((img) => img !== url) }));
+  };
+
   const handleSubmit = async () => {
     setError("");
     setLoading(true);
     try {
       const businessId = localStorage.getItem("nex_businessId");
       if (!businessId) throw new Error("Missing business ID");
-      const payload: CreateServicePayload = {
+
+      const payload = {
         businessId,
         title: form.title,
         price: Number(form.price),
+        initialPayment: Number(form.initialPayment),
         duration: Number(form.duration),
         durationType: form.durationType,
-        imageUrl: form.imageUrl,
+        isVirtual: form.isVirtual === "yes",
+        description: form.description,
+        images: form.images,
       };
       console.log("Creating service with payload:", payload);
       await createService(payload);
@@ -77,9 +99,12 @@ export function ServiceDrawer({
       setForm({
         title: "",
         price: "",
+        initialPayment: "0",
         duration: "",
         durationType: "hours",
-        imageUrl: "",
+        isVirtual: "no",
+        description: "",
+        images: [],
       });
     } catch (err: any) {
       setError(err.message || "Failed to create service");
@@ -100,7 +125,7 @@ export function ServiceDrawer({
               Add New Service
             </h2>
           </div>
-          <div className="p-6 flex-1 overflow-y-auto space-y-4">
+          <div className="p-6 flex-1 overflow-y-auto space-y-6">
             {/* file picker */}
             <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center">
               <FileIcon size={32} className="mx-auto mb-2" />
@@ -114,29 +139,44 @@ export function ServiceDrawer({
                 </label>
               </p>
               <p className="text-sm text-[#807E7E]">
-                Supported format: JPG, PNG. Make sure the files are not too
-                large.
+                Supported format: JPG, PNG. You can upload multiple images. Make
+                sure the files are not too large.
               </p>
               <input
                 id="file-upload"
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleFile}
                 className="hidden"
               />
               {uploading && <p className="text-sm mt-2">Uploading…</p>}
-              {form.imageUrl && (
-                <Image
-                  src={form.imageUrl}
-                  width={343}
-                  height={141}
-                  alt="Preview"
-                  className="mt-4 mx-auto h-24 object-contain"
-                />
+              {form.images.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                  {form.images.map((img) => (
+                    <div key={img} className="relative inline-block">
+                      <Image
+                        src={img}
+                        width={100}
+                        height={80}
+                        alt="Preview"
+                        className="object-contain rounded-md border"
+                      />
+                      <button
+                        type="button"
+                        className="absolute -top-2 -right-2 bg-white rounded-full p-1 border shadow"
+                        onClick={() => removeImage(img)}
+                        aria-label="Remove image"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 
-            {/* title, price, duration inputs */}
+            {/* title, price, initialPayment, duration inputs */}
             <div className="group">
               <label htmlFor="title" className="text-[#807E7E] font-medium">
                 Service Title
@@ -151,49 +191,44 @@ export function ServiceDrawer({
                 className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
               />
             </div>
-            <div className="group">
-              <label htmlFor="price" className="text-[#807E7E] font-medium">
-                Price
-              </label>
-              <Input
-                id="price"
-                name="price"
-                type="number"
-                min="0"
-                value={form.price}
-                onChange={handleChange}
-                placeholder="0"
-                required
-                className="p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
-              />
-            </div>
-            <div className="group">
-              <label htmlFor="duration" className="text-[#807E7E] font-medium">
-                Duration
-              </label>
-              <div className="mt-2 flex gap-2">
+
+            <div className="flex gap-4">
+              <div className="group flex-1">
+                <label htmlFor="price" className="text-[#807E7E] font-medium">
+                  Price
+                </label>
                 <Input
-                  id="duration"
-                  name="duration"
+                  id="price"
+                  name="price"
                   type="number"
-                  value={form.duration}
+                  min="0"
+                  value={form.price}
                   onChange={handleChange}
                   placeholder="0"
                   required
-                  className="flex-1 p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+                  className="p-6 w-full rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
                 />
-                <div className="cursor-pointer relative flex px-3 items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]">
+              </div>
+
+              <div className="group flex-1">
+                <label
+                  htmlFor="initialPayment"
+                  className="text-[#807E7E] font-medium"
+                >
+                  Select Initial Payment (%)
+                </label>
+                <div className="cursor-pointer relative flex items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6] p-4">
                   <select
-                    id="durationType"
-                    name="durationType"
-                    value={form.durationType}
+                    id="initialPayment"
+                    name="initialPayment"
+                    value={form.initialPayment}
                     onChange={handleChange}
-                    className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium pr-5 cursor-pointer"
+                    className="appearance-none w-full bg-transparent text-sm font-medium pr-5 cursor-pointer focus:outline-none"
                   >
-                    <option value="hours">Hours</option>
-                    <option value="days">Days</option>
-                    <option value="weeks">Weeks</option>
-                    <option value="months">Months</option>
+                    <option value="0">0%</option>
+                    <option value="20">20%</option>
+                    <option value="50">50%</option>
+                    <option value="75">75%</option>
                   </select>
                   <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
                     <Down />
@@ -202,6 +237,87 @@ export function ServiceDrawer({
               </div>
             </div>
 
+            <div className="flex gap-4">
+              <div className="group flex-1">
+                <label
+                  htmlFor="isVirtual"
+                  className="text-[#807E7E] font-medium"
+                >
+                  Virtual Service?
+                </label>
+                <div className="cursor-pointer relative flex items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6] p-4">
+                  <select
+                    id="isVirtual"
+                    name="isVirtual"
+                    value={form.isVirtual}
+                    onChange={handleChange}
+                    className="appearance-none w-full bg-transparent text-sm font-medium pr-5 cursor-pointer focus:outline-none"
+                  >
+                    <option value="no">No</option>
+                    <option value="yes">Yes</option>
+                  </select>
+                  <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+                    <Down />
+                  </span>
+                </div>
+              </div>
+
+              <div className="group flex-1">
+                <label
+                  htmlFor="duration"
+                  className="text-[#807E7E] font-medium"
+                >
+                  Duration
+                </label>
+                <div className="mt-2 flex gap-2">
+                  <Input
+                    id="duration"
+                    name="duration"
+                    type="number"
+                    value={form.duration}
+                    onChange={handleChange}
+                    placeholder="0"
+                    required
+                    className="flex-1 p-6 rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+                  />
+                  <div className="cursor-pointer relative flex px-3 items-center justify-center rounded-full border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]">
+                    <select
+                      id="durationType"
+                      name="durationType"
+                      value={form.durationType}
+                      onChange={handleChange}
+                      className="appearance-none text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium pr-5 cursor-pointer"
+                    >
+                      <option value="hours">Hours</option>
+                      <option value="days">Days</option>
+                      <option value="weeks">Weeks</option>
+                      <option value="months">Months</option>
+                    </select>
+                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+                      <Down />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="group">
+              <label
+                htmlFor="description"
+                className="text-[#807E7E] font-medium"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                placeholder="Give a detailed description of the service..."
+                required
+                className="w-full h-32 resize-none p-6 rounded-3xl border border-transparent focus-visible:border-[#6C35A7] focus-visible:ring-0 mt-2 shadow-none bg-[#F6F6F6]"
+              />
+            </div>
             {error && <p className="text-red-500">{error}</p>}
           </div>
 

@@ -5,7 +5,7 @@ export interface SignupPayload {
   businessName: string;
   email: string;
   fullName: string;
-  referralCode?: string; // Optional, for referral programs
+  businessAddress: string; // Added businessAddress field
 }
 
 export interface CompleteSignupPayload {
@@ -20,7 +20,6 @@ export interface CompleteSignupResponse {
     id: string;
     email: string;
     fullName: string;
-    subscription?: string;
   };
   business: {
     id: string;
@@ -41,7 +40,6 @@ export interface SigninResponse {
     email: string;
     fullName: string;
     id: string;
-    subscription: string;
   };
 }
 
@@ -59,7 +57,7 @@ export interface IntrospectResponse {
     slug: string;
     industry: string;
   };
-  referralCode: string;
+  businessAddress: string;
 }
 
 export interface RequestOtpPayload {

@@ -1,6 +1,10 @@
 "use client";
-import { Service } from "@/app/services/service";
+// import { Service } from "@/app/services/service";
 import DisplayCard from "./DisplayCard";
+import ServiceDetailsModal from "./ServiceDetailsModal";
+import { BookingModal } from "../booking/BookingModal";
+import { useState } from "react";
+import { getServiceById, Service } from "@/app/services/service";
 import Image from "next/image";
 import { useServiceManager } from "@/app/hooks/useServiceManager";
 
@@ -11,6 +15,22 @@ export default function PublicDisplayGrid({
   services: Service[];
   businessName: string;
 }) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [bookingModalOpen, setBookingModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleCardClick = async (serviceId: string) => {
+    setLoading(true);
+    try {
+      const svc = await getServiceById(serviceId);
+      setSelectedService(svc);
+      setModalOpen(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (services.length === 0) {
     return (
       <section className="p-6 text-center text-black flex flex-col gap-10 justify-center items-center">
@@ -33,9 +53,31 @@ export default function PublicDisplayGrid({
       </h2>
       <div className="grid gap-6 grid-cols-1 [@media(min-width:500px)_and_(max-width:700px)]:grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
         {services.map((svc) => (
-          <DisplayCard key={svc.id} service={svc} />
+          <DisplayCard
+            key={svc.id}
+            service={svc}
+            onClick={() => handleCardClick(svc.id)}
+          />
         ))}
       </div>
+      <ServiceDetailsModal
+        service={selectedService}
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onContinueBooking={() => {
+          setModalOpen(false);
+          setBookingModalOpen(true);
+        }}
+      />
+      {selectedService && (
+        <BookingModal
+          trigger={<div />}
+          serviceId={selectedService.id}
+          serviceImage={selectedService.images?.[0]}
+          open={bookingModalOpen}
+          onOpenChange={setBookingModalOpen}
+        />
+      )}
     </section>
   );
 }

@@ -7,7 +7,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import AccountInfo from "@/components/vendor/profile/AccountInformation";
 import WebsiteSettings from "@/components/vendor/profile/WebsiteSettings";
-import Subscriptions from "@/components/vendor/profile/Subscriptions";
+import Wallets from "@/components/vendor/profile/Wallets";
+import WorkHours from "@/components/vendor/profile/WorkHours";
 import AccountSettings from "@/components/vendor/profile/AccountSettings";
 import {
   Account,
@@ -19,7 +20,6 @@ import {
 } from "@/components/Icons";
 import { getBusinessById, updateBusiness } from "@/app/services/business";
 import { uploadToCloudinary } from "@/lib/cloudinary";
-import Referral from "@/components/vendor/profile/Referral";
 import { Loader2 } from "lucide-react";
 
 export default function ProfileClient() {
@@ -153,8 +153,8 @@ export default function ProfileClient() {
               {[
                 { label: "Account Information", icon: <Account /> },
                 { label: "Website Settings", icon: <Globe /> },
-                { label: "Subscriptions", icon: <Card /> },
-                { label: "Referrals", icon: <Gift /> },
+                { label: "Wallets", icon: <Card /> },
+                { label: "Work Hours", icon: <Gift /> },
                 { label: "Account Settings", icon: <Settings /> },
               ].map((tab) => {
                 const isActive = selectedTab === tab.label;
@@ -183,8 +183,8 @@ export default function ProfileClient() {
             <AccountInfo businessName={businessName} user={user} />
           )}
           {selectedTab === "Website Settings" && <WebsiteSettings />}
-          {selectedTab === "Subscriptions" && <Subscriptions />}
-          {selectedTab === "Referrals" && <Referral />}
+          {selectedTab === "Wallets" && <Wallets />}
+          {selectedTab === "Work Hours" && <WorkHours />}
           {selectedTab === "Account Settings" && <AccountSettings />}
         </div>
       </div>
