@@ -42,8 +42,8 @@ export default function VendorEdit({
   const [openShareModal, setOpenShareModal] = useState(false);
   const params = useParams();
   const slug = params.slug;
-  // const publicUrl = `https://${slug}.osisopro.com`;
-  const publicUrl = `http://localhost:3000/vendor/${slug}`;
+  const publicUrl = `https://${slug}.osisopro.com`;
+  // const publicUrl = `http://localhost:3000/vendor/${slug}`;
   const settingsTabParam = encodeURIComponent("Website Settings");
 
   return (
