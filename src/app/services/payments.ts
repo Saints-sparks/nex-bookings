@@ -131,6 +131,10 @@ export interface ServiceBookingPayment {
   platformServiceCharge: number;
   totalAmount: number;
   customerEmail: string;
+  customerName: string;
+  customerPhoneNumber: string;
+  appointmentDate: string;
+  appointmentTime: string;
 }
 
 export interface PaymentInitializationResponse {

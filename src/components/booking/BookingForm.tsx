@@ -82,6 +82,11 @@ const BookingForm: FC<BookingFormProps> = ({
     setError(null);
 
     try {
+      // Combine selected date and time into a proper datetime
+      const [hour, minute] = selectedTime.split(":").map(Number);
+      const appointmentDateTime = new Date(selectedDate);
+      appointmentDateTime.setHours(hour, minute, 0, 0);
+
       // Initialize payment with Paystack
       const paymentResponse = await initializeServiceBookingPayment({
         serviceId: serviceId,
@@ -92,13 +97,13 @@ const BookingForm: FC<BookingFormProps> = ({
         platformServiceCharge: paymentSummary.platformServiceCharge,
         totalAmount: paymentSummary.totalAmount,
         customerEmail: email,
+        customerName: name,
+        customerPhoneNumber: phone,
+        appointmentDate: appointmentDateTime.toISOString(),
+        appointmentTime: selectedTime,
       });
 
       // Store booking details in localStorage for after payment
-      const [hour, minute] = selectedTime.split(":").map(Number);
-      const appointmentDateTime = new Date(selectedDate);
-      appointmentDateTime.setHours(hour, minute, 0, 0);
-
       const bookingDetails = {
         appointmentDate: appointmentDateTime.toISOString(),
         bookedServiceId: serviceId,
