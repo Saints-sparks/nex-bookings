@@ -1,12 +1,6 @@
 import React from "react";
 import Link from "next/link";
-
-interface Review {
-  id: string | number;
-  name: string;
-  rating: number; // 0-5
-  text: string;
-}
+import { Review } from "@/app/services/business";
 
 interface VendorReviewsProps {
   reviews: Review[];
@@ -79,7 +73,7 @@ export default function VendorReviews({
                   ))}
                 </div>
                 <div className="text-black font-medium text-[14px] leading-[22px]">
-                  {review.text}
+                  {review.comment}
                 </div>
               </div>
             ))}
