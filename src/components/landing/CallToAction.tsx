@@ -4,7 +4,7 @@ import React from "react";
 const CallToAction = () => {
   return (
     <div>
-      <section className="py-6 md:py-10 px-6 md:px-12 bg-[#FFB049] text-start overflow-y-hidden my-4 mx-4 md:my-10 md:mx-24 rounded-2xl flex flex-col md:flex-row items-center justify-between h-80  ">
+      <section className="py-6 md:py-10 px-6 md:px-12 bg-[#FFB049] text-start overflow-y-hidden md:overflow-y-visible my-4 mx-4 md:my-10 md:mx-24 rounded-2xl flex flex-col md:flex-row items-center justify-between h-80  ">
         <div className=" mx-auto">
           <h1 className="text-[26px] lg:text-[38px] leading-[42px] md:leading-[50px] font-bold text-white mb-4 max-w-[598px] mx-auto">
             Get Started Today and unlock a new stream of customers
