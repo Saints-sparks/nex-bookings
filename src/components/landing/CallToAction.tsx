@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { RightArrowCircle } from "../Icons";
 
 const CallToAction = () => {
   return (
@@ -13,11 +14,7 @@ const CallToAction = () => {
             <Link href="/signup">
               <button className="bg-[#6C35A7] text-white font-medium py-3 px-6 rounded-full hover:bg-opacity-90 transition flex items-center justify-center gap-2">
                 Get your booking site today
-                <img
-                  src="/Group 2u.svg"
-                  alt="arrow right"
-                  className="inline-block"
-                />
+               <RightArrowCircle />
               </button>
             </Link>
           </div>

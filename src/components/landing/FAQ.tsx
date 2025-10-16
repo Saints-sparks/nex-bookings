@@ -1,6 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
+import { AddPlus, CloseX } from "../Icons";
 
 const faqData = [
   {
@@ -76,13 +77,16 @@ const FAQ = () => {
                 <h1 className={`font-medium ${openId === item.id ? "text-[#6C35A7]" : "text-black"}`}>
                   {item.question}
                 </h1>
-                <img
-                  src={openId === item.id ? "/close.svg" : "/Add.svg"}
-                  alt="toggle icon"
-                  className={`transition-transform duration-300 ${
-                    openId === item.id ? "rotate-180" : ""
-                  }`}
-                />
+                 <div
+                  className={`transition-transform duration-300 flex items-center justify-center ml-4`}
+                  aria-hidden
+                >
+                  {openId === item.id ? (
+                    <CloseX />
+                  ) : (
+                    <AddPlus />
+                  )}
+                </div>
               </div>
 
               <AnimatePresence>
