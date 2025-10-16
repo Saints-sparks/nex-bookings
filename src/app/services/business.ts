@@ -22,6 +22,7 @@ export interface BusinessProfile {
   email: string;
   description: string;
   createdAt: string;
+  averageRating?: number;
 }
 
 export interface UpdateBusinessPayload {
@@ -80,30 +81,7 @@ export async function getBusinessById(id: string): Promise<Business> {
 export async function getBusinessBySlug(
   slug: string
 ): Promise<BusinessProfile> {
-  // Check if we're using mock data
-  if (slug === "mock-business") {
-    return {
-      id: "mock_business_id",
-      userId: "mock_user_id",
-      businessName: "Mock Business",
-      logo: "/images/mock-logo.png",
-      industry: "Technology",
-      slug: "mock-business",
-      workingHours: [
-        {
-          day: "Monday",
-          openTime: "09:00",
-          closeTime: "17:00",
-          isOpen: true,
-        },
-      ],
-      address: "123 Mock Street",
-      phoneNumber: "+1234567890",
-      email: "mock@business.com",
-      description: "Mock business description",
-      createdAt: "2025-10-03T10:30:00Z",
-    };
-  }
+  
 
   try {
     const response = await api.get<BusinessProfile>(`/business/slug/${slug}`);

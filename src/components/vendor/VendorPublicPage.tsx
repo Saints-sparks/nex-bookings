@@ -28,6 +28,7 @@ interface Props {
   facebookLink: string;
   phoneNumber?: string;
   workingHours?: WorkingHour[];
+  averageRating?: number;
   reviews?: Review[];
   businessSlug?: string;
 }
@@ -39,6 +40,7 @@ export default function VendorPublicPage({
   services,
   instagramLink,
   facebookLink,
+  averageRating,
   phoneNumber,
   workingHours = [],
   reviews = [],
@@ -131,13 +133,32 @@ export default function VendorPublicPage({
               )}
             </div>
           </div>
-          <Image
-            src={logoUrl || "/logo.svg"}
-            alt="Vendor Logo"
-            width={200}
-            height={150}
-            className="mx-auto"
-          />
+          {/* Player Card with Vendor Logo */}
+          <div className="relative mx-auto">
+            <Image
+              src="/player-card.png"
+              alt="Player Card"
+              width={200}
+              height={150}
+              className="mx-auto"
+            />
+            {/* Vendor Logo positioned in center of player card */}
+            <div className="absolute inset-0 bottom-30 flex items-center justify-center">
+              <Image
+                src={logoUrl || "/logo.svg"}
+                alt="Vendor Logo"
+                width={80}
+                height={80}
+                className="rounded-full object-cover w-[130px] h-[130px]"
+              />
+            </div>
+            <div className="absolute inset-x-0 bottom-18 font-bold text-[27px] flex items-center justify-center text-white max-w-[150px] mx-auto text-nowrap overflow-hidden text-ellipsis">
+              {businessName}
+            </div>
+             <div className="absolute inset-x-0 bottom-12 font-medium text-[14px]  text-white max-w-[150px] mx-auto overflow-hidden text-ellipsis text-nowrap">
+              VENDOR RATING: ⭐️{" "} <span className="font-inter">{averageRating}</span>
+            </div>
+          </div>
         </div>
 
         {/* Services */}

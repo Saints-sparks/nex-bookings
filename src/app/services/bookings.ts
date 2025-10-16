@@ -26,7 +26,7 @@ export interface Booking {
   service: {
     id: string;
     title: string;
-    imageUrl: string;
+    images: string[];
     price: number;
     duration: number;
     businessId: string;

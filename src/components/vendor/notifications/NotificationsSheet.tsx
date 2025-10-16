@@ -12,7 +12,6 @@ import { getBookingsByBusiness, Booking } from "@/app/services/bookings";
 import { Notifications } from "@/components/Icons";
 import { format, isToday, isAfter, startOfDay } from "date-fns";
 
-
 export default function NotificationsSheet() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
@@ -86,13 +85,19 @@ export default function NotificationsSheet() {
                 {/* Top: image, title, price */}
                 <div className="flex bg-[#F2F2F2] p-4 items-center justify-between">
                   <div className="flex gap-4">
-                    <Image
-                      src={service.imageUrl} // replace with actual image path
-                      alt={service.title}
-                      width={56}
-                      height={56}
-                      className="w-14 h-14 object-cover rounded-lg"
-                    />
+                    {service.images ? (
+                      <Image
+                        src={service.images[0]}
+                        alt={service.title}
+                        width={56}
+                        height={56}
+                        className="w-14 h-14 object-cover rounded-lg"
+                      />
+                    ) : (
+                      <div className="w-14 h-14 bg-gray-200 rounded-lg flex items-center justify-center">
+                        <span className="text-gray-400 text-xs">No Image</span>
+                      </div>
+                    )}
                     <div className="flex flex-col font-bold">
                       <h2 className="text-[15px] sm:text-[18px] text-[#6C35A7]">
                         {service.title}
