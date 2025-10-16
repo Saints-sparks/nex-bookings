@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { RightArrowCircle } from "../Icons";
 
 const MotionImage = motion(Image);
 
@@ -117,11 +118,7 @@ const Hero = () => {
             <Link href="/signup">
               <button className="bg-[#6C35A7] text-white font-medium h-full px-6 rounded-full hover:bg-opacity-90 transition flex items-center justify-center gap-2">
                 Create Account
-                <img
-                  src="/Group 2u.svg"
-                  alt="arrow right"
-                  className="inline-block"
-                />
+               <RightArrowCircle />
               </button>
             </Link>
 
@@ -138,7 +135,7 @@ const Hero = () => {
       <div className="relative flex justify-center mt-10 px-[5%] w-full">
         <div className="relative w-full max-w-[917px] aspect-[917/576]">
           <MotionImage
-            src="/Group 1.png"
+            src="/group1.png"
             alt="Nex Bookings mockup"
             fill
             style={{ objectFit: "contain" }}

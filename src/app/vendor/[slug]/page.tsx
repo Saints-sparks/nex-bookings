@@ -94,6 +94,7 @@ export default async function PublicVendorPage({ params }: Props) {
       phoneNumber={business.phoneNumber}
       workingHours={business.workingHours}
       reviews={reviews}
+      averageRating={business.averageRating}
       businessSlug={slug}
     />
   );

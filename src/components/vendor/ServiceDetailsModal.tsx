@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Service } from "@/app/services/service";
 import { Button } from "../ui/button";
@@ -18,6 +18,8 @@ export default function ServiceDetailsModal({
 }: ServiceDetailsModalProps) {
   if (!open || !service) return null;
 
+  const [previewSrc, setPreviewSrc] = useState<string | null>(null);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#000000]/30">
       <div className="bg-white rounded-4xl max-w-[700px] w-full p-8 relative ">
@@ -30,7 +32,9 @@ export default function ServiceDetailsModal({
           &times;
         </button>
         {/* Title */}
-        <h2 className="text-[22px] text-[#212121] font-bold mb-6">Service Details</h2>
+        <h2 className="text-[22px] text-[#212121] font-bold mb-6">
+          Service Details
+        </h2>
         {/* Service Header */}
         <div className="flex items-center gap-4 mb-4">
           <Image
@@ -67,17 +71,51 @@ export default function ServiceDetailsModal({
           </div>
           <div className="flex gap-4 flex-wrap">
             {service.images.map((img, idx) => (
-              <Image
+              <div
                 key={idx}
-                src={img}
-                alt={service.title + " image " + (idx + 1)}
-                width={140}
-                height={140}
-                className="rounded-xl object-cover w-[140px] h-[140px]"
-              />
+                className="rounded-xl overflow-hidden w-[140px] h-[140px]"
+              >
+                <img
+                  src={img}
+                  alt={service.title + " image " + (idx + 1)}
+                  width={140}
+                  height={140}
+                  className="rounded-xl object-cover w-[140px] h-[140px] cursor-pointer"
+                  onClick={() => setPreviewSrc(img)}
+                />
+              </div>
             ))}
           </div>
         </div>
+
+        {/* Image preview overlay */}
+        {previewSrc && (
+          <div
+            className="fixed inset-0 z-60 flex items-center justify-center bg-black/70"
+            onClick={() => setPreviewSrc(null)}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="p-4 max-w-[95%] max-h-[95%]">
+              <button
+                className="absolute top-6 right-6 text-white text-3xl z-70"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPreviewSrc(null);
+                }}
+                aria-label="Close preview"
+              >
+                &times;
+              </button>
+              <img
+                src={previewSrc}
+                alt="Preview"
+                className="max-w-[90vw] max-h-[80vh] object-contain rounded-xl mx-auto block"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          </div>
+        )}
         {/* Continue Bookings Button */}
         <div className="mt-8 flex justify-start">
           <Button
