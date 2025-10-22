@@ -15,17 +15,42 @@ const Hero = () => {
   return (
     <section className="relative h-screen flex flex-col justify-center pt-50 md:pt-100 overflow-hidden pb-0 md:pb-auto">
       {/* Background Gradient Element */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 rounded-full z-0"
-        style={{
-          width: "1440px",
-          height: "490px",
-          background:
-            "linear-gradient(90deg, #6C35A7 0%, #D9B6FF 20%, #E085FE 40%, #FDD29A 60%, #EFE8B3 100%)",
-          opacity: 0.2,
-          filter: "blur(120px)",
-        }}
-      />
+     {/* SVG background gradient (crisper on Safari than CSS blur) */}
+<svg
+  aria-hidden="true"
+  className="absolute top-0 left-1/2 -translate-x-1/2 z-0 pointer-events-none"
+  width="1440"
+  height="490"
+  style={{ opacity: 0.2 }}
+  viewBox="0 0 1440 490"
+  preserveAspectRatio="xMidYMid slice"
+>
+  <defs>
+    <linearGradient id="heroGrad" x1="0" x2="1">
+      <stop offset="0%" stopColor="#6C35A7" />
+      <stop offset="20%" stopColor="#D9B6FF" />
+      <stop offset="40%" stopColor="#E085FE" />
+      <stop offset="60%" stopColor="#FDD29A" />
+      <stop offset="100%" stopColor="#EFE8B3" />
+    </linearGradient>
+
+    {/* use feGaussianBlur for the blur effect; tweak stdDeviation for softness */}
+    <filter id="bgBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="60" />
+    </filter>
+  </defs>
+
+  {/* use a big ellipse so blur bleeds out nicely */}
+  <ellipse
+    cx="720"
+    cy="245"
+    rx="780"
+    ry="260"
+    fill="url(#heroGrad)"
+    filter="url(#bgBlur)"
+  />
+</svg>
+
 
       {/* Dotted Lines */}
       {/* Top horizontal dotted line */}
