@@ -2,6 +2,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { Category2, Global, SmsNotification } from "../Icons";
 
 const FastOperations = () => {
   const MotionImage = motion(Image, { forwardMotionProps: true });
@@ -43,19 +44,18 @@ const FastOperations = () => {
       <div className="mt-8 grid grid-cols-1 md:grid-cols-6 gap-4">
         <div className="relative group overflow-hidden bg-[#FFB04933] rounded-xl h-[313px] col-span-1 md:col-span-2 align-middle flex justify-center items-end">
           {/* First div (1 of 3) */}
-          <img src="/images/iPhone-13-Pro-Front.svg" alt="Fast Operations 1" />
+          <Image
+            src="/images/iPhone-13-Pro.png"
+            alt="Fast Operations 1"
+            width={257}
+            height={519}
+          />
         </div>
 
         <div className="relative group bg-[#6C35A7] overflow-hidden p-6 sm:p-8 md:p-6 lg:p-8 rounded-xl h-full sm:h-[250px] md:h-[313px] col-span-1 md:col-span-2 flex flex-col justify-end items-start md:items-center text-left md:text-start">
           <div className="flex flex-col items-start w-full">
-            <img
-              src="/category-2.svg"
-              alt="Link Icon"
-              width={24}
-              height={24}
-              className="mb-4"
-            />
-            <h3 className="text-white font-bold text-xl sm:text-2xl md:text-2xl lg:text-[26px] mb-2">
+            <Category2 />
+            <h3 className="text-white font-bold text-xl sm:text-2xl md:text-2xl lg:text-[26px] mb-2 mt-4">
               Create & Share your Services Instantly for Free
             </h3>
             <p className="text-white font-medium text-sm sm:text-base md:text-[16px] lg:text-[17px] max-w-full">
@@ -65,27 +65,28 @@ const FastOperations = () => {
           </div>
         </div>
 
-        <div
-          className="relative group overflow-hidden rounded-xl h-[313px] col-span-1 md:col-span-2 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url('/images/Pot.png')` }}
-        >
-          {/* Your content here */}
-        </div>
+        <Image
+          src="/images/girlimage.png"
+          alt="Fast Operations 2"
+          width={400}
+          height={293}
+          className="w-full h-[313px] object-cover rounded-xl col-span-1 md:col-span-2"
+        />
 
         <div className="relative group overflow-hidden rounded-xl col-span-1 md:col-span-3 h-[399px] md:h-[460px] lg:h-[313px]">
           {/* Fourth div (1 of 2) */}
           <Image
-            src="/images/image 221.png"
+            src="/images/man-phone.png"
             alt="Phone"
-            width={503}
-            height={313}
+            width={598}
+            height={292}
             className="absolute inset-0 w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
           />
 
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/60 flex flex-col lg:flex-row lg:gap-20 lg:items-center md:flex-col justify-between md:justify-center gap-4 md:gap-12 px-4 md:px-4 lg:pt-10 md:pt-24 ">
             <div className="flex flex-col items-start mt-6 md:mt-0">
-              <img src="/global.svg" alt="Link Icon" width={24} height={24} />
+              <Global />
               <h3 className="text-white font-bold text-[20px] md:text-[26px] mt-4 md:mt-4 md:max-w-full">
                 Share Custom Website Anywhere For Bookings
               </h3>
@@ -94,7 +95,7 @@ const FastOperations = () => {
               </p>
             </div>
             <Image
-              src="/images/iPhone-13-Prddto-Front.svg"
+              src="/images/iphone-phoenix.png"
               alt="Phone"
               width={242}
               height={490}
@@ -106,22 +107,17 @@ const FastOperations = () => {
         <div className="relative group overflow-hidden rounded-xl col-span-1 md:col-span-3 h-[399px] md:h-[460px] lg:h-[313px]">
           {/* Fourth div (2 of 2) */}
           <Image
-            src="/images/fast3.png"
+            src="/images/socials.png"
             alt="Phone"
-            width={503}
-            height={313}
+            width={510}
+            height={292}
             className="absolute inset-0 w-full h-full object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
           />
 
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/60 flex flex-col lg:flex-row lg:gap-20 lg:items-center md:flex-col justify-between md:justify-center gap-4 md:gap-12 px-4 md:px-4 lg:pt-10 md:pt-24 ">
             <div className="flex flex-col items-start mt-6 md:mt-0">
-              <img
-                src="/sms-notification.svg"
-                alt="Link Icon"
-                width={24}
-                height={24}
-              />
+              <SmsNotification />
               <h3 className="text-white font-bold text-[20px] md:text-[26px] mt-4 md:mt-4 md:max-w-full">
                 Receive Instant Booking Alerts for Free
               </h3>
@@ -130,10 +126,10 @@ const FastOperations = () => {
               </p>
             </div>
             <Image
-              src="/images/iPhone-13-Pro-Frsdvfont.svg"
+              src="/images/iphone-screen.png"
               alt="Phone"
-              width={242}
-              height={490}
+              width={225.86}
+              height={457}
               className="self-center md:center lg:self-end "
             />
           </div>

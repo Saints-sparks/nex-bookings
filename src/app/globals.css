@@ -171,3 +171,20 @@ body {
     width: 100%;
   }
 }
+
+/* globals.css */
+.azure-multi-shadow {
+  /* multiple drop-shadows, applied in order (closest to farthest) */
+  filter:
+    drop-shadow(-17.28px 11.52px 47.05px rgba(0,69,158,0.10))
+    drop-shadow(-71.05px 48.01px 85.45px rgba(0,69,158,0.09))
+    drop-shadow(-159.38px 107.54px 115.22px rgba(0,69,158,0.05))
+    drop-shadow(-283.24px 191.07px 136.34px rgba(0,69,158,0.01))
+    drop-shadow(-442.63px 297.65px 149.78px rgba(0,69,158,0.00));
+  -webkit-filter:
+    drop-shadow(-17.28px 11.52px 47.05px rgba(0,69,158,0.10))
+    drop-shadow(-71.05px 48.01px 85.45px rgba(0,69,158,0.09))
+    drop-shadow(-159.38px 107.54px 115.22px rgba(0,69,158,0.05))
+    drop-shadow(-283.24px 191.07px 136.34px rgba(0,69,158,0.01))
+    drop-shadow(-442.63px 297.65px 149.78px rgba(0,69,158,0.00));
+}
