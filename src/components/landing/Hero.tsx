@@ -13,44 +13,15 @@ const heroVariants = {
 
 const Hero = () => {
   return (
-    <section className="relative h-screen flex flex-col justify-center pt-50 md:pt-100 overflow-hidden pb-0 md:pb-auto">
-      {/* Background Gradient Element */}
-     {/* SVG background gradient (crisper on Safari than CSS blur) */}
-<svg
-  aria-hidden="true"
-  className="absolute top-0 left-1/2 -translate-x-1/2 z-0 pointer-events-none"
-  width="1440"
-  height="490"
-  style={{ opacity: 0.2 }}
-  viewBox="0 0 1440 490"
-  preserveAspectRatio="xMidYMid slice"
->
-  <defs>
-    <linearGradient id="heroGrad" x1="0" x2="1">
-      <stop offset="0%" stopColor="#6C35A7" />
-      <stop offset="20%" stopColor="#D9B6FF" />
-      <stop offset="40%" stopColor="#E085FE" />
-      <stop offset="60%" stopColor="#FDD29A" />
-      <stop offset="100%" stopColor="#EFE8B3" />
-    </linearGradient>
-
-    {/* use feGaussianBlur for the blur effect; tweak stdDeviation for softness */}
-    <filter id="bgBlur" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="60" />
-    </filter>
-  </defs>
-
-  {/* use a big ellipse so blur bleeds out nicely */}
-  <ellipse
-    cx="720"
-    cy="245"
-    rx="780"
-    ry="260"
-    fill="url(#heroGrad)"
-    filter="url(#bgBlur)"
-  />
-</svg>
-
+    <section
+      className="relative h-screen flex flex-col justify-center pt-50 md:pt-100 overflow-hidden pb-0 md:pb-auto"
+      // gentle gradient: white -> soft purple at the bottom
+      style={{
+        background:
+          "linear-gradient(180deg, #ffffff 0%, #F5E7FF 70%, #EFE8FF 100%)",
+      }}
+    >
+      
 
       {/* Dotted Lines */}
       {/* Top horizontal dotted line */}
@@ -156,7 +127,6 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      
       {/* HERO IMAGE */}
       <div className="relative flex justify-center md:mt-10 px-[8%] w-full">
         {/* outer wrapper:
@@ -181,11 +151,41 @@ const Hero = () => {
                 colorInterpolationFilters="sRGB"
                 filterUnits="objectBoundingBox"
               >
-                <feDropShadow dx="-17.28" dy="11.52" stdDeviation="23.525" floodColor="#00459E" floodOpacity="0.10" />
-                <feDropShadow dx="-71.05" dy="48.01" stdDeviation="42.725" floodColor="#00459E" floodOpacity="0.09" />
-                <feDropShadow dx="-159.38" dy="107.54" stdDeviation="57.61"  floodColor="#00459E" floodOpacity="0.05" />
-                <feDropShadow dx="-283.24" dy="191.07" stdDeviation="68.17"  floodColor="#00459E" floodOpacity="0.01" />
-                <feDropShadow dx="-442.63" dy="297.65" stdDeviation="74.89"  floodColor="#00459E" floodOpacity="0.00" />
+                <feDropShadow
+                  dx="-17.28"
+                  dy="11.52"
+                  stdDeviation="23.525"
+                  floodColor="#00459E"
+                  floodOpacity="0.10"
+                />
+                <feDropShadow
+                  dx="-71.05"
+                  dy="48.01"
+                  stdDeviation="42.725"
+                  floodColor="#00459E"
+                  floodOpacity="0.09"
+                />
+                <feDropShadow
+                  dx="-159.38"
+                  dy="107.54"
+                  stdDeviation="57.61"
+                  floodColor="#00459E"
+                  floodOpacity="0.05"
+                />
+                <feDropShadow
+                  dx="-283.24"
+                  dy="191.07"
+                  stdDeviation="68.17"
+                  floodColor="#00459E"
+                  floodOpacity="0.01"
+                />
+                <feDropShadow
+                  dx="-442.63"
+                  dy="297.65"
+                  stdDeviation="74.89"
+                  floodColor="#00459E"
+                  floodOpacity="0.00"
+                />
               </filter>
             </defs>
           </svg>
@@ -208,8 +208,8 @@ const Hero = () => {
                 style={{ objectFit: "contain" }}
                 // translate-y-12 on mobile, reset on md+; tweak 12 -> 8/16 to adjust distance
                 className="w-full h-full translate-y-12 md:translate-y-0"
-                initial={{ opacity: 0, scale: 0.9 }}        // removed y
-                animate={{ opacity: 1, scale: 1 }}          // removed y
+                initial={{ opacity: 0, scale: 0.9 }} // removed y
+                animate={{ opacity: 1, scale: 1 }} // removed y
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
               />
             </div>
