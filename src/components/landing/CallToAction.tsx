@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { RightArrowCircle } from "../Icons";
+import Image from "next/image";
 
 const CallToAction = () => {
   return (
@@ -21,8 +22,10 @@ const CallToAction = () => {
         </div>
 
         <div>
-          <img
-            src="/Artboard.svg"
+          <Image
+            src="/images/artboard.png"
+            width={641}
+            height={641}
             alt="cta illustration"
             className="mt-6  mx-auto "
           />
