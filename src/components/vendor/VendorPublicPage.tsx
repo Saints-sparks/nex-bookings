@@ -97,9 +97,9 @@ export default function VendorPublicPage({
         </div>
       </header>
 
-      <main className="max-w-[1000px] w-full pt-[100px] flex flex-col items-center px-8 sm:px-0">
+      <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center sm:px-0">
         {/* Hero */}
-        <div className="flex flex-col md:flex-row justify-between w-full mt-10 px-6 lg:px-0">
+        <div className="flex flex-col md:flex-row justify-between w-full mt-10 px-6 lg:px-0 mb-10">
           <div className="flex flex-1 flex-col gap-3 py-10 ">
             <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
               {businessName}
@@ -118,14 +118,14 @@ export default function VendorPublicPage({
                 Call Vendor
               </Button>
               {(facebookLink || instagramLink) && (
-                <div className="">
+                <div className="flex gap-3">
                   {facebookLink && (
-                    <Link href={facebookLink} target="_blank">
+                    <Link href={facebookLink} target="_blank" className="bg-[#F2F2F2] rounded-full flex justify-center items-center p-3 transition">
                       <Facebook />
                     </Link>
                   )}
                   {instagramLink && (
-                    <Link href={instagramLink} target="_blank">
+                    <Link href={instagramLink} target="_blank" className="bg-[#F2F2F2] rounded-full flex justify-center items-center p-3 transition">
                       <Instagram />
                     </Link>
                   )}
