@@ -55,7 +55,7 @@ export default function VendorEdit({
             alt="Vendor Logo"
             width={121}
             height={34}
-            className="mx-auto w-[40px] h-[40px]" 
+            className="mx-auto " 
           />
           <div className="absolute right-0 lg:right-10 flex text-[#6C35A7] font-bold text-[16px] gap-4 hidden md:flex">
             <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
