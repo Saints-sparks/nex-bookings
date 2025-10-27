@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { Quotes } from "../Icons";
 
 const testimonials = [
   {
@@ -87,11 +88,7 @@ const Testimonials = () => {
     return (
       <div key={testimonial.id} className={cardClasses}>
         <div>
-          <img
-            src={testimonial.imageSrc}
-            alt="Booking page"
-            className="w-16 h-16 mb-4"
-          />
+          <Quotes />
           <h3 className={`font-medium text-[20px] md:text-[24px] text-black mb-4 ${contentClasses}`}>
             {testimonial.quote}
           </h3>
