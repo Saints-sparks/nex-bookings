@@ -106,13 +106,32 @@ export default function VendorEdit({
             </div>
           </div>
 
-          <Image
-            src={business.logo || "/logo.svg"}
-            alt="Vendor Logo"
-            width={200}
-            height={150}
-            className="mx-auto"
-          />
+          <div className="relative mx-auto">
+                     <Image
+                       src="https://res.cloudinary.com/ddbs7m7nt/image/upload/v1761575705/player-card_xhtppp.png"
+                       alt="Player Card"
+                       width={200}
+                       height={150}
+                       className="mx-auto"
+                     />
+                     {/* Vendor Logo positioned in center of player card */}
+                     <div className="absolute inset-0 bottom-30 flex items-center justify-center">
+                       <Image
+                         src={business.logo || "/logo.svg"}
+                         alt="Vendor Logo"
+                         width={80}
+                         height={80}
+                         className="rounded-full object-cover w-[130px] h-[130px]"
+                       />
+                     </div>
+                     <div className="absolute inset-x-0 bottom-18 font-bold text-[27px] flex items-center justify-center text-white max-w-[150px] mx-auto text-nowrap overflow-hidden text-ellipsis">
+                       {business.businessName}
+                     </div>
+                     <div className="absolute inset-x-0 bottom-12 font-medium text-[14px]  text-white max-w-[150px] mx-auto overflow-hidden text-ellipsis text-nowrap">
+                       VENDOR RATING: ⭐️{" "}
+                       {/* <span className="font-inter">{}</span> */}
+                     </div>
+                   </div>
         </div>
 
         {/* Vendor Reviews */}
