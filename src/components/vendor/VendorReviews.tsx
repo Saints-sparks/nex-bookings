@@ -31,7 +31,7 @@ export default function VendorReviews({
 }: VendorReviewsProps) {
   const isEmpty = !reviews || reviews.length === 0;
   return (
-    <section className="min-w-screen my-10 bg-[#F2F2F2] p-10 ">
+    <section className="w-screen my-10 bg-[#F2F2F2] p-10 ">
       <div className="max-w-[1000px] mx-auto">
         <h2 className="text-[24px] md:text-[30px] font-bold text-[#6C35A7] mb-6">
           {title}
