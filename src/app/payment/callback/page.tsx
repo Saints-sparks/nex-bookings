@@ -65,7 +65,7 @@ function PaymentCallbackContent() {
             </div>
             <div className="mb-2 text-gray-700">
               <span className="font-semibold">Amount:</span> {receipt.currency}{" "}
-              {Number(receipt.amount) / 100}
+              {receipt.amount}
             </div>
             <div className="mb-2 text-gray-700">
               <span className="font-semibold">Reference:</span>{" "}

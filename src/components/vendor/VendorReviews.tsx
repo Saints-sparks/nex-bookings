@@ -42,20 +42,6 @@ export default function VendorReviews({
               Vendor has not received any review yet, Click Button below to get
               started
             </p>
-            {onAddService ? (
-              <button
-                className="bg-[#6C35A7] text-white rounded-full px-12 py-3 text-[18px] font-medium mt-2 hover:bg-[#532b8a] transition"
-                onClick={onAddService}
-              >
-                Add Service
-              </button>
-            ) : (
-              <Link href={addServiceHref}>
-                <div className="bg-[#6C35A7] text-white rounded-full px-12 py-3 text-[18px] font-medium mt-2 text-center cursor-pointer hover:bg-[#532b8a] transition">
-                  Add Service
-                </div>
-              </Link>
-            )}
           </div>
         ) : (
           <div className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar">
