@@ -70,7 +70,7 @@ export default function VendorPublicPage({
   };
   return (
     <div className="min-h-screen flex flex-col items-center mx-auto">
-      <header className="bg-[#F2F2F2] px-8 py-6 sm:py-2  text-white text-center w-full fixed top-0 z-10 flex justify-center items-center">
+      <header className="bg-[#F2F2F2] px-8 py-4 sm:py-2  text-white text-center w-full fixed top-0 z-10 flex justify-center items-center">
         <Image
           src={logoUrl ? logoUrl : "/logo.svg"}
           alt={businessName}
