@@ -77,7 +77,7 @@ export default function VendorEdit({
 
       <main className="max-w-[1000px] w-full pt-[50px] flex flex-col items-center px-5 sm:px-0">
         {/* Hero */}
-        <div className="flex justify-between w-full mt-10 px-6 lg:px-0">
+        <div className="flex flex-col md:flex-row justify-between w-full mt-10 px-6 lg:px-0">
           <div className="flex flex-col gap-3 py-10 text-left flex-1 ">
             <Link href={`/vendor/profile?tab=${settingsTabParam}`}>
               <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
@@ -89,7 +89,7 @@ export default function VendorEdit({
                 {settings.tagline}
               </p>
             </Link>
-            <div className="flex gap-6 items-center  mt-5">
+            <div className="flex gap-2 items-center  mt-5">
               <Button className="bg-[#6C35A7] text-white rounded-full py-6 px-10 font-medium text-[15px]">
                 Call Vendor
               </Button>
@@ -116,10 +116,12 @@ export default function VendorEdit({
         </div>
 
         {/* Vendor Reviews */}
-        <VendorReviews
-          reviews={reviews}
-          addServiceHref={`/vendor/profile?tab=Services`}
-        />
+        
+          <VendorReviews
+            reviews={reviews}
+            addServiceHref={`/vendor/profile?tab=Services`}
+          />
+      
 
         {/* Services */}
         <DisplayGrid services={services} />

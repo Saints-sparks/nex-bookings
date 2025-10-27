@@ -72,13 +72,13 @@ export default async function VendorEditPage({ params }: Props) {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row">
+    
       <VendorEdit
         settings={settings}
         services={services}
         business={business}
         reviews={reviews}
       />
-    </div>
+ 
   );
 }

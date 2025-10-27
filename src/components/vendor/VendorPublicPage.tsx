@@ -136,7 +136,7 @@ export default function VendorPublicPage({
           {/* Player Card with Vendor Logo */}
           <div className="relative mx-auto">
             <Image
-              src="/player-card.png"
+              src="https://res.cloudinary.com/ddbs7m7nt/image/upload/v1761575705/player-card_xhtppp.png"
               alt="Player Card"
               width={200}
               height={150}
@@ -155,8 +155,9 @@ export default function VendorPublicPage({
             <div className="absolute inset-x-0 bottom-18 font-bold text-[27px] flex items-center justify-center text-white max-w-[150px] mx-auto text-nowrap overflow-hidden text-ellipsis">
               {businessName}
             </div>
-             <div className="absolute inset-x-0 bottom-12 font-medium text-[14px]  text-white max-w-[150px] mx-auto overflow-hidden text-ellipsis text-nowrap">
-              VENDOR RATING: ⭐️{" "} <span className="font-inter">{averageRating}</span>
+            <div className="absolute inset-x-0 bottom-12 font-medium text-[14px]  text-white max-w-[150px] mx-auto overflow-hidden text-ellipsis text-nowrap">
+              VENDOR RATING: ⭐️{" "}
+              <span className="font-inter">{averageRating}</span>
             </div>
           </div>
         </div>
