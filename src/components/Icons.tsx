@@ -739,16 +739,15 @@ export const AddPlus = () => {
   );
 };
 
-export const Quotes = ({ className = "", style = {} }) => {
+export const Quotes = () => {
   return (
     <svg
-      width="1em"
-      height="1em"
+      width={68}
+      height={72}
       viewBox="0 0 68 72"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      style={style}
+  
     >
       <path
         fillRule="evenodd"
