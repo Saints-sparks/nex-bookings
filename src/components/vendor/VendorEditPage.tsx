@@ -121,7 +121,7 @@ export default function VendorEdit({
                          alt="Vendor Logo"
                          width={80}
                          height={80}
-                         className="rounded-full object-cover w-[130px] h-[130px]"
+                         className="rounded-full object-cover w-[90px] h-[90px]"
                        />
                      </div>
                      <div className="absolute inset-x-0 bottom-18 font-bold text-[27px] flex items-center justify-center text-white max-w-[150px] mx-auto text-nowrap overflow-hidden text-ellipsis">
