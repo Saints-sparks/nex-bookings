@@ -69,13 +69,13 @@ export default function ServiceDetailsModal({
           <div className="font-bold text-[#6C35A7] mb-2 text-[18px]">
             Service Pictures
           </div>
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex gap-4 overflow-x-auto flex-nowrap pb-2 scrollbar-thin scrollbar-thumb-[#6C35A7]/40 scrollbar-track-transparent">
             {service.images.map((img, idx) => (
               <div
                 key={idx}
-                className="rounded-xl overflow-hidden w-[140px] h-[140px]"
+                className="rounded-xl overflow-hidden w-[140px] h-[140px] min-w-[140px] flex-shrink-0"
               >
-                <img
+                <Image
                   src={img}
                   alt={service.title + " image " + (idx + 1)}
                   width={140}
