@@ -50,20 +50,29 @@ export function EditServiceDrawer({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  // file selection & upload
+  // handle multiple file selection + upload
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
     setUploading(true);
     setError("");
     try {
-      const url = await uploadToCloudinary(file);
-      setForm((p) => ({ ...p, images: [...p.images, url] }));
+      const urls: string[] = [];
+      for (const file of Array.from(files)) {
+        const url = await uploadToCloudinary(file);
+        urls.push(url);
+      }
+      setForm((p) => ({ ...p, images: [...p.images, ...urls] }));
     } catch (err: any) {
       setError("Image upload failed");
     } finally {
       setUploading(false);
     }
+  };
+
+  // Remove image
+  const removeImage = (url: string) => {
+    setForm((p) => ({ ...p, images: p.images.filter((img) => img !== url) }));
   };
 
   // Save updates
@@ -122,16 +131,7 @@ export function EditServiceDrawer({
 
           <div className="p-6 flex-1 overflow-y-auto space-y-4">
             {/* Image Upload / Preview */}
-            <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center flex flex-col items-center">
-              {form.images.length > 0 && (
-                <Image
-                  src={form.images[0]}
-                  width={100}
-                  height={100}
-                  alt="Service"
-                  className="h-24 object-contain mb-2"
-                />
-              )}
+            <div className="border border-dashed border-[#6C35A7] rounded-xl p-6 text-center">
               <p className="font-bold text-black">
                 Drag & drop files or{" "}
                 <label
@@ -142,17 +142,41 @@ export function EditServiceDrawer({
                 </label>
               </p>
               <p className="text-sm text-[#807E7E]">
-                Supported format: JPG, PNG. Make sure the files are not too
-                large.
+                Supported format: JPG, PNG. You can upload multiple images. Make
+                sure the files are not too large.
               </p>
               <input
                 id="file-upload"
                 type="file"
                 accept="image/*"
+                multiple
                 onChange={handleFile}
                 className="hidden"
               />
               {uploading && <p className="text-sm mt-2">Uploading…</p>}
+              {form.images.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                  {form.images.map((img) => (
+                    <div key={img} className="relative inline-block">
+                      <Image
+                        src={img}
+                        width={100}
+                        height={80}
+                        alt="Preview"
+                        className="object-contain rounded-md border"
+                      />
+                      <button
+                        type="button"
+                        className="absolute -top-2 -right-2 bg-white rounded-full p-1 border shadow"
+                        onClick={() => removeImage(img)}
+                        aria-label="Remove image"
+                      >
+                        <span className="text-xs">✕</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Title, Price, Duration */}
