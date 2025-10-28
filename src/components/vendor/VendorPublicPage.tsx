@@ -101,10 +101,10 @@ export default function VendorPublicPage({
         {/* Hero */}
         <div className="flex flex-col md:flex-row justify-between w-full mt-10 px-6 lg:px-0 mb-10">
           <div className="flex flex-1 flex-col gap-3 py-10 ">
-            <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[35px] text-[#6C35A7]">
+            <h1 className="font-bold text-[20px] md:text-[30px] lg:text-[32px] text-[#6C35A7]">
               {businessName}
             </h1>
-            <p className="font-medium text-[14px] md:text-[16px] lg:text-[18px] font-inter">
+            <p className="font-medium text-[14px] md:text-[16px] lg:text-[17px] font-inter max-w-[400px]">
               {description}
             </p>
             <div className="flex gap-6 items-center  mt-5">
