@@ -29,12 +29,8 @@ export default function DisplayCard({ service, onClick }: DisplayCardProps) {
 
   const handleBookNowClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent event bubbling to card
-    if (isMobile) {
-      router.push(`/booking/${service.id}`);
-    } else {
-      // On desktop, Book Now should also open service details
-      onClick?.();
-    }
+    // Same behavior for both mobile and desktop
+    onClick?.();
   };
 
   const trigger = (
